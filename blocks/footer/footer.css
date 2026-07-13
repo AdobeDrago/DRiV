@@ -1,20 +1,113 @@
 footer {
-  background-color: var(--light-color);
   font-size: var(--body-font-size-xs);
 }
 
 footer .footer > div {
   margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+  max-width: 1264px;
+  padding: 0 24px;
 }
 
 footer .footer p {
   margin: 0;
 }
 
+/* main row: brand + primary links */
+footer .footer-main .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 40px;
+  padding: 32px 0;
+}
+
+footer .footer-main img {
+  width: auto;
+  height: 40px;
+}
+
+footer .footer-main a:hover {
+  text-decoration: none;
+}
+
+footer .footer-main ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--body-font-size-s);
+}
+
+footer .footer-main ul li {
+  font-weight: 500;
+  color: #000;
+}
+
+footer .footer-main ul a:any-link {
+  color: var(--moog-blue-dark);
+}
+
+footer .footer-main ul a:hover {
+  color: var(--moog-blue);
+}
+
+/* legal row: copyright + policy links */
+footer .footer-legal {
+  border-top: 1px solid var(--border-color);
+}
+
+footer .footer-legal .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 32px;
+  padding: 20px 0 28px;
+  color: var(--dark-color);
+}
+
+footer .footer-legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+footer .footer-legal li {
+  color: var(--dark-color);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+footer .footer-legal a:any-link {
+  color: var(--dark-color);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+footer .footer-legal a:hover {
+  color: var(--moog-blue);
+}
+
+footer .section.footer-main > div ,
+footer .section.footer-legal > div{
+  max-width: 1264px;
+  margin: 0 auto;
+}
+
+footer .section.footer-main > div {
+  padding: 48px 0;
+}
+
 @media (width >= 900px) {
   footer .footer > div {
-    padding: 40px 32px 24px;
+    padding: 0 32px;
+    max-width: unset;
   }
 }
