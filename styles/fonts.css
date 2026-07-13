@@ -1,4 +1,38 @@
 /* stylelint-disable max-line-length */
+
+/* MOOG brand type — Blender Pro (book = 400, bold = 700) */
+@font-face {
+  font-family: blender-pro;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/blenderpro-book.woff') format('woff');
+}
+
+@font-face {
+  font-family: blender-pro;
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/blenderpro-bookitalic.woff') format('woff');
+}
+
+@font-face {
+  font-family: blender-pro;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/blenderpro-bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: blender-pro;
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/blenderpro-bolditalic.woff') format('woff');
+}
+
 @font-face {
   font-family: roboto-condensed;
   font-style: normal;
