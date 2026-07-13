@@ -184,7 +184,8 @@ export default async function decorate(block) {
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
-  const classes = ['brand', 'sections', 'tools'];
+  // Authored sections, in document order: brand, primary nav, tools, utility bar.
+  const classes = ['brand', 'sections', 'tools', 'utility'];
   classes.forEach((c, i) => {
     const section = nav.children[i];
     if (section) section.classList.add(`nav-${c}`);
@@ -234,6 +235,16 @@ export default async function decorate(block) {
 
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
+
+  // lift the utility bar out of the nav grid into a full-width strip above it
+  const navUtility = nav.querySelector('.nav-utility');
+  if (navUtility) {
+    const utilityBar = document.createElement('div');
+    utilityBar.className = 'nav-utility-bar';
+    utilityBar.append(navUtility);
+    navWrapper.append(utilityBar);
+  }
+
   navWrapper.append(nav);
   block.append(navWrapper);
 

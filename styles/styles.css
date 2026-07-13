@@ -16,8 +16,16 @@
   --light-color: #f8f8f8;
   --dark-color: #505050;
   --text-color: #131313;
-  --link-color: #3b63fb;
-  --link-hover-color: #1d3ecf;
+  --link-color: #003da5;
+  --link-hover-color: #002d7a;
+
+  /* MOOG / DRiV brand */
+  --moog-blue: #003da5;
+  --moog-blue-dark: #002d7a;
+  --moog-yellow: #ffce00;
+  --utility-bar-color: #f2f2f2;
+  --utility-text-color: #1a1a1a;
+  --border-color: #e6e6e6;
 
   /* fonts */
   --body-font-family: roboto, roboto-fallback, sans-serif;
@@ -37,9 +45,10 @@
   --heading-font-size-xs: 22px;
 
   /* nav heights */
-  --nav-height: 64px;
+  --nav-height: 72px;
+  --utility-bar-height: 36px;
   --breadcrumbs-height: 34px;
-  --header-height: var(--nav-height);
+  --header-height: calc(var(--nav-height) + var(--utility-bar-height));
 }
 
 /* fallback fonts */
@@ -102,7 +111,7 @@ footer .footer[data-block-status="loaded"] {
 
 @media (width >= 900px) {
   body[data-breadcrumbs] {
-    --header-height: calc(var(--nav-height) + var(--breadcrumbs-height));
+    --header-height: calc(var(--utility-bar-height) + var(--nav-height) + var(--breadcrumbs-height));
   }
 }
 
