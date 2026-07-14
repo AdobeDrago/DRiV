@@ -1,37 +1,254 @@
+/* hero block — default variation (yellow promo banner) */
 .hero-container .hero-wrapper {
-  max-width: unset;
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 0;
 }
 
-.hero {
+.hero.block {
   position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--moog-yellow);
+  isolation: isolate;
 }
 
-.hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
+/* copy */
+.hero.block .hero-content {
+  padding: 40px 24px 8px;
 }
 
-.hero picture {
+.hero.block .hero-content > * {
+  margin: 0 0 20px;
+}
+
+.hero.block .hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  color: var(--moog-blue);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.hero.block .hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 3px;
+  background-color: currentcolor;
+}
+
+.hero.block h1,
+.hero.block h2 {
+  max-width: none;
+  margin: 0 0 20px;
+  color: var(--moog-blue);
+  font-size: clamp(2.25rem, 8vw, 2.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+
+.hero.block .hero-content p:not(.hero-eyebrow, .button-container) {
+  max-width: 35rem;
+  color: var(--text-color);
+  font-size: var(--body-font-size-m);
+  line-height: 1.5;
+}
+
+/* CTAs (appearance inherited from global .button; hero only sets layout + mobile sizing) */
+.hero.block .button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.hero.block .button-container a.button {
+  margin: 0;
+  padding: 12px 16px;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+/* on the yellow background the secondary CTA is a solid white pill */
+.hero.block .button-container a.button.secondary {
+  background-color: var(--background-color);
+  border-color: var(--background-color);
+  color: var(--moog-blue);
+}
+
+.hero.block .button-container a.button.secondary:hover,
+.hero.block .button-container a.button.secondary:focus {
+  background-color: var(--light-color);
+  color: var(--moog-blue);
+}
+
+/* product image */
+.hero.block .hero-background {
+  width: 100%;
+}
+
+.hero.block .hero-background picture {
+  display: block;
+}
+
+.hero.block .hero-background img {
+  display: block;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: 62% 60%;
+}
+
+@media (width >= 900px) {
+  .hero-container .hero-wrapper {
+    padding: 0 32px;
+  }
+
+  .hero.block {
+    display: block;
+    min-height: 600px;
+    border-radius: 24px;
+  }
+
+  .hero.block .hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero.block .hero-background img {
+    height: 100%;
+    object-position: center right;
+  }
+
+  .hero.block .hero-content {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    max-width: 50%;
+    padding: 5rem;
+  }
+
+  .hero.block h1,
+  .hero.block h2 {
+    font-size: 64px;
+    font-weight: 900;
+  }
+
+  .hero.block .button-container {
+    gap: 16px;
+  }
+
+  .hero.block .button-container a.button {
+    padding: 15px 34px;
+    font-size: var(--body-font-size-xs);
+    letter-spacing: 0.08em;
+  }
+}
+
+/* ============================================================
+   center variation — full-bleed image, content centered
+   ============================================================ */
+.hero.block.center {
+  display: grid;
+  place-items: center;
+  min-height: 460px;
+}
+
+.hero.block.center .hero-background {
   position: absolute;
-  z-index: -1;
   inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
-}
-
-.hero img {
-  object-fit: cover;
+  z-index: 0;
   width: 100%;
   height: 100%;
 }
 
+.hero.block.center .hero-background img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero.block.center .hero-content {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.hero.block.center .hero-content p:not(.hero-eyebrow, .button-container) {
+  max-width: 730px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* mobile: full-width stacked CTAs at normal size */
+.hero.block.center .button-container {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 12px;
+}
+
+.hero.block.center .button-container a.button {
+  width: 100%;
+  padding: 15px 28px;
+  font-size: var(--body-font-size-xs);
+  letter-spacing: 0.06em;
+}
+
+/* ============================================================
+   highlight variation — dark scrim, light text, yellow first word
+   ============================================================ */
+.hero.block.highlight .hero-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: rgb(0 0 0 / 55%);
+}
+
+.hero.block.highlight h1,
+.hero.block.highlight h2 {
+  color: var(--background-color);
+}
+
+.hero.block.highlight .hero-content p:not(.hero-eyebrow, .button-container) {
+  color: var(--background-color);
+}
+
+.hero.block.highlight .hero-highlight-word {
+  color: var(--moog-yellow);
+}
+
 @media (width >= 900px) {
-  .hero {
-    padding: 40px 32px;
+  .hero.block.center {
+    min-height: 600px;
+  }
+
+  .hero.block.center .hero-content {
+    max-width: 860px;
+    padding: 80px 40px;
+  }
+
+  .hero.block.center .button-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .hero.block.center .button-container a.button {
+    width: auto;
   }
 }

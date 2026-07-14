@@ -1,9 +1,9 @@
 /* header and nav layout */
 header .nav-wrapper {
   background-color: var(--background-color);
-  box-shadow: 0 1px 4px rgb(0 0 0 / 8%);
   width: 100%;
   z-index: 2;
+
   /* position: fixed; */
 }
 
@@ -229,6 +229,26 @@ header nav .nav-sections ul > li > ul {
 
 header nav .nav-sections ul > li > ul > li {
   font-weight: 400;
+}
+
+/* a linked nav item is auto-buttonized by EDS — reset it to a plain nav link */
+header nav .nav-sections ul > li a.button {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+header nav .nav-sections ul > li a.button:hover {
+  background: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 @media (width >= 900px) {
