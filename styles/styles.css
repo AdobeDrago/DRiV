@@ -284,3 +284,19 @@ main .section.highlight {
   margin: 0;
   padding: 40px 0;
 }
+
+main .section.title-cta > .default-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (width >= 900px) {
+  main .section.title-cta > .default-content-wrapper {
+    padding: 0;
+  }
+}
