@@ -1,0 +1,136 @@
+/* full-width blue band (overrides the .highlight section's light background) */
+main .section.newsletter-signup-container {
+  margin: 0;
+  padding: 48px 0;
+  background-color: var(--moog-blue);
+}
+
+/* avoid doubled padding on the nested fragment section */
+main .section.newsletter-signup-container .section.newsletter-signup-container {
+  padding: 0;
+}
+
+/* ---- layout ---- */
+.newsletter-signup.block > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px 48px;
+}
+
+/* ---- copy ---- */
+.newsletter-content {
+  flex: 1 1 340px;
+  max-width: 560px;
+}
+
+.newsletter-content h3 {
+  margin: 0 0 14px;
+  color: var(--background-color);
+  font-family: var(--body-font-family);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.newsletter-content p {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--background-color);
+  font-size: var(--body-font-size-s);
+  line-height: 1.5;
+}
+
+/* ---- form column ---- */
+.newsletter-form {
+  flex: 1 1 380px;
+  max-width: 520px;
+}
+
+.newsletter-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 8px;
+  color: var(--moog-yellow);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.newsletter-label-icon {
+  display: inline-flex;
+}
+
+.newsletter-label-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.newsletter-form-control {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.newsletter-form-control input {
+  flex: 1 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+  border: transparent;
+  border-radius: 6px;
+  padding: 16px 20px;
+  font-size: var(--body-font-size-s);
+  color: var(--background-color);
+  background-color: rgb(255 255 255 / 10%);
+}
+
+.newsletter-form-control input::placeholder {
+  color: rgb(255 255 255 / 65%);
+}
+
+.newsletter-form-control input:focus-visible {
+  outline: 2px solid var(--moog-yellow);
+  outline-offset: 0;
+}
+
+.newsletter-form-control button {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 61px;
+  height: 61px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--moog-yellow);
+  color: var(--moog-blue);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.newsletter-form-control button:hover,
+.newsletter-form-control button:focus {
+  background-color: #e6b900;
+  color: var(--moog-blue);
+}
+
+.newsletter-form-control button svg {
+  width: 24px;
+  height: 24px;
+}
+
+@media (width >= 900px) {
+  main .section.newsletter-signup-container {
+    padding: 64px 0;
+  }
+
+  .newsletter-signup.block > div {
+    flex-wrap: nowrap;
+    gap: 48px;
+  }
+}

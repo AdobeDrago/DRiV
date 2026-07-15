@@ -16,15 +16,8 @@
 .card-collection .card {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 1 / 1;
   border-radius: var(--border-radius);
   background-color: var(--moog-yellow);
-}
-
-.card-collection .card-image {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
 }
 
 .card-collection .card-image picture {
@@ -114,7 +107,6 @@
 /* ---- featured promo tile: spans 2 columns, image background + overlay ---- */
 .card-collection .card.featured {
   grid-column: span 2;
-  aspect-ratio: 4 / 3;
   background-color: var(--moog-blue-dark);
 }
 
