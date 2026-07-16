@@ -22,7 +22,7 @@
   /* MOOG / DRiV brand */
   --moog-blue: #003da5;
   --moog-blue-dark: #002d7a;
-  --moog-yellow: #ffce00;
+  --moog-yellow: #fadb37;
   --utility-bar-color: #f2f2f2;
   --utility-text-color: #1a1a1a;
   --border-color: #e6e6e6;
@@ -137,6 +137,13 @@ h4 { font-size: var(--heading-font-size-m); }
 h5 { font-size: var(--heading-font-size-s); }
 h6 { font-size: var(--heading-font-size-xs); }
 
+.section .default-content-wrapper h1 { color: var(--moog-blue); }
+.section .default-content-wrapper h2 { color: var(--moog-blue); }
+.section .default-content-wrapper h3 { color: var(--moog-blue); }
+.section .default-content-wrapper h4 { color: var(--moog-blue); }
+.section .default-content-wrapper h5 { color: var(--moog-blue); }
+.section .default-content-wrapper h6 { color: var(--moog-blue); }
+
 p,
 dl,
 ol,
@@ -193,10 +200,10 @@ a.button.primary {
   margin: 12px 0;
   border: 2px solid transparent;
   border-radius: 999px;
-  padding: 15px 34px;
+  padding: 0.75rem 1.25rem;
   font-family: var(--body-font-family);
   font-style: normal;
-  font-size: var(--body-font-size-xs);
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.25;
@@ -280,7 +287,7 @@ main > .section:first-of-type {
 /* section metadata */
 main .section.light,
 main .section.highlight {
-  background-color: var(--light-color);
+  background-color: var(--moog-blue);
   margin: 0;
   padding: 40px 0;
 }

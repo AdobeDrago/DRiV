@@ -13,6 +13,8 @@ export default function decorate(block) {
   const background = document.createElement('div');
   background.className = 'hero-background';
   if (picture) background.append(picture);
+  // flag image-less heroes so the copy can span the full width
+  else block.classList.add('no-image');
 
   // group the remaining copy
   const content = document.createElement('div');

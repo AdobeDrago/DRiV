@@ -4,7 +4,7 @@ footer {
 
 footer .footer > div {
   margin: auto;
-  max-width: 1264px;
+  max-width: 1200px;
   padding: 0 24px;
 }
 
@@ -97,7 +97,7 @@ footer .footer-legal a:hover {
 
 footer .section.footer-main > div ,
 footer .section.footer-legal > div{
-  max-width: 1264px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
