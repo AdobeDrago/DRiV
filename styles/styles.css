@@ -200,10 +200,10 @@ a.button.primary {
   margin: 12px 0;
   border: 2px solid transparent;
   border-radius: 999px;
-  padding: 15px 34px;
+  padding: 0.75rem 1.25rem;
   font-family: var(--body-font-family);
   font-style: normal;
-  font-size: var(--body-font-size-xs);
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.25;
