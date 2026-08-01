@@ -49,6 +49,41 @@ function createAuthLinkItem(className, href, label, iconName) {
  * Remembers return URL so logout / end-emulate can bring the user back.
  * @param {HTMLAnchorElement} link
  */
+/**
+ * End Emulate must not top-level-navigate to Hybris iframe HTML.
+ * Hit end-emulate in a hidden frame, then return to the EDS page (/drivparts/).
+ * @param {HTMLAnchorElement} link
+ */
+function bindEndEmulateReturn(link) {
+  if (!link || link.dataset.endEmulateBound) return;
+  link.dataset.endEmulateBound = 'true';
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const returnTo = window.location.href;
+    try {
+      sessionStorage.setItem('fm-login-return', returnTo);
+    } catch (err) {
+      // ignore
+    }
+
+    const frame = document.createElement('iframe');
+    frame.hidden = true;
+    frame.setAttribute('aria-hidden', 'true');
+    frame.src = STOREFRONT.endEmulate;
+
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      frame.remove();
+      window.location.assign(returnTo);
+    };
+
+    frame.addEventListener('load', finish, { once: true });
+    document.body.append(frame);
+    window.setTimeout(finish, 2500);
+  });
+}
 function bindReturnOnClick(link) {
   // Guest links survive re-renders, so only ever attach once.
   if (link.dataset.returnBound) return;
@@ -292,7 +327,7 @@ function applyAuthUtilityLinks(nav, session, drawer = null) {
         ? `End Emulate[${session.emulateLabel}]`
         : 'End Emulate',
     );
-    bindReturnOnClick(endEmulate.querySelector('a'));
+    bindEndEmulateReturn(endEmulate.querySelector('a'));
     utilityList.append(endEmulate);
   }
 
