@@ -1,1 +1,92 @@
 /* add global styles that can be loaded post LCP here */
+
+/* ---- Shared region / language panel (DriveParts header + footer) ---- */
+.locale-panel {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 30;
+  background-color: #8b0d22;
+  color: #fff;
+  padding: 28px 15px 32px;
+  box-sizing: border-box;
+}
+
+.locale-panel[hidden] {
+  display: none;
+}
+
+.locale-panel-inner {
+  display: flex;
+  gap: 24px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.locale-panel-region {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.locale-panel-region-emea {
+  flex-grow: 2;
+}
+
+.locale-panel-region-title {
+  margin: 0 0 20px;
+  font-size: 22px;
+  line-height: 1.1;
+  font-weight: 500;
+  color: #fff;
+}
+
+.locale-panel-region ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.locale-panel-region li {
+  flex-basis: 100%;
+  margin: 5px 0;
+}
+
+.locale-panel-region-emea li {
+  flex-basis: 50%;
+}
+
+.locale-panel-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 13px;
+  line-height: 25px;
+}
+
+.locale-panel-option-label {
+  color: #fff;
+}
+
+.locale-panel-option:hover .locale-panel-option-label {
+  text-decoration: underline;
+}
+
+.locale-panel-radio {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: #164991;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+@media (width < 900px) {
+  /* desktop header locale panel is replaced by the mobile drill-down */
+  .locale-panel-header {
+    display: none !important;
+  }
+}

@@ -1,0 +1,597 @@
+/*
+ * Copyright 2020 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
+/* brand tokens — inlined from brand.css to avoid a cascaded render-blocking fetch */
+:root {
+  /* fonts */
+  --heading-font-family: "DIN", "DIN Next", "Helvetica Neue", helvetica, arial, sans-serif;
+  --body-font-family: "DIN", "DIN Next", "Helvetica Neue", helvetica, arial, sans-serif;
+
+  /* colors */
+  --background-color: #fff;
+  --text-color: #3a3a3a;
+  --link-color: #545454;
+  --link-hover-color: #164991;
+  --brand-color: #c41230;
+  --dark-color: #3a3a3a;
+  --light-color: #f2f2f2;
+
+  /* spacing */
+  --section-padding: 40px;
+  --content-max-width: 1200px;
+  --nav-height: 60px;
+
+  /* heading sizes (desktop) */
+  --heading-size-xxl: 40px;
+  --heading-size-xl: 32px;
+  --heading-size-l: 22px;
+  --heading-size-m: 18px;
+  --heading-size-s: 16px;
+  --heading-size-xs: 14px;
+
+  /* body sizes */
+  --body-font-size-m: 18px;
+  --body-font-size-s: 16px;
+  --body-font-size-xs: 14px;
+
+  /* heading sizes (mobile-first) */
+  --heading-font-size-xxl: 36px;
+  --heading-font-size-xl: 28px;
+  --heading-font-size-l: 24px;
+  --heading-font-size-m: 20px;
+  --heading-font-size-s: 18px;
+  --heading-font-size-xs: 16px;
+}
+
+@media (width >= 900px) {
+  :root {
+    /* heading sizes (desktop) */
+    --heading-font-size-xxl: var(--heading-size-xxl);
+    --heading-font-size-xl: var(--heading-size-xl);
+    --heading-font-size-l: var(--heading-size-l);
+    --heading-font-size-m: var(--heading-size-m);
+    --heading-font-size-s: var(--heading-size-s);
+    --heading-font-size-xs: var(--heading-size-xs);
+  }
+}
+
+body {
+  display: none;
+  margin: 0;
+
+  /* background-color: var(--background-color); */
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+  background-color: #efefef;
+}
+
+body.appear {
+  display: block;
+}
+
+header {
+  /* Mobile: single logo row + hamburger — matches loaded header height */
+  height: var(--nav-height);
+}
+
+@media (width >= 900px) {
+  header {
+    /* Desktop multi-row nav: utility bar (40 px) + logo row (89 px) + main nav bar (60 px).
+       Reserving this height in the critical-path CSS prevents the 60 px → 0 px → 189 px
+       collapse/grow that header.css (loaded lazily) used to cause by overriding height. */
+    height: 189px;
+  }
+}
+
+header .header,
+footer .footer {
+  visibility: hidden;
+}
+
+header .header[data-block-status="loaded"],
+footer .footer[data-block-status="loaded"] {
+  visibility: visible;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  line-height: 1.1;
+  scroll-margin: 40px;
+}
+
+h1 { font-size: var(--heading-font-size-xxl); }
+h2 { font-size: var(--heading-font-size-xl); }
+h3 { font-size: var(--heading-font-size-l); }
+h4 { font-size: var(--heading-font-size-m); }
+h5 { font-size: var(--heading-font-size-s); }
+h6 { font-size: var(--heading-font-size-xs); }
+
+/* styles.css (MOOG, critical path) forces .default-content-wrapper headings to
+   --moog-blue at specificity (0,2,1). Scope under body.drivparts to reliably
+   win and restore the DriveParts palette regardless of stylesheet load order. */
+body.drivparts .section .default-content-wrapper h1,
+body.drivparts .section .default-content-wrapper h3,
+body.drivparts .section .default-content-wrapper h4,
+body.drivparts .section .default-content-wrapper h5,
+body.drivparts .section .default-content-wrapper h6 {
+  color: var(--text-color);
+}
+
+/* Section headings on drivparts use the brand red, uppercase */
+body.drivparts .section .default-content-wrapper h2,
+body.drivparts main .section h2 {
+  color: var(--brand-color);
+  text-transform: uppercase;
+}
+
+p,
+dl,
+ol,
+ul,
+pre,
+blockquote {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+}
+
+code,
+pre {
+  font-size: var(--body-font-size-s);
+}
+
+pre {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--light-color);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+main > div {
+  margin: 40px 16px;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+/* links */
+a:any-link {
+  color: var(--link-color);
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+/* buttons */
+p.button-wrapper {
+  margin: 12px 0;
+}
+
+a.button:any-link,
+button.button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 0;
+  padding: 16px 40px;
+  font: inherit;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a.button[aria-disabled="true"],
+button.button:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+a.button.primary,
+button.button.primary {
+  border-color: var(--brand-color);
+  background-color: var(--brand-color);
+  color: #fff;
+}
+
+a.button.primary:hover,
+a.button.primary:focus-visible,
+button.button.primary:hover,
+button.button.primary:focus-visible {
+  border-color: #a30f28;
+  background-color: #a30f28;
+  color: #fff;
+}
+
+a.button.primary[aria-disabled="true"],
+a.button.primary[aria-disabled="true"]:hover,
+a.button.primary[aria-disabled="true"]:focus-visible,
+button.button.primary:disabled,
+button.button.primary:disabled:hover,
+button.button.primary:disabled:focus-visible {
+  background-color: var(--light-color);
+  border-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+a.button.secondary,
+button.button.secondary {
+  border-color: var(--text-color);
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+a.button.secondary:hover,
+a.button.secondary:focus-visible,
+button.button.secondary:hover,
+button.button.secondary:focus-visible {
+  border-color: var(--dark-color);
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+a.button.secondary[aria-disabled="true"],
+a.button.secondary[aria-disabled="true"]:hover,
+a.button.secondary[aria-disabled="true"]:focus-visible,
+button.button.secondary:disabled,
+button.button.secondary:disabled:hover,
+button.button.secondary:disabled:focus-visible {
+  background-color: var(--light-color);
+  border-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+/* high-impact call-to-action */
+a.button.accent,
+button.button.accent {
+  border-color: var(--link-color);
+  background-color: var(--link-color);
+  color: var(--background-color);
+}
+
+a.button.accent:hover,
+a.button.accent:focus-visible,
+button.button.accent:hover,
+button.button.accent:focus-visible {
+  border-color: var(--link-hover-color);
+  background-color: var(--link-hover-color);
+}
+
+a.button.accent[aria-disabled="true"],
+a.button.accent[aria-disabled="true"]:hover,
+a.button.accent[aria-disabled="true"]:focus-visible,
+button.button.accent:disabled,
+button.button.accent:disabled:hover,
+button.button.accent:disabled:focus-visible {
+  background-color: var(--light-color);
+  border-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+main img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+.icon {
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+
+.icon img {
+  height: 100%;
+  width: 100%;
+}
+
+/* sections */
+main > .section {
+  margin: 40px 0;
+}
+
+main > .section > div {
+  max-width: var(--content-max-width);
+  margin: 40px auto 20px;
+  padding: 0 16px;
+}
+
+main > .section:first-of-type {
+  margin-top: 0;
+}
+
+@media (width >= 600px) {
+  main > .section > div {
+    padding: 0 24px;
+  }
+}
+
+@media (width >= 900px) {
+  /* Preserve the previous desktop side inset (90px) for content sections */
+  main > .section > div {
+    max-width: none;
+    margin: 40px 90px 20px;
+    padding: 0 32px;
+  }
+}
+
+/* section metadata */
+main .section.light,
+main .section.highlight {
+  background-color: var(--light-color);
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.dark {
+  background-color: var(--dark-color);
+  color: #fff;
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.dark h1,
+main .section.dark h2,
+main .section.dark h3,
+main .section.dark h4,
+main .section.dark h5,
+main .section.dark h6 {
+  color: #fff;
+}
+
+main .section.dark a:any-link {
+  color: #fff;
+}
+
+/* Section background image (authored via the section's "Background" metadata).
+   The dark color remains as a fallback behind the tile. */
+main .section[data-background] {
+  background-repeat: repeat;
+  background-position: top left;
+  background-size: 28px;
+}
+
+/*
+ * Results page: the refine-search toolbar (inside the results block) is
+ * full-bleed and sticky on the live site, so this section bypasses the
+ * default section max-width/side-margin/inset to let it span edge to edge.
+ * Specificity (0,2,2) beats the base `main > .section > div` rules
+ * (0,1,2) at every breakpoint, so one unconditional override is enough.
+ */
+main .section.part-finder-result-container {
+  margin: 0;
+}
+
+main .section.part-finder-result-container > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Homepage hero row: Parts Finder + "Get More" enroll promo + Sign In.
+ * Mobile/tablet: stacked cards with tighter vertical rhythm.
+ * Desktop (900+): native columns-promo + sign-in sit in a flex row.
+ *
+ * Hybris storefront: panel is 3 columns (parts-finder slot | promo |
+ * sign-in). We keep the native Parts Finder only and clip the frame to the
+ * right half (promo + sign-in) so the in-frame parts-finder slot is hidden.
+ * The iframe element is rendered at 2× column width so Bootstrap lg still
+ * applies (≥992px) and those two panels stay side-by-side.
+ */
+main .section.dark.sign-in-container,
+main .section.dark.hybris-storefront-container {
+  /* Reserve the fully-decorated stacked height (parts-finder ≈ 350 px +
+     columns-promo ≈ 350 px + sign-in ≈ 280 px + margins/padding ≈ 120 px)
+     so the section never grows after block decoration causes a layout shift. */
+  min-height: 1100px;
+  padding: 24px 0;
+}
+
+main .section.dark.sign-in-container > div,
+main .section.dark.hybris-storefront-container > div {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+main .section.dark.sign-in-container > div:first-child,
+main .section.dark.hybris-storefront-container > div:first-child {
+  margin-top: 0;
+}
+
+main .section.dark.sign-in-container > div:last-child,
+main .section.dark.hybris-storefront-container > div:last-child {
+  margin-bottom: 0;
+}
+
+/* CSR: Emulate Account replaces the hero trio (all breakpoints) */
+main .section.dark.hybris-storefront-auth > .parts-finder-wrapper,
+main .section.dark.hybris-storefront-auth > .columns-promo-wrapper,
+main .section.dark.hybris-storefront-auth > .sign-in-wrapper {
+  display: none !important;
+}
+
+main .section.dark.hybris-storefront-auth {
+  min-height: 360px;
+}
+
+/* Emulating: B2B Account Details / Quick Order — Parts Finder returns */
+main .section.dark.hybris-storefront-emulating > .columns-promo-wrapper,
+main .section.dark.hybris-storefront-emulating > .sign-in-wrapper {
+  display: none !important;
+}
+
+main .section.dark.hybris-storefront-emulating {
+  min-height: 760px;
+}
+
+@media (width >= 900px) {
+  main .section.dark.sign-in-container,
+  main .section.dark.hybris-storefront-container {
+    display: flex;
+    align-items: stretch;
+    gap: 24px;
+    min-height: 340px;
+    padding: 40px 90px;
+  }
+
+  main .section.dark.sign-in-container > div,
+  main .section.dark.hybris-storefront-container > div {
+    display: flex;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main .section.dark.sign-in-container > .parts-finder-wrapper,
+  main .section.dark.hybris-storefront-container > .parts-finder-wrapper {
+    flex: 1 1 0;
+  }
+
+  main .section.dark.sign-in-container > .columns-promo-wrapper,
+  main .section.dark.sign-in-container > .sign-in-wrapper {
+    flex: 1 1 0;
+  }
+
+  /* Half the hero: clipped viewport for promo + sign-in only */
+  main .section.dark.sign-in-container > .hybris-storefront-wrapper,
+  main .section.dark.hybris-storefront-container > .hybris-storefront-wrapper {
+    flex: 1 1 0;
+    overflow: hidden;
+  }
+
+  main .section.dark.sign-in-container > div > div,
+  main .section.dark.hybris-storefront-container > div > div {
+    width: 100%;
+  }
+
+  /*
+   * CSR (QA): Emulate Account replaces Parts Finder + Get More + Sign In —
+   * full unclipped iframe across the hero row.
+   */
+  main .section.dark.hybris-storefront-auth > .hybris-storefront-wrapper {
+    flex: 1 1 100%;
+    width: 100%;
+    overflow: visible;
+  }
+
+  main .section.dark.hybris-storefront-auth > .hybris-storefront-wrapper > .hybris-storefront {
+    overflow: hidden;
+    height: 360px;
+    min-height: 360px;
+  }
+
+  main .section.dark.hybris-storefront-auth > .hybris-storefront-wrapper .hybris-storefront-frame {
+    width: 100%;
+    max-width: none;
+    height: 360px;
+    min-height: 360px;
+    margin-left: 0;
+  }
+
+  /*
+   * Emulating (QA): choosing an account replaces Emulate Account with the B2B
+   * Account Details / Quick Order panel (full width). The iframe leaves its
+   * lower-left slot empty, so the native Parts Finder is layered into that
+   * slot beside Beck/Arnley and Quick Links.
+   */
+  main .section.dark.hybris-storefront-emulating {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 760px;
+  }
+
+  main .section.dark.hybris-storefront-emulating > .hybris-storefront-wrapper {
+    grid-area: 1 / 1;
+    flex: 1 1 100%;
+    width: 100%;
+    order: 0;
+    overflow: hidden;
+  }
+
+  main .section.dark.hybris-storefront-emulating > .hybris-storefront-wrapper > .hybris-storefront {
+    overflow: hidden;
+    height: 760px;
+    min-height: 760px;
+  }
+
+  main .section.dark.hybris-storefront-emulating > .hybris-storefront-wrapper .hybris-storefront-frame {
+    width: 100%;
+    max-width: none;
+    height: 760px;
+    min-height: 760px;
+    margin-left: 0;
+  }
+
+  main .section.dark.hybris-storefront-emulating > .parts-finder-wrapper {
+    z-index: 1;
+    grid-area: 1 / 1;
+    place-self: end start;
+    width: calc(50% - 30px);
+    min-width: 280px;
+    margin-left: 15px;
+    margin-bottom: 12px;
+  }
+
+  main .section.dark.hybris-storefront-emulating > .parts-finder-wrapper > .parts-finder {
+    padding-top: 20px;
+  }
+
+  /*
+   * Hide Hybris left column (parts-finder placeholder) when anonymous.
+   * Frame is 200% of the column so internal width stays ≥992px (Bootstrap lg);
+   * shift left by half so only Get More + Sign In remain visible.
+   */
+  main .section.dark.sign-in-container:not(.hybris-storefront-auth, .hybris-storefront-emulating) > .hybris-storefront-wrapper > .hybris-storefront,
+  main .section.dark.hybris-storefront-container:not(.hybris-storefront-auth, .hybris-storefront-emulating) > .hybris-storefront-wrapper > .hybris-storefront {
+    overflow: hidden;
+    height: 340px;
+    min-height: 340px;
+  }
+
+  main .section.dark.sign-in-container:not(.hybris-storefront-auth, .hybris-storefront-emulating) > .hybris-storefront-wrapper .hybris-storefront-frame,
+  main .section.dark.hybris-storefront-container:not(.hybris-storefront-auth, .hybris-storefront-emulating) > .hybris-storefront-wrapper .hybris-storefront-frame {
+    width: 200%;
+    max-width: none;
+    height: 340px;
+    min-height: 340px;
+    margin-left: -100%;
+  }
+}

@@ -1,0 +1,1270 @@
+.part-finder-result {
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #e7e7e7;
+}
+
+.part-finder-result *,
+.part-finder-result *::before,
+.part-finder-result *::after {
+  box-sizing: inherit;
+}
+
+.part-finder-result .results-toolbar {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  padding: 0;
+}
+
+.part-finder-result .results-toolbar .results-toolbar-scope {
+  display: none;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  min-height: 0;
+  height: auto;
+}
+
+.part-finder-result .results-toolbar.is-expanded .results-toolbar-scope {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-image: linear-gradient(#ececec, #d8d8d8);
+  padding: 20px 16px;
+  border-bottom: 1px solid #999;
+}
+
+.part-finder-result .results-toolbar-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  background-color: #000;
+  color: #fff;
+  padding: 39px 16px 17px;
+  font: inherit;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.part-finder-result .results-toolbar-summary-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.part-finder-result .results-toolbar-summary-icon {
+  flex-shrink: 0;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.part-finder-result .results-toolbar .parts-finder-field {
+  padding: 0;
+}
+
+.part-finder-result .results-toolbar .parts-finder-dropdown-toggle {
+  min-height: 43px;
+}
+
+.part-finder-result .results-toolbar-fields {
+  display: block;
+}
+
+.part-finder-result .results-toolbar-fields .parts-finder-panel {
+  padding-top: 0;
+}
+
+.part-finder-result .results-toolbar-fields .parts-finder-panel-engine,
+.part-finder-result .results-toolbar-fields .parts-finder-panel-vehicle,
+.part-finder-result .results-toolbar-fields .results-toolbar-part-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.part-finder-result .results-toolbar-fields .parts-finder-panel-engine[hidden],
+.part-finder-result .results-toolbar-fields .parts-finder-panel-vehicle[hidden],
+.part-finder-result .results-toolbar-fields .results-toolbar-part-panel[hidden] {
+  display: none;
+}
+
+.part-finder-result .results-toolbar-part-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 43px;
+  margin: 0;
+  padding: 0 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: var(--body-font-size-xs);
+}
+
+.part-finder-result .results-toolbar .parts-finder-lookup.results-toolbar-search {
+  display: flex;
+  align-self: stretch;
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--brand-color);
+  color: #fff;
+  text-transform: capitalize;
+  font-weight: 400;
+  padding: 0 10px !important;
+}
+
+.part-finder-result .results-toolbar .parts-finder-lookup.results-toolbar-search::after {
+  display: none;
+}
+
+.part-finder-result .results-toolbar .parts-finder-lookup.results-toolbar-search:hover,
+.part-finder-result .results-toolbar .parts-finder-lookup.results-toolbar-search:focus-visible {
+  background-color: #a30f28;
+}
+
+.part-finder-result .results-toolbar .parts-finder-lookup.results-toolbar-search[aria-disabled="true"] {
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  color: #fff;
+  opacity: 1;
+}
+
+@media (width >= 900px) {
+  .part-finder-result .results-toolbar {
+    flex-direction: row;
+    align-items: center;
+    background-color: #000;
+    padding: 20px 80px;
+  }
+
+  .part-finder-result .results-toolbar-summary {
+    display: none;
+  }
+
+  .part-finder-result .results-toolbar .results-toolbar-scope {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    gap: 24px;
+  }
+
+  .part-finder-result .results-toolbar.is-expanded .results-toolbar-scope {
+    position: static;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 1 auto;
+    gap: 24px;
+    background: none;
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .part-finder-result .results-toolbar-mode {
+    flex: 0 0 250px;
+  }
+
+  .part-finder-result .results-toolbar-fields {
+    flex: 1 1 auto;
+  }
+
+  .part-finder-result .results-toolbar-fields .parts-finder-panel-engine,
+  .part-finder-result .results-toolbar-fields .parts-finder-panel-vehicle,
+  .part-finder-result .results-toolbar-fields .results-toolbar-part-panel {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .part-finder-result .results-toolbar-fields .parts-finder-field {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .part-finder-result .results-toolbar-fields .results-toolbar-part-panel .parts-finder-field {
+    flex: 0 0 250px;
+    width: 250px;
+  }
+
+  .part-finder-result .results-toolbar-fields .parts-finder-field-equipment[hidden],
+  .part-finder-result .results-toolbar-fields .parts-finder-field-ymm[hidden] {
+    display: none;
+  }
+
+  .part-finder-result .results-toolbar-search {
+    flex: 0 0 130px;
+    width: 130px;
+  }
+}
+
+.part-finder-result .results-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 16px;
+}
+
+.part-finder-result .results-loading[hidden],
+.part-finder-result .results-error[hidden],
+.part-finder-result .results-empty[hidden] {
+  display: none;
+}
+
+.part-finder-result .results-spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--light-color);
+  border-top-color: var(--brand-color);
+  border-radius: 50%;
+  animation: part-finder-result-spin 0.8s linear infinite;
+}
+
+@keyframes part-finder-result-spin {
+  to { transform: rotate(360deg); }
+}
+
+.part-finder-result .results-error,
+.part-finder-result .results-empty {
+  padding: 24px 16px;
+}
+
+.part-finder-result .results-content-wrapper {
+  --main-pad-x: 16px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.part-finder-result .results-top-row-slot {
+  background-color: #fff;
+  padding: 0 var(--main-pad-x);
+  border-top: 11px solid var(--brand-color);
+
+  /* Reserves the count/pagination row's height. This slot is populated only
+     once the parts response arrives, and it sits ABOVE .results-main in DOM
+     order -- so growing from empty to its real height pushes the whole
+     results column down (0.818 CLS, Lighthouse attributes it to
+     `<div class="results-main">`). Reserving it up front holds everything
+     below in place. 103px = the ~91px row + this 11px border, rounded up 1px
+     so sub-pixel row heights can't nudge it (box-sizing is border-box, set
+     on the block root above). */
+  min-height: 103px;
+}
+
+.part-finder-result .results-content-wrapper.results-content-wrapper-single-column {
+  padding: 20px;
+}
+
+.part-finder-result .results-main {
+  --main-pad-y: 16px;
+
+  min-width: 0;
+  background-color: #fff;
+  padding: var(--main-pad-y) var(--main-pad-x);
+}
+
+.part-finder-result .results-main:has(.results-loading:not([hidden])),
+.part-finder-result .results-main:has(.results-empty:not([hidden])),
+.part-finder-result .results-main:has(.results-error:not([hidden])) {
+  min-height: 70vh;
+}
+
+.part-finder-result .results-main.is-filtering {
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.part-finder-result .results-facets-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 0;
+  border-block: 2px solid var(--dark-color);
+  background-color: var(--brand-color);
+  color: #fff;
+  padding: 16px;
+  font: inherit;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.part-finder-result .results-facets-toggle-icon {
+  flex-shrink: 0;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.part-finder-result .results-facets-body {
+  display: none;
+}
+
+.part-finder-result .results-facets-wrapper.is-expanded .results-facets-body {
+  display: block;
+}
+
+@media (width >= 900px) {
+  .part-finder-result .results-content-wrapper {
+    --main-pad-x: 32px;
+
+    grid-template-columns: 280px 1fr;
+    grid-template-areas:
+      "sidebar top"
+      "sidebar main";
+    gap: 0 24px;
+    padding: 24px 0 0;
+  }
+
+  .part-finder-result .results-facets-wrapper {
+    grid-area: sidebar;
+  }
+
+  .part-finder-result .results-top-row-slot {
+    grid-area: top;
+    border-top: 0;
+
+    /* Same reservation as the mobile rule above, restated because the border
+       is gone here (96px row, no 11px border) and because this slot now sizes
+       the grid's `top` row -- an unreserved 0px row would drop the `main`
+       area up and then shift it back down when the response lands.
+       Deliberately unconditional (not `:empty`-scoped): once filled, the
+       slot's real content height is ~96px anyway, so this holds it steady
+       through the transition instead of un-reserving right as new content
+       arrives -- which is what let this shift regress before. */
+    min-height: 96px;
+  }
+
+  .part-finder-result .results-main {
+    --main-pad-y: 24px;
+
+    grid-area: main;
+    padding: var(--main-pad-y) var(--main-pad-x);
+  }
+
+  .part-finder-result .results-content-wrapper.results-content-wrapper-single-column {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main";
+    padding: 60px;
+  }
+
+  .part-finder-result .results-facets-toggle {
+    display: none;
+  }
+
+  .part-finder-result .results-facets-body {
+    display: block;
+  }
+}
+
+.part-finder-result .results-facets {
+  background-color: #fff;
+  padding: 0 0 16px;
+}
+
+.part-finder-result .results-facets-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background-color: #000;
+  color: #fff;
+  padding: 16px;
+  border-bottom: 4px solid #000;
+}
+
+.part-finder-result .results-facets-label {
+  flex-shrink: 0;
+  margin: 0;
+  white-space: nowrap;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.part-finder-result .results-clear-filters {
+  flex-shrink: 0;
+  padding: 8px 10px;
+  font-size: 11px;
+}
+
+.part-finder-result .results-facet-group {
+  border-bottom: 1px solid #ddd;
+}
+
+.part-finder-result .results-facet-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 0;
+  background: none;
+  color: var(--brand-color);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  font-size: var(--body-font-size-xs);
+  cursor: pointer;
+}
+
+.part-finder-result .results-facet-icon {
+  color: var(--text-color);
+}
+
+.part-finder-result .results-facet-search {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 0 16px 8px;
+  padding: 8px 32px 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: var(--body-font-size-xs);
+  color: var(--text-color);
+  background: #fff url('/icons/search.svg') no-repeat right 10px center;
+  background-size: 14px;
+}
+
+.part-finder-result .results-facet-search[hidden] {
+  display: none;
+}
+
+.part-finder-result .results-facet-list {
+  margin: 0;
+  padding: 0 16px 12px;
+  list-style: none;
+}
+
+.part-finder-result .results-facet-list[hidden] {
+  display: none;
+}
+
+.part-finder-result .results-facet-item label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: var(--body-font-size-xs);
+  color: var(--text-color);
+}
+
+.part-finder-result .results-facet-item.is-unavailable label {
+  opacity: 0.5;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.part-finder-result .results-facet-sublist {
+  margin: 0;
+  padding: 0 0 4px 24px;
+  list-style: none;
+}
+
+.part-finder-result .results-facet-sublist .results-facet-item-label {
+  border-radius: 4px;
+  background-color: var(--light-color);
+  padding: 2px 8px;
+}
+
+.part-finder-result .results-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.part-finder-result .results-count {
+  margin: 0;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--brand-color);
+}
+
+.part-finder-result .results-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.part-finder-result .results-toolbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.part-finder-result .results-list + .results-toolbar-row,
+.part-finder-result .results-grid + .results-toolbar-row {
+  border-bottom: 0;
+  border-top: 1px solid #ddd;
+}
+
+.part-finder-result .results-top-row-slot .results-toolbar-row {
+  border-bottom: 0;
+}
+
+.part-finder-result .results-toolbar-row-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.part-finder-result .results-view-modes {
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (width >= 900px) {
+  .part-finder-result .results-view-modes {
+    display: flex;
+  }
+}
+
+.part-finder-result .results-view-modes-label {
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--brand-color);
+}
+
+.part-finder-result .results-view-mode-btn {
+  min-width: 23px;
+  min-height: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-color);
+  font-size: 21px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.part-finder-result .results-view-mode-btn.is-active {
+  color: var(--brand-color);
+}
+
+.part-finder-result .results-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.part-finder-result .results-pagination-text {
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-color);
+}
+
+.part-finder-result .results-pagination-input {
+  box-sizing: border-box;
+  width: 40px;
+  height: 32px;
+  border: 1px solid #999;
+  padding: 0 4px;
+  font-size: var(--body-font-size-xs);
+  text-align: center;
+}
+
+.part-finder-result .results-pagination-prev,
+.part-finder-result .results-pagination-next {
+  box-sizing: border-box;
+  min-width: 28px;
+  min-height: 28px;
+  border: 0;
+  background-color: #ccc;
+  color: #000;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.part-finder-result .results-pagination-prev:disabled,
+.part-finder-result .results-pagination-next:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.part-finder-result .results-part-number-tabs {
+  display: flex;
+  margin: calc(var(--main-pad-y) * -1) calc(var(--main-pad-x) * -1) 0;
+  background-color: #e7e7e7;
+}
+
+.part-finder-result .results-part-number-tab {
+  height: 60px;
+  padding: 16px;
+  border: 0;
+  background-color: #545454;
+  color: #fff;
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.part-finder-result .results-part-number-tab[aria-selected="true"] {
+  background-color: #fff;
+  color: #545454;
+}
+
+.part-finder-result .results-interchange-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--body-font-size-xs);
+  margin-top: 40px;
+}
+
+.part-finder-result .results-interchange-table th,
+.part-finder-result .results-interchange-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.part-finder-result .results-interchange-table a {
+  color: var(--link-hover-color);
+  font-weight: 600;
+}
+
+.part-finder-result .results-interchange-table th {
+  background-color: #f2f2f2;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.part-finder-result .results-partsearch-list {
+  margin: 0;
+  padding: 40px 0 0;
+  list-style: none;
+}
+
+.part-finder-result .results-partsearch-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-inline: calc(var(--main-pad-x) * -1);
+  padding: 20px var(--main-pad-x);
+  border-top: 3px solid #ccc;
+}
+
+.part-finder-result .results-partsearch-image {
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.part-finder-result .results-partsearch-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.part-finder-result .results-partsearch-image-placeholder {
+  background-color: var(--light-color);
+}
+
+.part-finder-result .results-partsearch-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 16px;
+  min-width: 0;
+}
+
+.part-finder-result .results-partsearch-name {
+  min-width: 0;
+}
+
+.part-finder-result .results-partsearch-subheading {
+  margin: 0 0 4px;
+  font-size: var(--body-font-size-xs);
+  color: #3a3a3a;
+}
+
+.part-finder-result .results-partsearch-subheading a {
+  color: var(--link-hover-color);
+  font-weight: 600;
+}
+
+.part-finder-result .results-partsearch-title {
+  margin: 0;
+}
+
+.part-finder-result .results-partsearch-title a {
+  color: var(--link-hover-color);
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.part-finder-result .results-partsearch-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.part-finder-result .results-partsearch-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 46px;
+  background-color: #e7e7e7;
+  color: #545454;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.part-finder-result .results-partsearch-cta-btn:hover {
+  background-color: #d8d8d8;
+}
+
+@media (width >= 700px) {
+  .part-finder-result .results-partsearch-row {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .part-finder-result .results-partsearch-image {
+    width: 150px;
+    height: 150px;
+  }
+
+  .part-finder-result .results-partsearch-content {
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .part-finder-result .results-partsearch-cta {
+    margin-left: auto;
+  }
+}
+
+.part-finder-result .results-row {
+  --row-pad-y: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-inline: calc(var(--main-pad-x) * -1);
+  padding: var(--row-pad-y) var(--main-pad-x);
+  border-top: 3px solid #ccc;
+}
+
+/* Mobile/tablet: the very first row needs no top divider -- the "Filter
+   results" toggle right above it already provides its own visual boundary,
+   so this would just be a redundant second line. */
+@media (width < 900px) {
+  .part-finder-result .results-list > .results-row:first-child {
+    border-top: 0;
+  }
+}
+
+@media (width < 900px) {
+  .part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child .results-row-title,
+  .part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child .results-row-image {
+    display: none;
+  }
+
+  .part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child::before {
+    content: '';
+    order: 1;
+    display: block;
+    height: var(--collapsed-row-spacer, 0);
+  }
+}
+
+.part-finder-result .results-row-content,
+.part-finder-result .results-row-header {
+  display: contents;
+}
+
+.part-finder-result .results-row-image {
+  order: 2;
+  width: 100%;
+
+  /* 150px matches production: drivparts.com sizes this thumbnail
+     `.driv-corp-list-view-item-image` at 150px on every viewport (mobile
+     `height: 150px`, desktop `width: 150px`). This was 280px -- our own
+     value, ~1.9x production -- which made the thumbnail the largest element
+     on a phone viewport. Kept as max-width on top of `width: 100%` +
+     `aspect-ratio` (rather than production's `width: auto; height: 150px`)
+     so the box stays fully reserved before the image loads. */
+  max-width: 150px;
+  height: auto;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  background-color: #fff;
+}
+
+.part-finder-result .results-row-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.part-finder-result .results-row-image-placeholder {
+  background-color: var(--light-color);
+}
+
+.part-finder-result .results-row-title {
+  order: 1;
+  min-width: 0;
+}
+
+.part-finder-result .results-row-part-number {
+  margin: 0 0 4px;
+  font-size: var(--body-font-size-xs);
+  color: var(--text-color);
+}
+
+.part-finder-result .results-row-part-number a {
+  color: var(--link-hover-color);
+  font-weight: 600;
+}
+
+.part-finder-result .results-row-brand {
+  display: block;
+}
+
+.part-finder-result .results-row-part-name {
+  margin: 0 0 8px;
+}
+
+.part-finder-result .results-row-part-name a {
+  color: var(--link-hover-color);
+  font-weight: 700;
+  font-size: var(--body-font-size-s);
+  text-transform: uppercase;
+}
+
+.part-finder-result .results-row-criteria {
+  margin: 0;
+  min-width: 0;
+}
+
+.part-finder-result .results-row-criteria p {
+  margin: 0 0 2px;
+  font-size: var(--body-font-size-xs);
+  color: var(--text-color);
+}
+
+.part-finder-result .results-row-criteria-label {
+  font-weight: 700;
+}
+
+.part-finder-result .results-row-criteria-heading {
+  color: var(--brand-color);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 6px !important;
+}
+
+.part-finder-result .results-row-details {
+  order: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-inline: calc(var(--main-pad-x) * -1);
+  margin-bottom: calc(var(--row-pad-y) * -1);
+  background-color: #e7e7e7;
+  padding: 16px;
+}
+
+.part-finder-result .results-row-qualifiers {
+  padding: 0;
+}
+
+.part-finder-result .results-row-qualifiers-heading {
+  margin: 0 0 4px;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-color);
+}
+
+.part-finder-result .results-row-qualifiers p:last-child {
+  margin: 0;
+  font-size: var(--body-font-size-xs);
+  color: var(--text-color);
+}
+
+.part-finder-result a.button.results-row-where-to-buy {
+  order: 3;
+  flex: 0 0 100%;
+  align-self: flex-start;
+  width: 100%;
+  min-height: 0;
+  padding: 17px 21px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+@media (width >= 700px) {
+  .part-finder-result .results-row {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .part-finder-result .results-row-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .part-finder-result .results-row-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .part-finder-result .results-row-image {
+    order: 0;
+    width: 140px;
+    height: 140px;
+    max-width: none;
+    aspect-ratio: auto;
+    align-self: flex-start;
+    border: 1px solid #ddd;
+  }
+
+  .part-finder-result .results-row-brand {
+    display: inline;
+  }
+
+  .part-finder-result .results-row-brand::before {
+    content: ' | ';
+  }
+
+  .part-finder-result a.button.results-row-where-to-buy {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  .part-finder-result .results-row-details {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 22rem;
+    width: auto;
+    margin: 0;
+    background: none;
+    padding: 0;
+  }
+
+  .part-finder-result .results-row-criteria {
+    flex: 0 1 280px;
+    max-width: 320px;
+  }
+
+  .part-finder-result .results-row-qualifiers {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    background-color: #e7e7e7;
+    padding: 16px;
+    height: 6rem;
+  }
+}
+
+.part-finder-result .results-grid {
+  overflow-x: auto;
+}
+
+.part-finder-result .results-grid-brand {
+  margin-bottom: 24px;
+}
+
+.part-finder-result .results-grid-brand-header {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  background-color: #e7e7e7;
+}
+
+.part-finder-result .results-grid-brand-header img {
+  margin: 8px 10px;
+  max-height: 100%;
+}
+
+.part-finder-result .results-grid-brand-header span {
+  margin: 0 10px;
+  color: var(--brand-color);
+  font-weight: 700;
+  font-size: var(--body-font-size-m);
+  text-transform: uppercase;
+}
+
+.part-finder-result .results-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: var(--body-font-size-xs);
+}
+
+.part-finder-result .results-grid-table th,
+.part-finder-result .results-grid-table td {
+  padding: 4px 8px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.part-finder-result .results-grid-table .results-grid-part-type-row td {
+  padding: 8px 16px;
+  background-color: var(--dark-color);
+  color: #fff;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: left;
+}
+
+.part-finder-result .results-grid-columns-row th {
+  background-color: var(--light-color);
+  font-weight: 700;
+  white-space: nowrap;
+  border-right: 1px solid rgb(60 60 60 / 26%);
+}
+
+.part-finder-result .results-grid-columns-row th:last-child {
+  border-right: 0;
+}
+
+.part-finder-result .results-grid-row.is-last-in-group td {
+  border-bottom: 0;
+}
+
+.part-finder-result .results-grid-image-header-icon {
+  color: #3a3a3a;
+  vertical-align: middle;
+}
+
+.part-finder-result .results-grid-image-cell {
+  width: 64px;
+  min-width: 64px;
+}
+
+.part-finder-result .results-grid-image-cell img {
+  width: 48px;
+  height: 48px;
+  max-width: none;
+  object-fit: contain;
+}
+
+.part-finder-result .results-grid-part-cell {
+  text-align: left;
+}
+
+.part-finder-result .results-grid-part-cell-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.part-finder-result .results-grid-part-number {
+  display: block;
+  color: var(--link-hover-color);
+  font-weight: 700;
+}
+
+.part-finder-result .results-grid-quick-details-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #545454;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.part-finder-result .results-grid-quick-details-icon {
+  font-size: 14px;
+}
+
+.part-finder-result .results-grid-wtb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+  background-color: var(--dark-color);
+  color: #fff;
+  text-decoration: none;
+}
+
+.part-finder-result .results-grid-details-cell {
+  position: relative;
+  text-align: left;
+  background-color: #fff;
+  border-top: 3px solid #b5122d;
+}
+
+.part-finder-result .results-grid-details-cell::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: var(--details-arrow-left, 56px);
+  width: 0;
+  height: 0;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-top: 7px solid #b5122d;
+  transform: translate(-50%, -100%);
+}
+
+.part-finder-result .results-quick-details {
+  position: relative;
+  padding: 16px 16px 16px 40px;
+  text-align: left;
+}
+
+.part-finder-result .results-quick-details-tabs {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+}
+
+.part-finder-result .results-quick-details-tab {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  padding: 0 0 8px;
+  color: var(--text-color);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+
+.part-finder-result .results-quick-details-tab.is-active {
+  border-bottom-color: #b5122d;
+  color: #b5122d;
+}
+
+.part-finder-result .results-quick-details-close {
+  margin-left: auto;
+  border: 0;
+  background: none;
+  color: #b5122d;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.part-finder-result .results-quick-details-logo {
+  max-height: 24px;
+  margin-bottom: 8px;
+}
+
+.part-finder-result .results-quick-details-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.part-finder-result .results-quick-details-marketing {
+  margin: 0 0 12px;
+}
+
+.part-finder-result .results-quick-details-feature-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.part-finder-result .results-quick-details-feature-list li {
+  margin-bottom: 8px;
+}
+
+.part-finder-result .results-quick-details-specs table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.part-finder-result .results-quick-details-specs .results-quick-details-spec-label,
+.part-finder-result .results-quick-details-specs .results-quick-details-spec-value {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.part-finder-result .results-quick-details-specs tbody tr:nth-child(odd) {
+  background-color: var(--light-color);
+}
+
+.part-finder-result .results-quick-details-specs .results-quick-details-spec-label {
+  width: 40%;
+  font-weight: 700;
+}

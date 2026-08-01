@@ -1,0 +1,873 @@
+.part-details {
+  box-sizing: border-box;
+  width: 100%;
+
+  /* max-width: var(--content-max-width); */
+  margin: 0 auto;
+  padding: 20px 0;
+  background-color: #fff;
+}
+
+.part-details *,
+.part-details *::before,
+.part-details *::after {
+  box-sizing: inherit;
+}
+
+/* Back button */
+.part-details .pd-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #fff;
+  font-size: 17px;
+  color: #164991;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.part-details .pd-back-btn::before {
+  content: '<';
+  color: var(--brand-color);
+  font-weight: 700;
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+.part-details .pd-back-btn:hover {
+  color: #164991;
+  text-decoration: underline;
+}
+
+/* Loading */
+.part-details .pd-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0;
+}
+
+.part-details .pd-loading[hidden],
+.part-details .pd-error[hidden] {
+  display: none;
+}
+
+.part-details .pd-spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--light-color);
+  border-top-color: var(--brand-color);
+  border-radius: 50%;
+  animation: pd-spin 0.8s linear infinite;
+}
+
+@keyframes pd-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error */
+.part-details .pd-error {
+  padding: 24px 0;
+}
+
+.part-details .pd-retry-btn {
+  margin-top: 12px;
+  padding: 8px 20px;
+  cursor: pointer;
+  background: var(--brand-color);
+  color: #fff;
+  border: none;
+  font-size: var(--body-font-size-xs);
+}
+
+.part-details .pd-retry-btn:hover {
+  background: #a30f28;
+}
+
+/* Layout
+   Mobile order (matches drivparts.com mobile): title/part number, CTAs,
+   divider, gallery, tabs-as-accordion. .pd-info is lifted out of the box
+   model (display: contents) so its children — header/divider/actions — can
+   be placed independently via named grid areas, interleaved with the
+   gallery. Desktop restores the two-column layout further down. */
+.part-details .pd-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'header'
+    'actions'
+    'divider'
+    'gallery'
+    'tabs';
+  gap: 0;
+  min-width: 0;
+  min-height: 600px;
+}
+
+.part-details .pd-layout > * {
+  min-width: 0;
+}
+
+.part-details .pd-info {
+  display: contents;
+}
+
+@media (width >= 1025px) {
+  .part-details {
+    padding: 24px 16px;
+  }
+
+  .part-details .pd-layout {
+    grid-template-columns: 1fr 1.2fr;
+    grid-template-areas: none;
+    align-items: start;
+    gap: 24px;
+  }
+
+  .part-details .pd-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+/* Gallery */
+.part-details .pd-gallery {
+  grid-area: gallery;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.part-details .pd-main-image-btn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.part-details .pd-main-image-btn:focus-visible {
+  outline: 2px solid var(--brand-color);
+  outline-offset: 2px;
+}
+
+.part-details .pd-main-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  padding: 8px;
+}
+
+/* Thumbnails + prev/next arrows — desktop only. Mobile uses dot pagination
+   instead (see .pd-gallery-dots), matching the drivparts.com mobile gallery. */
+.part-details .pd-gallery-nav {
+  display: none;
+}
+
+.part-details .pd-gallery-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.part-details .pd-gallery-dots[hidden] {
+  display: none;
+}
+
+.part-details .pd-gallery-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  background: var(--light-color);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.part-details .pd-gallery-dot-active {
+  background: var(--brand-color);
+}
+
+@media (width >= 1025px) {
+  .part-details .pd-gallery-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    margin-left: 54px;
+  }
+
+  .part-details .pd-gallery-dots {
+    display: none;
+  }
+}
+
+.part-details .pd-gallery-arrow {
+  width: 64px;
+  height: 64px;
+  background: none;
+  border: 2px solid var(--link-color);
+  border-radius: 0;
+  cursor: pointer;
+  font-size: var(--body-font-size-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  color: var(--link-color);
+}
+
+.part-details .pd-gallery-arrow:hover {
+  background: var(--light-color);
+}
+
+.part-details .pd-gallery-arrow:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.part-details .pd-gallery-arrow[hidden] {
+  display: none;
+}
+
+.part-details .pd-thumbnails {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  gap: 8px;
+
+  /* Exactly 4 thumbnails (64px each + 3 gaps) visible at a time; the rest scroll
+     into view via the prev/next arrows, matching the drivparts.com gallery. */
+  max-width: 280px;
+  overflow-x: hidden;
+}
+
+.part-details .pd-thumbnail-btn {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 64px;
+  background: none;
+  border: 2px solid var(--link-color);
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.part-details .pd-thumbnail-btn:focus-visible {
+  outline: 2px solid var(--brand-color);
+  outline-offset: 2px;
+}
+
+.part-details .pd-thumbnail-btn.pd-thumbnail-active {
+  border-color: var(--brand-color);
+}
+
+.part-details .pd-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Header row: brand logo/name (left) + part identity (right).
+   The brand logo/name is desktop-only — drivparts.com mobile shows just the
+   title and part number, no logo. */
+.part-details .pd-header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 12px;
+}
+
+.part-details .pd-brand-logo,
+.part-details .pd-brand-name {
+  display: none;
+}
+
+/* Brand name text fallback (when logo is not available).
+   min-width matches the logo slot so the header row height stays stable. */
+.part-details .pd-brand-name {
+  font-size: var(--body-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--link-color);
+  margin: 0;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
+@media (width >= 1025px) {
+  .part-details .pd-header {
+    padding-bottom: 30px;
+  }
+
+  /* Explicit width + height + aspect-ratio tell the browser exactly how much
+     space to reserve before the image loads, eliminating CLS. */
+  .part-details .pd-brand-logo {
+    display: block;
+    width: 130px;
+    height: 70px;
+    object-fit: contain;
+    object-position: left center;
+    flex-shrink: 0;
+  }
+
+  .part-details .pd-brand-name {
+    display: block;
+  }
+}
+
+/* Part name + number stacked on the right */
+.part-details .pd-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.part-details .pd-part-name {
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+  color: var(--text-color);
+  text-transform: none;
+}
+
+/* Divider — sits after the CTAs, before the gallery, on mobile (see the
+   'divider' grid-area order in .pd-layout); back between the header and CTAs
+   on desktop, matching drivparts.com in both cases. */
+.part-details .pd-divider {
+  grid-area: divider;
+  border-top: 1px solid;
+  margin: 20px 0;
+}
+
+@media (width >= 1025px) {
+  .part-details .pd-part-name {
+    font-size: 28px;
+    font-weight: 400;
+  }
+
+  .part-details .pd-gallery {
+    grid-area: auto;
+    max-width: 478px;
+    margin: 20px 40px;
+  }
+
+  .part-details .pd-main-image {
+    max-width: 478px;
+    margin: 20px 40px;
+  }
+
+  .part-details .pd-divider {
+    margin: 0;
+  }
+}
+
+.part-details .pd-part-number {
+  margin: 0;
+  font-size: 20px;
+  color: var(--text-color);
+}
+
+/* Label bold + value normal weight on mobile (drivparts.com mobile); desktop
+   flips it — number bold, label normal — matching drivparts.com desktop. */
+.part-details .pd-part-number-label {
+  font-weight: 700;
+}
+
+.part-details .pd-part-number-value {
+  font-weight: 400;
+}
+
+@media (width >= 1025px) {
+  .part-details .pd-part-number-label {
+    font-weight: 400;
+  }
+
+  .part-details .pd-part-number-value {
+    font-weight: 700;
+  }
+}
+
+/* Actions (Get It Installed / Where To Buy / Add To Parts List) — stacked,
+   full-width rows on mobile; a single inline row on desktop. */
+.part-details .pd-actions {
+  grid-area: actions;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  padding: 20px 0 0;
+}
+
+/* "Get It Installed" and "Where To Buy" — text-link style, no border.
+   On mobile each spans the full width with centered text, matching
+   drivparts.com; "Get It Installed" pins its arrow to the right edge via
+   absolute positioning instead of sitting inline next to the text. */
+.part-details .pd-action-install,
+.part-details .pd-action-buy {
+  position: relative;
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 12px 40px;
+  color: var(--brand-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.part-details .pd-action-buy {
+  font-style: italic;
+}
+
+.part-details .pd-action-install::after {
+  content: '▶';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75em;
+  color: var(--brand-color);
+}
+
+.part-details .pd-action-install:hover,
+.part-details .pd-action-buy:hover {
+  text-decoration: underline;
+}
+
+/* "Add To Parts List" — filled red button, full width + italic on mobile */
+.part-details .pd-action-add {
+  width: 100%;
+  padding: 14px 24px;
+  font-style: italic;
+}
+
+@media (width >= 1025px) {
+  .part-details .pd-actions {
+    flex-flow: row wrap;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 0;
+  }
+
+  .part-details .pd-action-install,
+  .part-details .pd-action-buy {
+    position: static;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: auto;
+    padding: 0;
+    text-align: left;
+    font-style: normal;
+  }
+
+  .part-details .pd-action-install::after,
+  .part-details .pd-action-buy::after {
+    content: '▶';
+    position: static;
+    transform: none;
+    font-size: 0.75em;
+    color: var(--brand-color);
+  }
+
+  .part-details .pd-action-add {
+    width: auto;
+    font-style: normal;
+  }
+}
+
+.part-details .pd-description {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.part-details .pd-features {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Description / features — inline in the info column on desktop only.
+   On mobile the same content instead lives in the "Description" accordion
+   panel (see .pd-description-panel / buildDescriptionPanel). */
+.part-details .pd-info .pd-description,
+.part-details .pd-info .pd-features {
+  display: none;
+}
+
+@media (width >= 1025px) {
+  .part-details .pd-info .pd-description {
+    display: block;
+  }
+
+  .part-details .pd-info .pd-features {
+    display: flex;
+  }
+}
+
+.part-details .pd-features li {
+  line-height: 1.5;
+  font-size: 18px;
+  color: #767171;
+}
+
+/* Tabs — an accordion on mobile (drivparts.com mobile: Description,
+   Specifications, Applications each collapsible, all closed by default), a
+   tab strip with one active panel on desktop (drivparts.com desktop). Nav is
+   "display: contents" on mobile so its buttons become direct grid children
+   of .pd-tabs, letting each button sit directly above its own panel — the
+   grid-area names below pair them up regardless of DOM order. */
+.part-details .pd-tabs {
+  grid-area: tabs;
+  display: grid;
+  grid-template-areas:
+    'description-btn'
+    'description-panel'
+    'specs-btn'
+    'specs-panel'
+    'apps-btn'
+    'apps-panel'
+    'media-btn'
+    'media-panel';
+  border-top: 1px solid #000;
+  margin-top: 20px;
+}
+
+.part-details .pd-tab-nav {
+  display: contents;
+}
+
+.part-details .pd-tab-btn[data-tab='description'] { grid-area: description-btn; }
+.part-details .pd-tab-panel[data-tab='description'] { grid-area: description-panel; }
+.part-details .pd-tab-btn[data-tab='specs'] { grid-area: specs-btn; }
+.part-details .pd-tab-panel[data-tab='specs'] { grid-area: specs-panel; }
+.part-details .pd-tab-btn[data-tab='apps'] { grid-area: apps-btn; }
+.part-details .pd-tab-panel[data-tab='apps'] { grid-area: apps-panel; }
+.part-details .pd-tab-btn[data-tab='media'] { grid-area: media-btn; }
+.part-details .pd-tab-panel[data-tab='media'] { grid-area: media-panel; }
+
+.part-details .pd-tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 60px;
+  padding: 16px 20px;
+  background: #efefef;
+  border: none;
+  border-bottom: 1px solid #d8d8d8;
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.part-details .pd-tab-btn::after {
+  content: '+';
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.part-details .pd-tab-btn[aria-expanded='true']::after {
+  content: '−';
+}
+
+.part-details .pd-tab-panel {
+  padding: 16px 20px 24px;
+}
+
+@media (width >= 1025px) {
+  .part-details .pd-tabs {
+    display: block;
+    grid-template-areas: none;
+    grid-area: auto;
+    grid-column: 1 / -1;
+    border-top: none;
+    margin-top: 0;
+    padding-top: 24px;
+  }
+
+  .part-details .pd-tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 2px solid var(--light-color);
+    margin-bottom: 24px;
+    overflow-x: visible;
+  }
+
+  .part-details .pd-tab-btn {
+    display: block;
+    width: auto;
+    min-height: 44px;
+    padding: 10px 24px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    font-family: var(--body-font-family);
+    font-size: var(--body-font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--link-color);
+  }
+
+  .part-details .pd-tab-btn::after,
+  .part-details .pd-tab-btn[aria-expanded='true']::after {
+    content: none;
+  }
+
+  .part-details .pd-tab-btn-active {
+    border-bottom-color: var(--brand-color);
+    color: var(--text-color);
+  }
+
+  .part-details .pd-tab-panel {
+    padding: 0;
+  }
+
+  /* Description is a mobile-only accordion panel — desktop shows the same
+     content inline in the info column instead (see .pd-info .pd-description). */
+  .part-details .pd-tab-btn[data-tab='description'],
+  .part-details .pd-tab-panel[data-tab='description'] {
+    display: none;
+  }
+}
+
+/* Specs table */
+.part-details .pd-specs-wrapper,
+.part-details .pd-apps-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* ── Shared table base ─────────────────────────────────────────────────── */
+.part-details .pd-specs-table,
+.part-details .pd-apps-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--body-font-size-xs);
+}
+
+.part-details .pd-apps-table {
+  min-width: 760px;
+}
+
+/* ── 1. Least-specific td/th selectors — must come first ───────────────── */
+
+/* Shared apps th/td base */
+.part-details .pd-apps-table th,
+.part-details .pd-apps-table td {
+  padding: 6px 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Specs td base */
+.part-details .pd-specs-table td {
+  padding: 6px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* Simple list tables — no borders, no header, auto width */
+.part-details .pd-apps-table-simple {
+  width: auto;
+  border: none;
+}
+
+.part-details .pd-apps-table-simple td {
+  padding: 6px 32px 6px 0;
+}
+
+/* ── 2. Mid-specificity selectors ──────────────────────────────────────── */
+
+/* Alternating shading */
+.part-details .pd-specs-table .pd-specs-row-shaded {
+  background-color: #f5f5f5;
+}
+
+/* Specs group-header row — follows .pd-apps-table td */
+.part-details .pd-specs-table .pd-specs-group-row td {
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  color: var(--text-color);
+  background-color: #fff;
+  border-bottom: 2px solid #e8e8e8;
+}
+
+.part-details .pd-specs-table td:first-child {
+  font-weight: 500;
+  width: 50%;
+  color: var(--text-color);
+}
+
+.part-details .pd-specs-table td:last-child {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+/* ── 3. Bordered grid (:not() — highest specificity) ───────────────────── */
+.part-details .pd-apps-table:not(.pd-apps-table-simple) {
+  border: 1px solid #000;
+}
+
+.part-details .pd-apps-table:not(.pd-apps-table-simple) th,
+.part-details .pd-apps-table:not(.pd-apps-table-simple) td {
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.part-details .pd-apps-table:not(.pd-apps-table-simple) th {
+  font-weight: 700;
+  background-color: #000;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #fff;
+  border-top: 1px solid #000;
+  border-right: 1px solid #fff;
+  border-bottom: none;
+  border-left: 1px solid #000;
+}
+
+/* Simple last-row — before :not() td:last-child */
+.part-details .pd-apps-table-simple tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.part-details .pd-apps-table:not(.pd-apps-table-simple) th:last-child,
+.part-details .pd-apps-table:not(.pd-apps-table-simple) td:last-child {
+  border-right: none;
+}
+
+.part-details .pd-apps-table:not(.pd-apps-table-simple) tr:hover td {
+  background: var(--light-color);
+}
+
+.part-details .pd-apps-table:not(.pd-apps-table-simple) tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Apps sub-tab nav ───────────────────────────────────────────────────── */
+.part-details .pd-apps-group-title {
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+  color: var(--text-color);
+}
+
+.part-details .pd-apps-subtab-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.part-details .pd-apps-subtab-btn {
+  flex: 0 0 auto;
+  padding: 0 0 10px;
+  background: none;
+  border: none;
+  border-bottom: 4px solid transparent;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  color: #545454;
+  white-space: nowrap;
+}
+
+.part-details .pd-apps-subtab-btn-active {
+  border-bottom-color: #545454;
+  color: #545454;
+}
+
+/* Other Media */
+.part-details .pd-media-section-title {
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 16px;
+  color: var(--text-color);
+}
+
+.part-details .pd-media-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.part-details .pd-media-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--dark-color);
+  color: #fff;
+  padding: 16px 20px;
+  width: 100%;
+  text-decoration: none;
+}
+
+@media (width >= 600px) {
+  .part-details .pd-media-card {
+    width: auto;
+    min-width: 200px;
+    max-width: 280px;
+  }
+}
+
+.part-details .pd-media-card:hover {
+  background: var(--brand-color);
+}
+
+.part-details .pd-media-card-title {
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.part-details .pd-media-card-lang {
+  font-size: 11px;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}

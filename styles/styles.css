@@ -50,6 +50,10 @@
   --utility-bar-height: 36px;
   --breadcrumbs-height: 34px;
   --header-height: calc(var(--nav-height) + var(--utility-bar-height));
+
+  /* DriveParts (used by blocks/drivparts/*) */
+  --brand-color: #c41230;
+  --content-max-width: 1200px;
 }
 
 /* fallback fonts */
@@ -190,10 +194,10 @@ a:hover {
   text-decoration: underline;
 }
 
-/* buttons */
+/* buttons — require .button so bare <button> UI chrome (tabs, hamburger,
+   carousel, Parts Finder tabs) is not restyled as MOOG pill CTAs */
 a.button:any-link,
-button,
-a.button.primary {
+button.button {
   box-sizing: border-box;
   display: inline-block;
   max-width: 100%;
@@ -219,20 +223,20 @@ a.button.primary {
 
 a.button:hover,
 a.button:focus,
-button:hover,
-button:focus {
+button.button:hover,
+button.button:focus {
   background-color: var(--moog-blue-dark);
   cursor: pointer;
 }
 
-button:disabled,
-button:disabled:hover {
+button.button:disabled,
+button.button:disabled:hover {
   background-color: var(--light-color);
   cursor: unset;
 }
 
 a.button.secondary,
-button.secondary {
+button.button.secondary {
   background-color: transparent;
   border-color: var(--moog-blue);
   color: var(--moog-blue);
@@ -240,8 +244,8 @@ button.secondary {
 
 a.button.secondary:hover,
 a.button.secondary:focus,
-button.secondary:hover,
-button.secondary:focus {
+button.button.secondary:hover,
+button.button.secondary:focus {
   background-color: var(--moog-blue);
   color: var(--background-color);
 }

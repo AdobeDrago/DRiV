@@ -1,0 +1,218 @@
+/* ===================================================================== *
+ * Section framing — full-width dark bar, pin icon + title on the left,
+ * search form on the right.
+ * ===================================================================== */
+
+.section.where-to-buy-search-container {
+  background-color: var(--dark-color);
+  padding-block: 12px;
+  padding-inline: 16px;
+  margin: 0;
+  border-top: 20px solid #fff;
+  border-bottom: 20px solid #fff;
+}
+
+/* Override the global section child margin for this full-bleed bar */
+main > .section.where-to-buy-search-container > div {
+  margin: 0;
+  max-width: none;
+}
+
+/* Heading: white, uppercase, with a red location-pin icon */
+.section.where-to-buy-search-container .default-content-wrapper h1,
+.section.where-to-buy-search-container .default-content-wrapper h2,
+.section.where-to-buy-search-container .default-content-wrapper h3 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0 0 12px;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Red map-pin rendered as an inline SVG via ::before */
+.section.where-to-buy-search-container .default-content-wrapper h1::before,
+.section.where-to-buy-search-container .default-content-wrapper h2::before,
+.section.where-to-buy-search-container .default-content-wrapper h3::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 26px;
+  margin-right: 12px;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 32'%3E%3Cpath fill='%23c41230' d='M12 0C7.6 0 4 3.6 4 8c0 5.5 8 20 8 20s8-14.5 8-20c0-4.4-3.6-8-8-8zm0 11c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+
+/* Tablet+: title left, form right — keep gap flexible so the bar never overflows */
+@media (width >= 600px) {
+  .section.where-to-buy-search-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
+    padding-block: 12px;
+    min-height: 60px;
+    padding-inline: var(--page-gutter, 24px);
+  }
+
+  /* strip per-child auto-margins — section owns the layout */
+  .section.where-to-buy-search-container > div {
+    padding-inline: 0;
+    margin-inline: 0;
+  }
+
+  .section.where-to-buy-search-container .default-content-wrapper {
+    flex: 0 0 auto;
+  }
+
+  .section.where-to-buy-search-container .default-content-wrapper h1,
+  .section.where-to-buy-search-container .default-content-wrapper h2,
+  .section.where-to-buy-search-container .default-content-wrapper h3 {
+    padding: 0;
+    font-size: 20px;
+  }
+
+  .section.where-to-buy-search-container .where-to-buy-search-wrapper {
+    flex: 1 1 280px;
+    max-width: 520px;
+  }
+}
+
+@media (width >= 900px) {
+  .section.where-to-buy-search-container {
+    gap: 48px;
+    justify-content: center;
+  }
+
+  .section.where-to-buy-search-container .default-content-wrapper h1,
+  .section.where-to-buy-search-container .default-content-wrapper h2,
+  .section.where-to-buy-search-container .default-content-wrapper h3 {
+    font-size: 22px;
+  }
+}
+
+@media (width >= 1200px) {
+  .section.where-to-buy-search-container {
+    gap: 248px;
+  }
+}
+
+/* ===================================================================== *
+ * Search form
+ * ===================================================================== */
+
+.where-to-buy-search {
+  width: 100%;
+}
+
+.where-to-buy-search .where-to-buy-search-shell,
+.where-to-buy-search .where-to-buy-search-form {
+  width: 100%;
+}
+
+.where-to-buy-search .where-to-buy-search-form {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.where-to-buy-search .where-to-buy-search-field {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.where-to-buy-search .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.where-to-buy-search .where-to-buy-search-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  border: 1px solid #d0d0d0;
+  padding: 0 16px;
+  background-color: #fff;
+  color: #444;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-style: italic;
+  outline: none;
+}
+
+.where-to-buy-search .where-to-buy-search-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.where-to-buy-search .where-to-buy-search-input:focus {
+  border-color: var(--brand-color);
+  box-shadow: 0 0 0 2px rgb(196 18 48 / 25%);
+}
+
+.where-to-buy-search .where-to-buy-search-button {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  height: 38px;
+  border: none;
+  padding: 0 16px;
+  background-color: var(--brand-color);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+
+@media (width >= 600px) {
+  .where-to-buy-search .where-to-buy-search-button {
+    padding: 0 28px;
+  }
+}
+
+.where-to-buy-search .where-to-buy-search-button::after {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: #fff;
+
+  /* main dot = top-left; shadows form bottom-left + center-right → ":•" triangle */
+  box-shadow:
+    0 6px 0 #fff,   /* bottom-left dot */
+    7px 3px 0 #fff; /* center-right dot */
+}
+
+.where-to-buy-search .where-to-buy-search-button:hover,
+.where-to-buy-search .where-to-buy-search-button:focus-visible {
+  background-color: #a30f28;
+}

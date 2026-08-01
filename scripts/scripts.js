@@ -16,6 +16,32 @@ import {
   toClassName,
   toCamelCase,
 } from './aem.js';
+import { isDrivpartsPath } from './drivparts-paths.js';
+
+if (window.trustedTypes && window.trustedTypes.createPolicy) {
+  const innerTT = window.trustedTypes.createPolicy('tt-inner', {
+    createHTML: (s) => s,
+  });
+
+  window.trustedTypes.createPolicy('default', {
+    createHTML: (input, type, sink) => {
+      let processedInput = input;
+      if (/srcdoc\s*=/i.test(processedInput)) {
+        const doc = new DOMParser().parseFromString(innerTT.createHTML(processedInput), 'text/html');
+        doc.querySelectorAll('iframe[srcdoc]').forEach((el) => el.removeAttribute('srcdoc'));
+        processedInput = doc.body.innerHTML;
+      }
+      if (sink.includes('createContextualFragment') || sink.includes('Document write')) {
+        const doc = new DOMParser().parseFromString(innerTT.createHTML(processedInput), 'text/html');
+        doc.querySelectorAll('script').forEach((el) => el.remove());
+        processedInput = doc.body.innerHTML;
+      }
+      return processedInput;
+    },
+    createScriptURL: (input) => input,
+    createScript: (input) => input,
+  });
+}
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -56,11 +82,56 @@ function autolinkModals(doc) {
 }
 
 /**
+ * Turns `/widgets/...` links into widget blocks (DriveParts).
+ * @param {Element} main The container element
+ */
+function buildWidgetAutoBlocks(main) {
+  const widgetLinks = [...main.querySelectorAll('a[href*="/widgets/"]')];
+  widgetLinks.forEach((link) => {
+    if (link.closest('.widget')) return;
+    const newLink = link.cloneNode(true);
+    const widgetBlock = buildBlock('widget', { elems: [newLink] });
+    const p = link.closest('p');
+    if (
+      p
+      && p.querySelectorAll('a').length === 1
+      && p.querySelector('a') === link
+      && p.textContent.trim() === link.textContent.trim()
+    ) {
+      p.replaceWith(widgetBlock);
+    } else {
+      link.replaceWith(widgetBlock);
+    }
+  });
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
 function buildAutoBlocks(main) {
   try {
+    if (isDrivpartsPath()) {
+      const fragments = [...main.querySelectorAll('a[href*="/fragments/"]')]
+        .filter((f) => !f.closest('.fragment'));
+      if (fragments.length > 0) {
+        // eslint-disable-next-line import/no-cycle
+        import('../blocks/drivparts/fragment/fragment.js').then(({ loadFragment }) => {
+          fragments.forEach(async (fragment) => {
+            try {
+              const { pathname } = new URL(fragment.href);
+              const frag = await loadFragment(pathname);
+              fragment.parentElement.replaceWith(...frag.children);
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.error('Fragment loading failed', error);
+            }
+          });
+        });
+      }
+      buildWidgetAutoBlocks(main);
+      return;
+    }
     if (!main.querySelector('.hero')) buildHeroBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -121,6 +192,22 @@ function decorateSections(main) {
 }
 
 /**
+ * Applies a section's authored background image. The `Background` key in a
+ * section's metadata is emitted by the pipeline as a `data-background`
+ * attribute; here we turn that into an actual CSS background on the section.
+ * @param {Element} main The main container element
+ */
+function decorateSectionBackgrounds(main) {
+  main.querySelectorAll('.section[data-background]').forEach((section) => {
+    const src = section.dataset.background;
+    if (src) {
+      const url = new URL(src, window.location.href);
+      section.style.backgroundImage = `url("${url.pathname}${url.search}")`;
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -131,7 +218,44 @@ export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateSectionBackgrounds(main);
   decorateBlocks(main);
+}
+
+/**
+ * Starts the header block loading exactly once.
+ * @param {Document} doc
+ */
+function startHeaderLoad(doc) {
+  const header = doc.querySelector('header');
+  if (header && !header.dataset.headerLoading) {
+    header.dataset.headerLoading = 'true';
+    loadHeader(header);
+  }
+}
+
+/**
+ * After Hybris login, redirects may land on legacy AEM (/content/...) or the
+ * storefront iframe URL as a top-level page. Bounce back to the EDS page that
+ * initiated login so Emulate Account renders inside the homepage iframe.
+ */
+function recoverStorefrontLoginReturn() {
+  try {
+    const ret = sessionStorage.getItem('fm-login-return');
+    if (!ret) return;
+    const { pathname } = window.location;
+    const stranded = (/\/content\//i.test(pathname)
+      || /\/fmstorefront\//i.test(pathname))
+      && !/\/cart\b/i.test(pathname);
+    if (!stranded) {
+      sessionStorage.removeItem('fm-login-return');
+      return;
+    }
+    sessionStorage.removeItem('fm-login-return');
+    window.location.replace(ret);
+  } catch (e) {
+    // ignore
+  }
 }
 
 /**
@@ -141,14 +265,32 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   doc.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  let drivpartsStyles;
+  if (isDrivpartsPath()) {
+    doc.body.classList.add('drivparts');
+    drivpartsStyles = loadCSS(`${window.hlx.codeBasePath}/styles/drivparts.css`);
+  }
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
     doc.body.dataset.breadcrumbs = true;
   }
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    // Apply the DriveParts brand stylesheet before revealing the body so the
+    // page never flashes the default (MOOG) styles shipped in styles.css.
+    if (drivpartsStyles) await drivpartsStyles;
     doc.body.classList.add('appear');
-    await loadSection(main.querySelector('.section'), waitForFirstImage);
+
+    /*
+     * If the first section has no authored image, start header load early
+     * (DriveParts LCP optimization for pages where the logo is LCP).
+     */
+    const firstSection = main.querySelector('.section');
+    if (firstSection && !firstSection.querySelector('picture, img')) {
+      startHeaderLoad(doc);
+    }
+
+    await loadSection(firstSection, waitForFirstImage);
   }
 
   sampleRUM.enhance();
@@ -170,6 +312,9 @@ async function loadEager(doc) {
 async function loadLazy(doc) {
   autolinkModals(doc);
 
+  // No-op if loadEager() already started it.
+  startHeaderLoad(doc);
+
   const main = doc.querySelector('main');
   await loadSections(main);
 
@@ -177,7 +322,6 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
@@ -205,6 +349,7 @@ async function loadSidekick() {
 }
 
 async function loadPage() {
+  recoverStorefrontLoginReturn();
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();
