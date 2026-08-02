@@ -14,8 +14,15 @@
  * expose credentials, cookies, tokens, or account data in logs.
  */
 
-const EDS_ORIGIN = 'https://main--drivparts--codeandtheory.aem.page';
+const EDS_ORIGIN = 'https://feature-thrishan--driv--adobedrago.aem.page';
 const HYBRIS_ORIGIN = 'https://qa.drivparts.com';
+
+/**
+ * EDS page that frames the Hybris storefront (hybris-storefront block). Header
+ * sign-in must land here — not on the raw /fmstorefront/.../iframe document,
+ * which Hybris renders without the EDS header/footer.
+ */
+const EDS_HOME = '/drivparts/';
 
 const HYBRIS_PATHS = [
   '/fmstorefront/',
@@ -106,6 +113,29 @@ function getIframeReferer(referer, publicOrigin) {
 }
 
 /**
+ * Header sign-in links carry ?redirect=<eds-path> (see header.js). After login
+ * send the browser back to that EDS page so the storefront renders framed with
+ * the EDS header/footer. Only same-origin paths are honored — never a raw
+ * /fmstorefront/... target (that is the bare Hybris document) and never a
+ * protocol-relative //host value (open-redirect guard).
+ * @param {string} referer
+ * @param {string} publicOrigin
+ * @returns {string}
+ */
+function getSignInRedirect(referer, publicOrigin) {
+  try {
+    const url = new URL(referer, publicOrigin);
+    if (!/\/sign-in\b/i.test(url.pathname)) return '';
+    const target = url.searchParams.get('redirect') || '';
+    if (!target.startsWith('/') || target.startsWith('//')) return '';
+    if (/^\/fmstorefront\//i.test(target)) return '';
+    return target;
+  } catch (error) {
+    return '';
+  }
+}
+
+/**
  * Keep the browser on this Worker origin so session cookies stay attached.
  * Login recovery: legacy AEM post-login targets → homepage/iframe for Emulate.
  * Authenticated Add to Cart → /cart must stay on /cart (do not bounce to `/`).
@@ -117,7 +147,9 @@ function getIframeReferer(referer, publicOrigin) {
 function rewriteLocation(value, publicOrigin, referer) {
   const location = rewriteStorefrontUrls(value, publicOrigin);
   const iframeReferer = getIframeReferer(referer, publicOrigin);
-  const storefrontHome = `${publicOrigin}/fmstorefront/federalmogul/en/USD/iframe?site=federalmogul`;
+  // Header sign-in → back to the framing EDS page (?redirect=), else /drivparts/.
+  // Login from inside the iframe keeps priority via iframeReferer below.
+  const signInTarget = `${publicOrigin}${getSignInRedirect(referer, publicOrigin) || EDS_HOME}`;
 
   let fromSignIn = false;
   try {
@@ -130,7 +162,7 @@ function rewriteLocation(value, publicOrigin, referer) {
   const isLegacyAem = /\/content\/loc-|fmmp-corporate/i.test(url.pathname);
   // /content/loc-* is not proxied to Hybris — keep storefront session probes
   // (CSRF fetch, post-login) on /fmstorefront instead of EDS 404 HTML.
-  if (isLegacyAem) return iframeReferer || storefrontHome;
+  if (isLegacyAem) return iframeReferer || signInTarget;
 
   // Non-login flows (including Add to Cart → /cart): origin rewrite only.
   if (!fromSignIn && !iframeReferer) return location;
@@ -142,7 +174,7 @@ function rewriteLocation(value, publicOrigin, referer) {
   if (isCart) return location;
   if (!(isSiteRoot)) return location;
   if (iframeReferer) return iframeReferer;
-  return `${publicOrigin}/`;
+  return signInTarget;
 }
 
 function rewriteCookie(value) {
