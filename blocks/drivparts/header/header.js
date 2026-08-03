@@ -22,6 +22,76 @@ const LINK_ICONS = {
 };
 
 /**
+ * QA main-nav role visibility, simplified to logged-in vs guest: Online Tools
+ * and Support are gated behind B2B roles, so they only appear once signed in.
+ * Every other authored item (Garage Gurus included) stays visible in both states.
+ */
+const AUTH_REQUIRED_LABELS = new Set(['online tools', 'support']);
+
+/**
+ * Normalizes a main-nav item label for auth visibility matching.
+ * @param {string} text
+ * @returns {string}
+ */
+function normalizeNavLabel(text) {
+  return String(text || '').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+/**
+ * Reads the visible label from a main-nav item trigger (ignores caret text).
+ * @param {Element} item
+ * @returns {string}
+ */
+function mainNavItemLabel(item) {
+  const trigger = item.querySelector(':scope > a');
+  if (!trigger) return '';
+  return normalizeNavLabel(
+    trigger.childNodes[0]?.textContent || trigger.textContent,
+  );
+}
+
+/**
+ * Marks a desktop nav item that requires sign-in. Starts hidden so the
+ * signed-out layout paints without a flash of gated items.
+ * @param {Element} item
+ * @param {string} label
+ */
+function markAuthNavVisibility(item, label) {
+  if (!AUTH_REQUIRED_LABELS.has(normalizeNavLabel(label))) return;
+  item.classList.add('nav-auth-required');
+  item.hidden = true;
+}
+
+/**
+ * Copies the auth-required marker from a desktop nav item onto its mobile twin.
+ * @param {Element} item
+ * @param {Element} mobileEl
+ */
+function syncAuthNavVisibility(item, mobileEl) {
+  if (!item.classList.contains('nav-auth-required')) return;
+  mobileEl.classList.add('nav-auth-required');
+  mobileEl.hidden = item.hidden;
+}
+
+/**
+ * Toggles main-nav items to match QA signed-in vs signed-out layouts.
+ * Guest: Digital Catalogs | Brands | Garage Gurus | About Us
+ * Signed in: adds Online Tools | Support
+ * @param {Element} nav
+ * @param {{ loggedIn: boolean }} session
+ * @param {Element|null} [drawer]
+ */
+function applyAuthMainNav(nav, session, drawer = null) {
+  const hidden = !session.loggedIn;
+  nav.querySelectorAll('.nav-menu > .nav-item.nav-auth-required').forEach((item) => {
+    item.hidden = hidden;
+  });
+  drawer?.querySelectorAll('.nav-auth-required').forEach((el) => {
+    el.hidden = hidden;
+  });
+}
+
+/**
  * Builds an auth utility list item with an optional icon.
  * @param {string} className
  * @param {string} href
@@ -506,6 +576,7 @@ function buildMainNav(section) {
     list.querySelectorAll(':scope > li').forEach((item) => {
       item.classList.add('nav-item');
       item.querySelectorAll(':scope > p').forEach((p) => p.replaceWith(...p.childNodes));
+      markAuthNavVisibility(item, mainNavItemLabel(item));
       const submenu = item.querySelector(':scope > ul');
       if (submenu) {
         item.classList.add('has-dropdown');
@@ -632,6 +703,7 @@ function buildMobileDrawer({
           btn.className = 'nav-mobile-link';
           btn.innerHTML = `<span>${label}</span><span class="nav-mobile-chevron" aria-hidden="true"></span>`;
           btn.addEventListener('click', () => setLevel(panelId));
+          syncAuthNavVisibility(item, btn);
           root.append(btn);
 
           const panel = document.createElement('div');
@@ -673,6 +745,7 @@ function buildMobileDrawer({
           a.className = 'nav-mobile-link';
           a.href = trigger.href;
           a.textContent = label;
+          syncAuthNavVisibility(item, a);
           root.append(a);
         }
       });
@@ -876,11 +949,13 @@ export default async function decorate(block) {
   navWrapper.append(nav);
   block.append(navWrapper);
 
-  // Match QA utility-bar after Hybris login
-  // (Welcome | My Account | Shopping Cart | Sign Out [| End Emulate])
+  // Match QA utility-bar + main-nav after Hybris login
+  // Utility: Welcome | My Account | Shopping Cart | Sign Out [| End Emulate]
+  // Main: Online Tools + Support revealed once signed in
   const refreshAuth = () => {
     getStorefrontSession().then((session) => {
       applyAuthUtilityLinks(nav, session, drawer);
+      applyAuthMainNav(nav, session, drawer);
     });
   };
   refreshAuth();

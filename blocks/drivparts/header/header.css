@@ -353,6 +353,11 @@ header .nav-item {
   text-align: center;
 }
 
+/* Author `display: flex` above beats the UA [hidden] rule — restore it. */
+header .nav-item[hidden] {
+  display: none;
+}
+
 header .nav-item:last-of-type {
   border-right: 1px solid rgb(54 54 54 / 30%);
 }
@@ -648,6 +653,10 @@ header .nav-hamburger {
     text-align: left;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  .nav-mobile-link[hidden] {
+    display: none;
   }
 
   .nav-mobile-link:any-link {
