@@ -47,6 +47,20 @@ function isHybrisPath(pathname) {
     || pathname === '/_Incapsula_Resource';
 }
 
+/**
+ * Cart line-item AJAX fragments (e.g. kitcontent) loaded by the storefront JS
+ * via `$el.html(response)`. Hit standalone, Hybris 302s them to a legacy AEM
+ * path; following that redirect returns the *entire* cart page, and injecting
+ * it post-load runs the footer `document.write(new Date().getFullYear())` which
+ * calls document.open() — wiping the page to just "2026" (the Add to Cart
+ * "blink"). Answering an empty 204 keeps `$el.html('')` a harmless no-op.
+ * @param {string} pathname
+ * @returns {boolean}
+ */
+function isCartFragment(pathname) {
+  return /\/cart\/kitcontent\//i.test(pathname);
+}
+
 function getUpstreamOrigin(pathname) {
   return isHybrisPath(pathname) ? HYBRIS_ORIGIN : EDS_ORIGIN;
 }
@@ -261,6 +275,17 @@ async function proxyRequest(request, upstreamOrigin, publicOrigin, isHybris) {
     upstreamResponse = await fetch(upstreamUrl, init);
   } catch (error) {
     return new Response('Bad Gateway', { status: 502 });
+  }
+
+  // Cart fragment XHR that upstream redirects: answer 204 instead of a
+  // rewritten redirect, so `$el.html(response)` receives nothing rather than
+  // the full cart page (whose footer document.write wipes the DOM to "2026").
+  if (isCartFragment(incomingUrl.pathname)
+    && upstreamResponse.status >= 300 && upstreamResponse.status < 400) {
+    return new Response(null, {
+      status: 204,
+      headers: { 'cache-control': 'no-store' },
+    });
   }
 
   const responseHeaders = new Headers(upstreamResponse.headers);

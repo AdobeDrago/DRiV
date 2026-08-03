@@ -97,6 +97,21 @@ function isCartFlow(requestPath) {
 }
 
 /**
+ * Cart line-item AJAX fragments (e.g. kitcontent) loaded by the storefront JS
+ * via `$el.html(response)`. When these hit the proxy standalone, Hybris 302s
+ * them to a legacy AEM path and the cart-pinning rule rewrites that to `/cart`.
+ * The XHR then follows the redirect, receives the *entire* cart page (including
+ * the footer `document.write(new Date().getFullYear())` script), and injecting
+ * it post-load runs document.open() — wiping the page to just "2026". Returning
+ * an empty 204 keeps `$el.html('')` a no-op so the cart stays rendered.
+ * @param {string} requestPath
+ * @returns {boolean}
+ */
+function isCartFragment(requestPath) {
+  return /\/cart\/kitcontent\//i.test(requestPath);
+}
+
+/**
  * True when a candidate redirect target resolves to the same path we're already
  * serving (query string ignored). Used to break same-URL redirect loops.
  * @param {string} dest
@@ -377,6 +392,17 @@ async function proxyRequest(req, res, targetOrigin) {
             preserveLength: true,
           });
           res.writeHead(upRes.statusCode || 502, outHeaders);
+          res.end();
+          return;
+        }
+        // Cart fragment XHR that upstream redirects: answer 204 instead of a
+        // rewritten redirect, so the storefront's `$el.html(response)` receives
+        // nothing rather than the full cart page (whose footer document.write
+        // would wipe the DOM to "2026" — the Add to Cart "blink").
+        const status = upRes.statusCode || 0;
+        if (isCartFragment(headerOpts.requestPath) && status >= 300 && status < 400) {
+          upRes.resume();
+          res.writeHead(204, { 'cache-control': 'no-store' });
           res.end();
           return;
         }
