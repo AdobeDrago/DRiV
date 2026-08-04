@@ -6,69 +6,27 @@
 import { loadCSS, createOptimizedPicture } from '../../../scripts/aem.js';
 import { sitePath } from '../../../scripts/drivparts-paths.js';
 import {
-  createDropdown,
+  brandLogoUrl,
   buildCatalogUrl,
+  fetchBrandLogoMap,
   fetchJson,
+  getDescriptionContents,
+  resolveImageUrl,
+  whereToBuyUrl,
+} from '../../../scripts/catalog.js';
+import {
+  createDropdown,
   buildVehiclePanel,
   buildEnginePanel,
   closeAllDropdowns,
   setLookupHref,
 } from '../parts-finder/parts-finder.js';
 
-const DRIVPARTS_ASSET_BASE = 'https://www.drivparts.com';
-
-function resolveImageUrl(url) {
-  if (!url) return null;
-  return url.startsWith('/') ? `${DRIVPARTS_ASSET_BASE}${url}` : url;
-}
-
 // Prefers the DAM's small thumbnail rendition over the full-resolution primary asset.
 function resolveThumbnailUrl(damAssets) {
   const thumbnail = damAssets?.productThumbnails?.[0]?.url;
   const primary = damAssets?.productPrimaries?.[0]?.url;
   return resolveImageUrl(thumbnail || primary);
-}
-
-const BRAND_LOGOS_PATH = () => sitePath('/shared-logos');
-
-// Keys a brand by its root word (e.g. "Champion Spark Plug" -> "champion").
-function brandSlug(brandName) {
-  const rootBrand = (brandName || '').trim().split(/\s+/)[0];
-  return rootBrand.toLowerCase().replace(/[^a-z0-9]/g, '');
-}
-
-let brandLogoMapPromise = null;
-
-// Fetched once and cached.
-function fetchBrandLogoMap() {
-  if (!brandLogoMapPromise) {
-    brandLogoMapPromise = fetch(`${BRAND_LOGOS_PATH()}.plain.html`)
-      .then(async (res) => {
-        if (!res.ok) return {};
-        const html = await res.text();
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const map = {};
-        let currentSlug = null;
-        doc.querySelectorAll('p').forEach((p) => {
-          const img = p.querySelector('img');
-          if (img) {
-            if (currentSlug && !(currentSlug in map)) {
-              map[currentSlug] = new URL(img.getAttribute('src'), res.url).href;
-            }
-            return;
-          }
-          const text = p.textContent.trim();
-          currentSlug = text ? brandSlug(text) : null;
-        });
-        return map;
-      })
-      .catch(() => ({}));
-  }
-  return brandLogoMapPromise;
-}
-
-function brandLogoUrl(brandName, brandLogoMap) {
-  return brandLogoMap[brandSlug(brandName)] || null;
 }
 
 // Falls back to a text label if there's no logo, or if the resolved logo URL fails to load
@@ -88,6 +46,54 @@ function buildBrandLogo(brandName, logoUrl, imgClassName) {
     picture.replaceWith(name);
   });
   return picture;
+}
+
+/**
+ * Wires a tablist + panels with aria roles, roving tabindex, and arrow-key nav.
+ * @param {HTMLElement} tabList
+ * @param {Array<{ tab: HTMLButtonElement, panel: HTMLElement }>} entries
+ * @param {string} [label]
+ */
+function wireTabGroup(tabList, entries, label) {
+  tabList.setAttribute('role', 'tablist');
+  if (label) tabList.setAttribute('aria-label', label);
+
+  const selectTab = (activeIndex) => {
+    entries.forEach(({ tab, panel }, index) => {
+      const selected = index === activeIndex;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      tab.classList.toggle('is-active', selected);
+      panel.hidden = !selected;
+    });
+  };
+
+  entries.forEach(({ tab, panel }, index) => {
+    const tabId = tab.id || `results-tab-${index}`;
+    const panelId = panel.id || `results-panel-${index}`;
+    tab.id = tabId;
+    panel.id = panelId;
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('aria-controls', panelId);
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', tabId);
+    tab.addEventListener('click', () => selectTab(index));
+  });
+
+  tabList.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    const tabs = entries.map(({ tab }) => tab);
+    const current = tabs.indexOf(document.activeElement);
+    if (current < 0) return;
+    event.preventDefault();
+    const next = event.key === 'ArrowRight'
+      ? (current + 1) % tabs.length
+      : (current - 1 + tabs.length) % tabs.length;
+    selectTab(next);
+    tabs[next].focus();
+  });
+
+  selectTab(0);
 }
 
 // `eager`: the very first result row's image is this page's LCP element on
@@ -130,8 +136,7 @@ function isEngineSearch(initial) {
   return Boolean(initial.heavyMfrValue && initial.heavyBaseValue);
 }
 
-// Builds `{ endpoint, params }` for the catalog parts-list call: vehicle/equipment
-// use `api.catalog.corporate.partslist`, engine (heavy) uses `api.engine.heavyduty.partlist`.
+// Vehicle/equipment → api.catalog.corporate.partslist; engine → api.engine.heavyduty.partlist.
 function buildPartsListRequest(initial, page = 1) {
   const shared = {
     page,
@@ -179,8 +184,7 @@ function buildPartsListRequest(initial, page = 1) {
   };
 }
 
-// Reflects the current page in the address bar (`&page=2`, omitted on page 1),
-// like the live site, via history so back/forward step through pages.
+// `&page=N` in the address bar (omit on page 1) so back/forward steps pages.
 function updatePageInUrl(page, totalPages, { replace = false } = {}) {
   const url = new URL(window.location.href);
   if (totalPages > 1) url.searchParams.set('page', String(page));
@@ -190,7 +194,6 @@ function updatePageInUrl(page, totalPages, { replace = false } = {}) {
   else window.history.pushState({ page }, '', url);
 }
 
-// Reflects the view mode in the address bar too (`&viewType=grid`).
 function updateViewTypeInUrl(viewType) {
   const url = new URL(window.location.href);
   if (viewType === 'grid') url.searchParams.set('viewType', 'grid');
@@ -284,7 +287,6 @@ async function resolveEngineFilter(initial) {
   return first?.id != null ? String(first.id) : '';
 }
 
-// Builds the collapsed mobile/tablet toolbar's one-line criteria summary.
 function buildToolbarSummaryText(initial) {
   if (isEngineSearch(initial) || initial.searchType === 'heavy') {
     return [initial.vehicleGroupIdsLabel, initial.heavyMfrLabel, initial.heavyBaseLabel]
@@ -298,7 +300,6 @@ function buildToolbarSummaryText(initial) {
     .filter(Boolean).join(', ');
 }
 
-// Swaps the vehicle/engine dropdown cascade for a single free-text part-number field.
 function buildPartNumberPanel(panel, initialValue) {
   panel.classList.add('results-toolbar-part-panel');
   panel.innerHTML = `
@@ -516,7 +517,7 @@ function buildListRow(app, { eager = false } = {}) {
 
   const whereToBuy = document.createElement('a');
   whereToBuy.className = 'button primary results-row-where-to-buy';
-  whereToBuy.href = sitePath('/where-to-buy');
+  whereToBuy.href = whereToBuyUrl('store', brandName);
   whereToBuy.textContent = 'Where To Buy';
 
   const header = document.createElement('div');
@@ -621,11 +622,6 @@ async function fetchProductDetail(app) {
   return promise;
 }
 
-function getDescriptionContents(product, typeCode) {
-  const entry = (product.descriptions || []).find((d) => d.type_code === typeCode);
-  return (entry?.contents || []).map((c) => c.content).filter(Boolean);
-}
-
 function buildFeaturesTab(product, app, brandLogoMap) {
   const wrap = document.createElement('div');
   wrap.className = 'results-quick-details-features';
@@ -696,43 +692,47 @@ function buildSpecificationsTab(product) {
 function buildQuickDetailsPanel(product, app, onClose, brandLogoMap) {
   const panel = document.createElement('div');
   panel.className = 'results-quick-details';
+  const uid = `qd-${Math.random().toString(36).slice(2, 8)}`;
 
-  const tabs = document.createElement('div');
-  tabs.className = 'results-quick-details-tabs';
+  const chrome = document.createElement('div');
+  chrome.className = 'results-quick-details-tabs';
+
+  const tabList = document.createElement('div');
+  tabList.className = 'results-quick-details-tablist';
+
   const featuresTabBtn = document.createElement('button');
   featuresTabBtn.type = 'button';
-  featuresTabBtn.className = 'results-quick-details-tab is-active';
+  featuresTabBtn.className = 'results-quick-details-tab';
+  featuresTabBtn.id = `${uid}-features-tab`;
   featuresTabBtn.textContent = 'Features';
+
   const specsTabBtn = document.createElement('button');
   specsTabBtn.type = 'button';
   specsTabBtn.className = 'results-quick-details-tab';
+  specsTabBtn.id = `${uid}-specs-tab`;
   specsTabBtn.textContent = 'Specifications';
+
   const closeBtn = document.createElement('button');
   closeBtn.type = 'button';
   closeBtn.className = 'results-quick-details-close';
   closeBtn.setAttribute('aria-label', 'Close quick details');
   closeBtn.textContent = '×';
   closeBtn.addEventListener('click', onClose);
-  tabs.append(featuresTabBtn, specsTabBtn, closeBtn);
+
+  tabList.append(featuresTabBtn, specsTabBtn);
+  chrome.append(tabList, closeBtn);
 
   const featuresPanel = buildFeaturesTab(product, app, brandLogoMap);
+  featuresPanel.id = `${uid}-features-panel`;
   const specsPanel = buildSpecificationsTab(product);
-  specsPanel.hidden = true;
+  specsPanel.id = `${uid}-specs-panel`;
 
-  featuresTabBtn.addEventListener('click', () => {
-    featuresTabBtn.classList.add('is-active');
-    specsTabBtn.classList.remove('is-active');
-    featuresPanel.hidden = false;
-    specsPanel.hidden = true;
-  });
-  specsTabBtn.addEventListener('click', () => {
-    specsTabBtn.classList.add('is-active');
-    featuresTabBtn.classList.remove('is-active');
-    specsPanel.hidden = false;
-    featuresPanel.hidden = true;
-  });
+  wireTabGroup(tabList, [
+    { tab: featuresTabBtn, panel: featuresPanel },
+    { tab: specsTabBtn, panel: specsPanel },
+  ], 'Quick details');
 
-  panel.append(tabs, featuresPanel, specsPanel);
+  panel.append(chrome, featuresPanel, specsPanel);
   return panel;
 }
 
@@ -766,6 +766,7 @@ function buildGridRow(app, colCount, brandLogoMap) {
   const detailsBtn = document.createElement('button');
   detailsBtn.type = 'button';
   detailsBtn.className = 'results-grid-quick-details-toggle';
+  detailsBtn.setAttribute('aria-expanded', 'false');
   const detailsIcon = document.createElement('span');
   detailsIcon.className = 'results-grid-quick-details-icon';
   detailsIcon.setAttribute('aria-hidden', 'true');
@@ -791,7 +792,7 @@ function buildGridRow(app, colCount, brandLogoMap) {
 
   const wtbCell = document.createElement('td');
   const wtbLink = document.createElement('a');
-  wtbLink.href = sitePath('/where-to-buy');
+  wtbLink.href = whereToBuyUrl('store', app.brand_name || app.wtb_brand_name || '');
   wtbLink.className = 'results-grid-wtb';
   wtbLink.setAttribute('aria-label', 'Where to buy');
   wtbLink.innerHTML = '<svg viewBox="0 0 20 20" width="12" height="12" aria-hidden="true"><path d="M10 1c-3.3 0-6 2.7-6 6 0 4.5 6 12 6 12s6-7.5 6-12c0-3.3-2.7-6-6-6zm0 8.5A2.5 2.5 0 1 1 10 4.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg>';
@@ -803,8 +804,10 @@ function buildGridRow(app, colCount, brandLogoMap) {
     if (detailsRow) {
       detailsRow.remove();
       detailsRow = null;
+      detailsBtn.setAttribute('aria-expanded', 'false');
       return;
     }
+    detailsBtn.setAttribute('aria-expanded', 'true');
     detailsRow = document.createElement('tr');
     detailsRow.className = 'results-grid-details-row';
     const td = document.createElement('td');
@@ -828,6 +831,7 @@ function buildGridRow(app, colCount, brandLogoMap) {
     td.appendChild(buildQuickDetailsPanel(result.data, app, () => {
       detailsRow.remove();
       detailsRow = null;
+      detailsBtn.setAttribute('aria-expanded', 'false');
     }, brandLogoMap));
   });
 
@@ -919,7 +923,6 @@ async function renderGroupedResults(brandApplicationList, containerEl) {
   });
 }
 
-// Builds the "PAGE [input] OF N ‹ ›" pagination control shown above/below the list.
 function buildPaginationControl(page, totalPages, onPageChange) {
   const nav = document.createElement('div');
   nav.className = 'results-pagination';
@@ -971,8 +974,7 @@ function buildPaginationControl(page, totalPages, onPageChange) {
   return nav;
 }
 
-// Top-right "View Mode:" list/grid toggle; re-fetches the same endpoint with a
-// different `view_type`.
+// Re-fetches with a different `view_type` param.
 function buildViewModeToggle(viewType, onChange) {
   const wrap = document.createElement('div');
   wrap.className = 'results-view-modes';
@@ -999,7 +1001,6 @@ function buildViewModeToggle(viewType, onChange) {
   return wrap;
 }
 
-// Builds the "<count> Part Results ... PAGE x OF y" row shown above and below the list.
 function buildResultsToolbarRow(totalCount, page, totalPages, onPageChange, viewModeToggle) {
   const row = document.createElement('div');
   row.className = 'results-toolbar-row';
@@ -1057,12 +1058,12 @@ function buildPartSearchRow(product) {
 
   const installBtn = document.createElement('a');
   installBtn.className = 'results-partsearch-cta-btn';
-  installBtn.href = sitePath('/where-to-buy');
+  installBtn.href = whereToBuyUrl('install', product.brand_name || '');
   installBtn.textContent = 'Get It Installed';
 
   const buyBtn = document.createElement('a');
   buyBtn.className = 'results-partsearch-cta-btn';
-  buyBtn.href = sitePath('/where-to-buy');
+  buyBtn.href = whereToBuyUrl('store', product.brand_name || '');
   buyBtn.textContent = 'Buy In Store';
 
   const ctaWrap = document.createElement('div');
@@ -1137,6 +1138,7 @@ function buildInterchangeTable(interchangeProducts) {
 function buildPartNumberResultsView(products, interchangeProducts) {
   const wrapper = document.createElement('div');
   wrapper.className = 'results-part-number';
+  const uid = `pn-${Math.random().toString(36).slice(2, 8)}`;
 
   const sections = [];
   if (products.length) {
@@ -1152,23 +1154,19 @@ function buildPartNumberResultsView(products, interchangeProducts) {
   const tabList = document.createElement('div');
   tabList.className = 'results-part-number-tabs';
   const panels = document.createElement('div');
-  sections.forEach((section, index) => {
+  const entries = sections.map((section, index) => {
     const tabBtn = document.createElement('button');
     tabBtn.type = 'button';
     tabBtn.className = 'results-part-number-tab';
+    tabBtn.id = `${uid}-tab-${index}`;
     tabBtn.textContent = section.label;
-    tabBtn.setAttribute('aria-selected', String(index === 0));
     const panel = section.build();
-    panel.hidden = index !== 0;
-    tabBtn.addEventListener('click', () => {
-      [...tabList.children].forEach((btn) => btn.setAttribute('aria-selected', 'false'));
-      tabBtn.setAttribute('aria-selected', 'true');
-      [...panels.children].forEach((p) => { p.hidden = true; });
-      panel.hidden = false;
-    });
+    panel.id = `${uid}-panel-${index}`;
     tabList.appendChild(tabBtn);
     panels.appendChild(panel);
+    return { tab: tabBtn, panel };
   });
+  wireTabGroup(tabList, entries, 'Part number results');
   wrapper.append(tabList, panels);
   return wrapper;
 }
@@ -1229,6 +1227,8 @@ function buildAccordion(label, items, {
   toggleIcon.className = 'results-facet-icon';
   const open = openOverride !== undefined ? openOverride : (expanded || hasSelection);
   toggleIcon.textContent = open ? '−' : '+';
+  toggleIcon.setAttribute('aria-hidden', 'true');
+  toggle.setAttribute('aria-expanded', String(open));
   toggle.append(toggleText, toggleIcon);
 
   let searchInput = null;
@@ -1345,6 +1345,7 @@ function buildAccordion(label, items, {
     list.hidden = !nowOpen;
     if (searchInput) searchInput.hidden = !nowOpen;
     toggleIcon.textContent = nowOpen ? '−' : '+';
+    toggle.setAttribute('aria-expanded', String(nowOpen));
     onToggle?.(nowOpen);
   });
 
@@ -1408,7 +1409,6 @@ function getConfigStateSet(filterState, type) {
   return set;
 }
 
-// Which facet groups currently have at least one checked value.
 function getActiveFilterGroups(filterState) {
   const groups = new Set();
   if (filterState.brands.size || filterState.subBrands.size) groups.add('brands');
@@ -1502,7 +1502,6 @@ function emptyFilterState() {
   };
 }
 
-// Fetches (and caches by filter query) a partslist response scoped to `ancestorState`.
 async function fetchScopedPartlist(ancestorState, initial, masterData, cache) {
   const key = buildAdditionalFilters(ancestorState);
   if (!key) return masterData;
@@ -1515,8 +1514,7 @@ async function fetchScopedPartlist(ancestorState, initial, masterData, cache) {
   return data;
 }
 
-// Builds the "Refine Results" facet panel. `masterData` supplies the full option
-// list so facets never shrink; `currentData` supplies availability for striking.
+// masterData = full facet options (never shrink); currentData = availability for striking.
 async function buildFacetPanel(
   masterData,
   currentData,

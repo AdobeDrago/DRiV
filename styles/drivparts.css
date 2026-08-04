@@ -22,12 +22,16 @@
   --link-color: #545454;
   --link-hover-color: #164991;
   --brand-color: #c41230;
+  --brand-color-dark: #ad102a;
+  --brand-color-hover: #b5122d;
+  --brand-color-deep: #8b0d22;
   --dark-color: #3a3a3a;
   --light-color: #f2f2f2;
 
   /* spacing */
   --section-padding: 40px;
   --content-max-width: 1200px;
+  --page-max-width: 1440px;
   --nav-height: 60px;
 
   /* heading sizes (desktop) */
@@ -136,9 +140,8 @@ body.drivparts .section .default-content-wrapper h6 {
   color: var(--text-color);
 }
 
-/* Section headings on drivparts use the brand red, uppercase */
-body.drivparts .section .default-content-wrapper h2,
-body.drivparts main .section h2 {
+/* Homepage "How to Use Drivparts.com" only */
+body.drivparts #how-to-use-drivpartscom {
   color: var(--brand-color);
   text-transform: uppercase;
 }

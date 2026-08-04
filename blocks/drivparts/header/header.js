@@ -898,19 +898,9 @@ export default async function decorate(block) {
       document.body.append(drawer);
     }
     const brandEl = nav.querySelector('.nav-brand');
-    const top = brandEl ? Math.round(brandEl.getBoundingClientRect().bottom) : 60;
-    // Match CSS: 43px left reveal, flush right so chevrons aren't clipped
-    drawer.style.cssText = [
-      'position: fixed',
-      `inset: ${top}px 0 0 43px`,
-      'width: auto',
-      'max-width: none',
-      'margin: 0',
-      'padding: 0',
-      `height: calc(100dvh - ${top}px)`,
-      `min-height: calc(100dvh - ${top}px)`,
-      'transform: none',
-    ].join('; ');
+    if (!brandEl) return;
+    const top = Math.round(brandEl.getBoundingClientRect().bottom);
+    drawer.style.setProperty('--nav-drawer-top', `${top}px`);
   };
 
   const setMenuOpen = (open) => {

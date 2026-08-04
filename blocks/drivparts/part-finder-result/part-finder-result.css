@@ -15,7 +15,7 @@
   flex-direction: column;
   position: sticky;
   top: 0;
-  z-index: 15;
+  z-index: 9;
   padding: 0;
 }
 
@@ -129,7 +129,7 @@
   color: #fff;
   text-transform: capitalize;
   font-weight: 400;
-  padding: 0 10px !important;
+  padding: 0 10px;
 }
 
 .part-finder-result .results-toolbar .parts-finder-lookup.results-toolbar-search::after {
@@ -148,7 +148,7 @@
   opacity: 1;
 }
 
-@media (width >= 900px) {
+@media (width >= 1025px) {
   .part-finder-result .results-toolbar {
     flex-direction: row;
     align-items: center;
@@ -328,7 +328,7 @@
   display: block;
 }
 
-@media (width >= 900px) {
+@media (width >= 1025px) {
   .part-finder-result .results-content-wrapper {
     --main-pad-x: 32px;
 
@@ -342,21 +342,13 @@
 
   .part-finder-result .results-facets-wrapper {
     grid-area: sidebar;
+    height: 100%;
   }
 
   .part-finder-result .results-top-row-slot {
     grid-area: top;
     border-top: 0;
-
-    /* Same reservation as the mobile rule above, restated because the border
-       is gone here (96px row, no 11px border) and because this slot now sizes
-       the grid's `top` row -- an unreserved 0px row would drop the `main`
-       area up and then shift it back down when the response lands.
-       Deliberately unconditional (not `:empty`-scoped): once filled, the
-       slot's real content height is ~96px anyway, so this holds it steady
-       through the transition instead of un-reserving right as new content
-       arrives -- which is what let this shift regress before. */
-    min-height: 96px;
+    min-height: 58px;
   }
 
   .part-finder-result .results-main {
@@ -372,12 +364,22 @@
     padding: 60px;
   }
 
+  .part-finder-result .results-content-wrapper.results-content-wrapper-single-column .results-facets-wrapper,
+  .part-finder-result .results-content-wrapper.results-content-wrapper-single-column .results-top-row-slot {
+    display: none;
+  }
+
   .part-finder-result .results-facets-toggle {
     display: none;
   }
 
   .part-finder-result .results-facets-body {
     display: block;
+    height: 100%;
+  }
+
+  .part-finder-result .results-facets {
+    min-height: 100%;
   }
 }
 
@@ -521,7 +523,7 @@
 .part-finder-result .results-toolbar-row {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
   padding: 16px 0;
@@ -551,7 +553,7 @@
   gap: 4px;
 }
 
-@media (width >= 900px) {
+@media (width >= 1025px) {
   .part-finder-result .results-view-modes {
     display: flex;
   }
@@ -683,7 +685,7 @@
   flex-direction: column;
   gap: 16px;
   margin-inline: calc(var(--main-pad-x) * -1);
-  padding: 20px var(--main-pad-x);
+  padding: 20px var(--main-pad-x) 8px;
   border-top: 3px solid #ccc;
 }
 
@@ -765,7 +767,7 @@
   background-color: #d8d8d8;
 }
 
-@media (width >= 700px) {
+@media (width >= 768px) {
   .part-finder-result .results-partsearch-row {
     flex-direction: row;
     align-items: flex-start;
@@ -798,27 +800,10 @@
   border-top: 3px solid #ccc;
 }
 
-/* Mobile/tablet: the very first row needs no top divider -- the "Filter
-   results" toggle right above it already provides its own visual boundary,
-   so this would just be a redundant second line. */
-@media (width < 900px) {
-  .part-finder-result .results-list > .results-row:first-child {
-    border-top: 0;
-  }
-}
-
-@media (width < 900px) {
-  .part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child .results-row-title,
-  .part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child .results-row-image {
-    display: none;
-  }
-
-  .part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child::before {
-    content: '';
-    order: 1;
-    display: block;
-    height: var(--collapsed-row-spacer, 0);
-  }
+/* First row: no top divider — filter toggle already provides the boundary. */
+.part-finder-result .results-list > .results-row:first-child {
+  margin-top: calc(var(--main-pad-y) * -1);
+  border-top: 0;
 }
 
 .part-finder-result .results-row-content,
@@ -830,13 +815,7 @@
   order: 2;
   width: 100%;
 
-  /* 150px matches production: drivparts.com sizes this thumbnail
-     `.driv-corp-list-view-item-image` at 150px on every viewport (mobile
-     `height: 150px`, desktop `width: 150px`). This was 280px -- our own
-     value, ~1.9x production -- which made the thumbnail the largest element
-     on a phone viewport. Kept as max-width on top of `width: 100%` +
-     `aspect-ratio` (rather than production's `width: auto; height: 150px`)
-     so the box stays fully reserved before the image loads. */
+  /* 150px matches production; max-width + aspect-ratio reserve space (CLS). */
   max-width: 150px;
   height: auto;
   aspect-ratio: 1;
@@ -860,6 +839,38 @@
 .part-finder-result .results-row-title {
   order: 1;
   min-width: 0;
+}
+
+/* Collapsed mobile toolbar: hide first-row chrome and reserve spacer height. */
+.part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child .results-row-title,
+.part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child .results-row-image {
+  display: none;
+}
+
+.part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child::before {
+  content: '';
+  order: 1;
+  display: block;
+  height: var(--collapsed-row-spacer, 0);
+}
+
+@media (width >= 1025px) {
+  .part-finder-result .results-list > .results-row:first-child {
+    border-top: 3px solid #ccc;
+  }
+
+  .part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child .results-row-title {
+    display: revert;
+  }
+
+  .part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child .results-row-image {
+    display: flex;
+  }
+
+  .part-finder-result .results-toolbar.is-expanded ~ .results-content-wrapper .results-list > .results-row:first-child::before {
+    content: none;
+    display: none;
+  }
 }
 
 .part-finder-result .results-row-part-number {
@@ -903,12 +914,12 @@
   font-weight: 700;
 }
 
-.part-finder-result .results-row-criteria-heading {
+.part-finder-result .results-row-criteria p.results-row-criteria-heading {
   color: var(--brand-color);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  margin-bottom: 6px !important;
+  margin-bottom: 6px;
 }
 
 .part-finder-result .results-row-details {
@@ -954,7 +965,7 @@
   text-align: center;
 }
 
-@media (width >= 700px) {
+@media (width >= 768px) {
   .part-finder-result .results-row {
     flex-direction: row;
     align-items: flex-start;
@@ -980,6 +991,7 @@
 
   .part-finder-result .results-row-image {
     order: 0;
+    flex-shrink: 0;
     width: 140px;
     height: 140px;
     max-width: none;
@@ -1005,7 +1017,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 22rem;
+    gap: 2rem;
     width: auto;
     margin: 0;
     background: none;
@@ -1018,13 +1030,13 @@
   }
 
   .part-finder-result .results-row-qualifiers {
-    flex: 1 1 auto;
+    flex: 1 1 0%;
     width: auto;
     min-width: 0;
     max-width: none;
     background-color: #e7e7e7;
     padding: 16px;
-    height: 6rem;
+    min-height: 6rem;
   }
 }
 
@@ -1196,6 +1208,12 @@
   padding-bottom: 8px;
 }
 
+.part-finder-result .results-quick-details-tablist {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
 .part-finder-result .results-quick-details-tab {
   border: 0;
   border-bottom: 2px solid transparent;
@@ -1208,7 +1226,8 @@
   cursor: pointer;
 }
 
-.part-finder-result .results-quick-details-tab.is-active {
+.part-finder-result .results-quick-details-tab.is-active,
+.part-finder-result .results-quick-details-tab[aria-selected="true"] {
   border-bottom-color: #b5122d;
   color: #b5122d;
 }
@@ -1267,4 +1286,33 @@
 .part-finder-result .results-quick-details-specs .results-quick-details-spec-label {
   width: 40%;
   font-weight: 700;
+}
+
+/* Custom controls only — .button / plain links already get focus from styles.css */
+.part-finder-result .results-toolbar-summary:focus-visible,
+.part-finder-result .results-facets-toggle:focus-visible,
+.part-finder-result .results-facet-toggle:focus-visible,
+.part-finder-result .results-facet-search:focus-visible,
+.part-finder-result .results-facet-item input:focus-visible,
+.part-finder-result .results-pagination-prev:focus-visible,
+.part-finder-result .results-pagination-next:focus-visible,
+.part-finder-result .results-pagination-input:focus-visible,
+.part-finder-result .results-view-mode-btn:focus-visible,
+.part-finder-result .results-grid-quick-details-toggle:focus-visible,
+.part-finder-result .results-quick-details-tab:focus-visible,
+.part-finder-result .results-quick-details-close:focus-visible,
+.part-finder-result .results-part-number-tab:focus-visible,
+.part-finder-result .results-toolbar-part-input:focus-visible {
+  outline: 2px solid var(--link-hover-color);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .part-finder-result .results-spinner {
+    animation: none;
+  }
+
+  .part-finder-result .results-main.is-filtering {
+    transition: none;
+  }
 }

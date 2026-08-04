@@ -259,7 +259,7 @@ footer .footer-locale[aria-expanded='true'] .footer-locale-caret {
 }
 
 /* ===== Desktop ===== */
-@media (width >= 900px) {
+@media (width >= 1025px) {
   footer .footer-columns {
     grid-template-columns: repeat(7, minmax(0, 1fr));
     column-gap: 8px;
@@ -272,7 +272,7 @@ footer .footer-locale[aria-expanded='true'] .footer-locale-caret {
 }
 
 /* ===== Mobile accordion footer ===== */
-@media (width < 900px) {
+@media (width < 1025px) {
   footer .footer-social {
     display: none;
   }

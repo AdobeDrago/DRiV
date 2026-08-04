@@ -208,6 +208,38 @@ function decorateSectionBackgrounds(main) {
 }
 
 /**
+ * DriveParts: ***bold+italic*** links → .button.accent.
+ * aem.js decorateButtons only handles strong→primary / em→secondary.
+ * @param {Element} main
+ */
+function drivpartsAccentButtons(main) {
+  main.querySelectorAll('p a[href]').forEach((a) => {
+    const strong = a.closest('strong');
+    const em = a.closest('em');
+    if (!strong || !em) return;
+    if (a.querySelector('img')) return;
+
+    const p = a.closest('p');
+    if (!p) return;
+
+    a.title = a.title || a.textContent;
+    const text = a.textContent.trim();
+    if (p.textContent.trim() !== text) return;
+
+    try {
+      if (new URL(a.href).href === new URL(text, window.location).href) return;
+    } catch {
+      // continue
+    }
+
+    p.classList.add('button-container');
+    a.className = 'button accent';
+    const outer = strong.contains(em) ? strong : em;
+    outer.replaceWith(a);
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -215,6 +247,9 @@ function decorateSectionBackgrounds(main) {
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
   decorateButtons(main);
+  if (isDrivpartsPath()) {
+    drivpartsAccentButtons(main);
+  }
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);

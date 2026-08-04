@@ -2,7 +2,7 @@ import { getMetadata } from '../../../scripts/aem.js';
 import { bindLocalePanel, buildLocalePanel } from '../../../scripts/locales.js';
 import { sitePath } from '../../../scripts/drivparts-paths.js';
 
-const isDesktop = window.matchMedia('(min-width: 900px)');
+const isDesktop = window.matchMedia('(min-width: 1025px)');
 
 /**
  * Fetches the footer fragment HTML from the metadata path (default `/footer`).
@@ -142,6 +142,14 @@ export default async function decorate(block) {
 
         const headingLink = heading.querySelector('a');
         if (headingLink) {
+          // Mobile accordion: title is a real link (desktop has no toggle).
+          // Toggle the list instead of navigating when accordion UI is active.
+          headingLink.addEventListener('click', (e) => {
+            if (isDesktop.matches) return;
+            e.preventDefault();
+            toggle.click();
+          });
+
           const overview = document.createElement('li');
           const a = document.createElement('a');
           a.href = headingLink.href;
@@ -250,6 +258,14 @@ export default async function decorate(block) {
     localeToggle.setAttribute('aria-label', 'Expand');
     localeToggle.innerHTML = '<span class="footer-accordion-icon" aria-hidden="true"></span>';
     localeHeader.append(localeToggle);
+
+    // Stop propagation: panel is outside .footer-locale/.locale-panel, so
+    // bubbling to document would hit bindLocalePanel's outside-click and undo.
+    title.addEventListener('click', (e) => {
+      e.stopPropagation();
+      localeToggle.click();
+    });
+
     localeItem.append(localeHeader);
     localeItem.append(localeBody);
     columns.append(localeItem);
@@ -276,6 +292,8 @@ export default async function decorate(block) {
         placePanelInFooter();
       },
     );
+
+    localeToggle.addEventListener('click', (e) => e.stopPropagation());
 
     footer.append(localePanel);
     footer.append(bottom);

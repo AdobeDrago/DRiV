@@ -1,6 +1,7 @@
 import { fetchPlaceholders } from '../../../scripts/placeholders.js';
+import { CATALOG_API_BASE } from '../../../scripts/catalog.js';
 
-const WHERE_TO_BUY_API = 'https://moogparts-catalog-api.atul-code-auth0.workers.dev/wheretobuy';
+const WHERE_TO_BUY_API = `${CATALOG_API_BASE}/wheretobuy`;
 const DEFAULT_DISTANCE = 10;
 const DEFAULT_MAP_CENTER = { lat: 39.5, lng: -98.35 };
 const DEFAULT_MAP_ZOOM = 4;
@@ -573,9 +574,32 @@ export default async function decorate(block) {
     infoWindow.open(map, marker);
   }
 
+  // Resolves a country to its map viewport via Geocoding.
+  async function centerMapOnCountry(countryCode) {
+    const countryName = COUNTRIES[countryCode]?.name;
+    if (countryName) {
+      try {
+        const geocoder = new window.google.maps.Geocoder();
+        const result = await new Promise((resolve) => {
+          geocoder.geocode({ address: countryName }, (results, status) => {
+            resolve(status === 'OK' && results?.[0] ? results[0] : null);
+          });
+        });
+        if (result?.geometry?.viewport) {
+          map.fitBounds(result.geometry.viewport);
+          return;
+        }
+      } catch {
+        // fall through to the generic default below
+      }
+    }
+    map.setCenter(DEFAULT_MAP_CENTER);
+    map.setZoom(DEFAULT_MAP_ZOOM);
+  }
+
   // Initializes the map (if needed), plots a marker per dealer, and fits the map bounds to them.
   // Dealers with missing/invalid coordinates are skipped rather than breaking the whole map.
-  async function plotDealers(dealers) {
+  async function plotDealers(dealers, fallbackCountry) {
     try {
       await loadGoogleMapsApi();
       if (!map) {
@@ -600,7 +624,14 @@ export default async function decorate(block) {
 
       const bounds = new window.google.maps.LatLngBounds();
       markers.filter(Boolean).forEach((marker) => bounds.extend(marker.getPosition()));
-      if (!bounds.isEmpty()) map.fitBounds(bounds);
+      if (!bounds.isEmpty()) {
+        map.fitBounds(bounds);
+      } else if (fallbackCountry) {
+        await centerMapOnCountry(fallbackCountry);
+      } else {
+        map.setCenter(DEFAULT_MAP_CENTER);
+        map.setZoom(DEFAULT_MAP_ZOOM);
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('where-to-buy-result: failed to plot dealers on map', error);
@@ -721,9 +752,13 @@ export default async function decorate(block) {
   });
 
   countrySelect.addEventListener('change', () => {
+    postalInput.value = '';
     populateBrandSelect(countrySelect.value);
     updateUrl(currentParams());
-    if (postalInput.value.trim()) runSearch();
+    hideAllStates();
+    promptEl.hidden = false;
+    mapEl.hidden = false;
+    plotDealers([], countrySelect.value);
   });
 
   retryBtn.addEventListener('click', runSearch);
@@ -757,15 +792,21 @@ export default async function decorate(block) {
     if (match) match.checked = true;
   }
 
+  // Defer: this block can be a page's first section, so decorate() runs in the
+  // eager phase. Running a search or loading Google Maps here would compete
+  // with LCP; deferring lets it happen once the critical path is clear.
+  const deferIdle = (fn) => {
+    if ('requestIdleCallback' in window) window.requestIdleCallback(fn);
+    else window.setTimeout(fn, 0);
+  };
+
   if (initialPostal) {
-    // Defer: this block can be a page's first section, so decorate() runs in the
-    // eager phase. Running the search (and the Google Maps load it triggers) here
-    // would compete with LCP; deferring lets it happen once the critical path is clear.
     const urlMode = hp.get('postal') ? 'none' : 'minimal';
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(() => runSearch(urlMode));
-    } else {
-      window.setTimeout(() => runSearch(urlMode), 0);
-    }
+    deferIdle(() => runSearch(urlMode));
+  } else {
+    deferIdle(() => {
+      mapEl.hidden = false;
+      plotDealers([], countrySelect.value);
+    });
   }
 }

@@ -1,50 +1,29 @@
+// Dynamic import of parts-list (and CSS) on first "Add To Parts List" click —
+// same pattern scripts.js uses for fragments.
 import { sitePath } from '../../../scripts/drivparts-paths.js';
+import {
+  buildCatalogUrl,
+  CATALOG_API_BASE,
+  DRIVPARTS_ASSET_BASE,
+  brandSlug,
+  fetchBrandLogoMap,
+  findDesc,
+  resolveImageUrl,
+  whereToBuyUrl,
+} from '../../../scripts/catalog.js';
 
-// Not a statically imported dependency — the parts-list block (and its CSS)
-// is fetched on demand via loadPartsList() below, the first time a shopper
-// actually clicks "Add To Parts List", the same dynamic-import pattern
-// scripts.js uses for the fragment block.
 function loadPartsList() {
   return import('../parts-list/parts-list.js');
 }
 
-const DESKTOP_QUERY = '(width >= 1025px)';
-
-const WORKER_BASE = 'https://moogparts-catalog-api.atul-code-auth0.workers.dev';
-const API_BASE = `${WORKER_BASE}/drivparts`;
-const DRIVPARTS_ASSET_BASE = 'https://www.drivparts.com';
-const API_PARAMS = { brand: 'corporate', locale: 'en_US', country_code: 'US' };
-
-function resolveImageUrl(url) {
-  if (!url) return null;
-  return url.startsWith('/') ? `${DRIVPARTS_ASSET_BASE}${url}` : url;
-}
-
-function findDesc(descriptions, typeCode) {
-  return descriptions?.find((d) => d.type_code === typeCode);
-}
-
-// The catalog API never returns dam_assets.brandLogo, so brand logos are authored
-// on a dedicated page (see BRAND_LOGOS_PATH) — plain paragraphs alternating a brand
-// name (or several, e.g. "Wagner Brake / Wagner HVAC / ...") and one or more logo
-// images. Fetched once and cached. product.brand_name is looked up by its root word
-// (e.g. "Champion Spark Plug" → "champion") since one logo covers all of a brand's
-// product-line variants — a name paragraph is only ever matched against its FIRST
-// following image; that's sufficient because brandSlug() only keeps the first word,
-// so every name in a grouped "X / Y / Z" row already collapses to the same slug.
-const BRAND_LOGOS_PATH = () => sitePath('/shared-logos');
-
-function brandSlug(brandName) {
-  const rootBrand = (brandName || '').trim().split(/\s+/)[0];
-  return rootBrand.toLowerCase().replace(/[^a-z0-9]/g, '');
-}
+const DESKTOP_QUERY = '(width >= 768px)';
 
 // Kick off preconnects for every domain this block contacts so the browser
 // can open sockets before the API calls are made.
 function injectPreconnects() {
   const { head } = document;
   [
-    { href: WORKER_BASE },
+    { href: CATALOG_API_BASE },
     { href: DRIVPARTS_ASSET_BASE, crossorigin: true },
   ].forEach(({ href, crossorigin: needsCrossOrigin }) => {
     if (head.querySelector(`link[rel="preconnect"][href="${href}"]`)) return;
@@ -56,13 +35,11 @@ function injectPreconnects() {
   });
 }
 
-// Cache for the product API promise so load() just awaits an in-progress request.
-// Initialised at the bottom of the module (after all functions are defined) so
-// the eager fetch begins as early as possible without triggering no-use-before-define.
+// Cache for the eager product API promise (started at module bottom; see no-use-before-define).
 let partDetailsPromise = null;
+let stopPartsListLabelSync;
 
-// Inject a <link rel="preload"> for the LCP image as soon as its URL is known
-// (immediately after the API resolves, before any DOM is built).
+// Preload LCP image as soon as the URL is known (before any DOM is built).
 function preloadLCPImage(url) {
   if (!url) return;
   const { head } = document;
@@ -75,53 +52,15 @@ function preloadLCPImage(url) {
   head.prepend(link);
 }
 
-// Start fetching the brand-logo map immediately when this module is imported
-// (not deferred until decorate() runs) so it is in-flight while the block
-// renders its loading skeleton.
-let brandLogoMapPromise = null;
-
-function fetchBrandLogoMap() {
-  if (!brandLogoMapPromise) {
-    brandLogoMapPromise = fetch(`${BRAND_LOGOS_PATH()}.plain.html`)
-      .then(async (res) => {
-        if (!res.ok) return {};
-        const html = await res.text();
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const map = {};
-        let currentSlug = null;
-        doc.querySelectorAll('p').forEach((p) => {
-          const img = p.querySelector('img');
-          if (img) {
-            if (currentSlug && !(currentSlug in map)) {
-              map[currentSlug] = new URL(img.getAttribute('src'), res.url).href;
-            }
-            return;
-          }
-          const text = p.textContent.trim();
-          currentSlug = text ? brandSlug(text) : null;
-        });
-        return map;
-      })
-      .catch(() => ({}));
-  }
-  return brandLogoMapPromise;
-}
-
 async function fetchPartDetails(partNumber, brandCode) {
   const params = {
-    ...API_PARAMS,
     part_number: partNumber,
     brand_code: brandCode,
     brand_codes: brandCode,
   };
-  const makeUrl = (endpoint) => {
-    const url = new URL(`${API_BASE}/${endpoint}`);
-    Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-    return url.toString();
-  };
   const [productRes, appsRes] = await Promise.all([
-    fetch(makeUrl('api.catalog.product')),
-    fetch(makeUrl('api.catalog.applications')),
+    fetch(buildCatalogUrl('api.catalog.product', params)),
+    fetch(buildCatalogUrl('api.catalog.applications', params)),
   ]);
   if (!productRes.ok) throw new Error(`Product API failed: ${productRes.status}`);
   if (!appsRes.ok) throw new Error(`Applications API failed: ${appsRes.status}`);
@@ -140,11 +79,17 @@ function buildGallery(primaries, thumbnails) {
     }))
     .filter((p) => p.mainUrl);
 
-  pairs.slice(1).forEach(({ mainUrl }) => {
-    const preloadImg = new Image();
-    preloadImg.decoding = 'async';
-    preloadImg.src = mainUrl;
-  });
+  // Preloading every other full-resolution gallery image up front  competes on the network with
+  // the LCP image itself, directly inflating its resource-load delay/duration.
+  if (pairs[1]) {
+    const preloadNext = () => {
+      const preloadImg = new Image();
+      preloadImg.decoding = 'async';
+      preloadImg.src = pairs[1].mainUrl;
+    };
+    if ('requestIdleCallback' in window) window.requestIdleCallback(preloadNext);
+    else setTimeout(preloadNext, 2000);
+  }
 
   const mainImg = document.createElement('img');
   mainImg.className = 'pd-main-image';
@@ -320,10 +265,7 @@ function buildGallery(primaries, thumbnails) {
   return gallery;
 }
 
-// CTAs mirror the source layout (Get It Installed / Where To Buy /
-// Add To Parts List). "Add To Parts List" adds the current part to the shared
-// parts-list store (see blocks/drivparts/parts-list/parts-list.js) and turns into "View
-// My Part List", which opens the "MY PARTS LIST" modal on a second click.
+// Add To Parts List → store; View My Part List opens the modal.
 /**
  * @param {object} product
  * @param {string} [brandCode] Hybris manufacturer code from the URL (e.g. BBGB)
@@ -334,12 +276,12 @@ function buildActions(product, brandCode = '') {
 
   const installBtn = document.createElement('a');
   installBtn.className = 'pd-action-install';
-  installBtn.href = '#';
+  installBtn.href = whereToBuyUrl('install', product.brand_name);
   installBtn.textContent = 'Get It Installed';
 
   const buyBtn = document.createElement('a');
   buyBtn.className = 'pd-action-buy';
-  buyBtn.href = '#';
+  buyBtn.href = whereToBuyUrl('store', product.brand_name);
   buyBtn.textContent = 'Where To Buy';
 
   const addBtn = document.createElement('button');
@@ -352,14 +294,15 @@ function buildActions(product, brandCode = '') {
   loadPartsList().then(({ isInPartsList, onPartsListChange }) => {
     const refreshAddBtnLabel = () => {
       const inList = isInPartsList(product.brand_name, product.part_number);
-      addBtn.textContent = inList ? 'View My Part List' : 'Add To Parts List';
+      addBtn.textContent = inList ? 'View My Parts List' : 'Add To Parts List';
     };
     refreshAddBtnLabel();
 
     // Also react to changes made from inside the modal itself (e.g. removing
-    // this same part), so the CTA doesn't keep showing "View My Part List"
+    // this same part), so the CTA doesn't keep showing "View My Parts List"
     // for a part that's no longer on the list.
-    onPartsListChange(refreshAddBtnLabel);
+    stopPartsListLabelSync?.();
+    stopPartsListLabelSync = onPartsListChange(refreshAddBtnLabel);
   });
 
   addBtn.addEventListener('click', async () => {
@@ -382,7 +325,7 @@ function buildActions(product, brandCode = '') {
       imageUrl: rawImageUrl.startsWith('/') ? rawImageUrl : '',
       qty: 1,
     });
-    addBtn.textContent = 'View My Part List';
+    addBtn.textContent = 'View My Parts List';
   });
 
   actions.append(installBtn, buyBtn, addBtn);
@@ -431,7 +374,6 @@ function buildInfo(product, brandLogoMap, brandCode = '') {
   const info = document.createElement('div');
   info.className = 'pd-info';
 
-  // ── Header: brand logo (left) + part name / number (right) ──────────────
   const header = document.createElement('div');
   header.className = 'pd-header';
 
@@ -476,14 +418,11 @@ function buildInfo(product, brandLogoMap, brandCode = '') {
   identity.append(nameEl, numberEl);
   header.append(identity);
 
-  // ── Divider ──────────────────────────────────────────────────────────────
   const divider = document.createElement('hr');
   divider.className = 'pd-divider';
 
-  // ── CTAs ─────────────────────────────────────────────────────────────────
   const actions = buildActions(product, brandCode);
 
-  // ── Description / features ───────────────────────────────────────────────
   const { descText, features } = getDescriptionContent(product);
   const descEl = document.createElement('p');
   descEl.className = 'pd-description';
@@ -589,10 +528,25 @@ const PERFORMANCE_APP_COLUMNS = [
 // Categories rendered as a simple, header-less list of the columns relevant to
 // that equipment type (matches the drivparts.com reference layout).
 const SIMPLE_GROUP_COLUMNS = {
-  POWERSPORT: [{ get: getMake }, { get: getModel }, { get: getYearRange, fallback: '—' }],
-  'SMALL ENGINE': [{ get: getMake }, { get: getModel }],
-  'COMMERCIAL, INDUSTRIAL & AG': [{ get: getMake }, { get: getModel }, { get: getYearRange, fallback: '—' }],
-  'MARINE APPLICATION': [{ get: getMake }, { get: getModel }, { get: getEngineBase, fallback: '—' }],
+  POWERSPORT: [
+    { label: 'Make', get: getMake },
+    { label: 'Model', get: getModel },
+    { label: 'Year Range', get: getYearRange, fallback: '—' },
+  ],
+  'SMALL ENGINE': [
+    { label: 'Make', get: getMake },
+    { label: 'Model', get: getModel },
+  ],
+  'COMMERCIAL, INDUSTRIAL & AG': [
+    { label: 'Make', get: getMake },
+    { label: 'Model', get: getModel },
+    { label: 'Year Range', get: getYearRange, fallback: '—' },
+  ],
+  'MARINE APPLICATION': [
+    { label: 'Make', get: getMake },
+    { label: 'Model', get: getModel },
+    { label: 'Engine Base', get: getEngineBase, fallback: '—' },
+  ],
 };
 
 // Order and display labels for the Applications sub-tabs, matching drivparts.com.
@@ -620,6 +574,7 @@ function buildAppsGroupTable(groupName, groupData) {
   const columns = simpleColumns
     || (groupName?.toUpperCase() === 'PERFORMANCE ENGINE' ? PERFORMANCE_APP_COLUMNS : APP_COLUMNS);
 
+  // Desktop: horizontal table
   const table = document.createElement('table');
   table.className = simpleColumns ? 'pd-apps-table pd-apps-table-simple' : 'pd-apps-table';
 
@@ -645,9 +600,43 @@ function buildAppsGroupTable(groupName, groupData) {
     });
     tbody.appendChild(tr);
   });
-
   table.appendChild(tbody);
-  return table;
+
+  const container = document.createElement('div');
+  container.className = 'pd-apps-group-container';
+
+  if (simpleColumns) {
+    // Simple categories (Powersport, Commercial & AG, etc.): keep the compact
+    // columnar table on mobile — no label cards needed.
+    container.append(table);
+  } else {
+    // Full categories (Passenger Car & Light Truck, Performance): table is hidden
+    // on mobile (via CSS); show vertical key-value cards instead.
+    const mobileList = document.createElement('div');
+    mobileList.className = 'pd-apps-mobile-list';
+    apps.forEach((app, i) => {
+      if (i > 0) {
+        mobileList.appendChild(document.createElement('hr'));
+      }
+      const card = document.createElement('div');
+      card.className = 'pd-apps-mobile-card';
+      columns.forEach(({ label, get, fallback = '—' }) => {
+        if (!label) return;
+        const value = get(app) || fallback;
+        if (!value) return;
+        const row = document.createElement('p');
+        row.className = 'pd-apps-mobile-row';
+        const strong = document.createElement('strong');
+        strong.textContent = `${label}: `;
+        row.append(strong, value);
+        card.appendChild(row);
+      });
+      mobileList.appendChild(card);
+    });
+    container.append(table, mobileList);
+  }
+
+  return container;
 }
 
 function buildAppsTable(applicationGroupList) {
@@ -678,17 +667,78 @@ function buildAppsTable(applicationGroupList) {
     return wrapper;
   }
 
+  // Mobile: "Category" label + custom dropdown (hidden on desktop via CSS)
+  const categoryLabel = document.createElement('p');
+  categoryLabel.className = 'pd-apps-category-label';
+  categoryLabel.textContent = 'Category';
+
+  const dropdown = document.createElement('div');
+  dropdown.className = 'pd-apps-dropdown';
+
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'pd-apps-dropdown-trigger';
+  trigger.setAttribute('aria-haspopup', 'listbox');
+  trigger.setAttribute('aria-expanded', 'false');
+
+  const selectedText = document.createElement('span');
+  selectedText.className = 'pd-apps-dropdown-selected';
+
+  const triggerIcon = document.createElement('span');
+  triggerIcon.className = 'pd-apps-dropdown-icon';
+  triggerIcon.setAttribute('aria-hidden', 'true');
+  trigger.append(selectedText, triggerIcon);
+
+  const dropdownList = document.createElement('ul');
+  dropdownList.className = 'pd-apps-dropdown-list';
+  dropdownList.setAttribute('role', 'listbox');
+  dropdownList.hidden = true;
+  dropdown.append(trigger, dropdownList);
+
+  // Desktop tab strip (hidden on mobile via CSS)
   const nav = document.createElement('div');
   nav.className = 'pd-apps-subtab-nav';
 
   const panels = document.createElement('div');
   panels.className = 'pd-apps-subtab-panels';
 
+  function closeDropdown() {
+    trigger.setAttribute('aria-expanded', 'false');
+    dropdownList.hidden = true;
+  }
+
+  function activateGroup(index) {
+    nav.querySelectorAll('.pd-apps-subtab-btn').forEach((b, j) => {
+      b.classList.toggle('pd-apps-subtab-btn-active', j === index);
+    });
+    panels.querySelectorAll('.pd-apps-subtab-panel').forEach((p, j) => {
+      p.hidden = j !== index;
+    });
+    dropdownList.querySelectorAll('.pd-apps-dropdown-item').forEach((it, j) => {
+      const active = j === index;
+      it.classList.toggle('pd-apps-dropdown-item-active', active);
+      it.setAttribute('aria-selected', String(active));
+    });
+    const activeItem = dropdownList.querySelectorAll('.pd-apps-dropdown-item')[index];
+    if (activeItem) selectedText.textContent = activeItem.textContent;
+  }
+
   groups.forEach(([groupName, groupData], i) => {
+    const label = TAB_LABELS[groupName.toUpperCase()] || groupName;
+
+    // Desktop tab button
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'pd-apps-subtab-btn';
-    btn.textContent = TAB_LABELS[groupName.toUpperCase()] || groupName;
+    btn.textContent = label;
+
+    // Mobile dropdown item
+    const item = document.createElement('li');
+    item.className = 'pd-apps-dropdown-item';
+    item.setAttribute('role', 'option');
+    item.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    item.textContent = label;
+    dropdownList.appendChild(item);
 
     const panel = document.createElement('div');
     panel.className = 'pd-apps-subtab-panel';
@@ -696,22 +746,34 @@ function buildAppsTable(applicationGroupList) {
 
     if (i === 0) {
       btn.classList.add('pd-apps-subtab-btn-active');
+      item.classList.add('pd-apps-dropdown-item-active');
+      selectedText.textContent = label;
     } else {
       panel.hidden = true;
     }
 
-    btn.addEventListener('click', () => {
-      nav.querySelectorAll('.pd-apps-subtab-btn').forEach((b) => b.classList.remove('pd-apps-subtab-btn-active'));
-      panels.querySelectorAll('.pd-apps-subtab-panel').forEach((p) => { p.hidden = true; });
-      btn.classList.add('pd-apps-subtab-btn-active');
-      panel.hidden = false;
+    btn.addEventListener('click', () => activateGroup(i));
+    item.addEventListener('click', () => {
+      activateGroup(i);
+      closeDropdown();
     });
 
     nav.appendChild(btn);
     panels.appendChild(panel);
   });
 
-  wrapper.append(nav, panels);
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const expanded = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.setAttribute('aria-expanded', String(!expanded));
+    dropdownList.hidden = expanded;
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target)) closeDropdown();
+  }, { passive: true });
+
+  wrapper.append(categoryLabel, dropdown, nav, panels);
   return wrapper;
 }
 
@@ -746,6 +808,21 @@ function buildOtherMedia(documents) {
   return wrapper;
 }
 
+function syncTabMode(tabs, defaultId, isDesktop) {
+  const buttons = [...tabs.querySelectorAll('.pd-tab-btn')];
+  const panels = [...tabs.querySelectorAll('.pd-tab-panel')];
+  const activeId = isDesktop ? defaultId : null;
+
+  buttons.forEach((button) => {
+    const isActive = button.dataset.tab === activeId;
+    button.classList.toggle('pd-tab-btn-active', isActive);
+    button.setAttribute('aria-expanded', String(isActive));
+  });
+  panels.forEach((panel) => {
+    panel.hidden = panel.dataset.tab !== activeId;
+  });
+}
+
 // Below DESKTOP_QUERY, .pd-tabs is an accordion (drivparts.com mobile): each
 // section toggles independently and all start collapsed. At/above it, it's a
 // tab strip (drivparts.com desktop): one panel visible at a time, "Description"
@@ -765,7 +842,7 @@ function buildTabs(descriptionPanel, specsPanel, appsPanel, mediaPanel) {
     { id: 'media', label: 'Other Media', panel: mediaPanel },
   ].filter(({ id, panel }) => panel.children.length > 0 || id === 'specs' || id === 'apps');
 
-  const isDesktop = window.matchMedia(DESKTOP_QUERY).matches;
+  const desktopQuery = window.matchMedia(DESKTOP_QUERY);
   const defaultId = allPanels.find(({ id }) => id !== 'description')?.id;
 
   allPanels.forEach(({ id, label, panel }) => {
@@ -777,13 +854,11 @@ function buildTabs(descriptionPanel, specsPanel, appsPanel, mediaPanel) {
     panel.classList.add('pd-tab-panel');
     panel.dataset.tab = id;
 
-    const isDefaultActive = isDesktop && id === defaultId;
-    panel.hidden = !isDefaultActive;
-    btn.setAttribute('aria-expanded', String(isDefaultActive));
-    if (isDefaultActive) btn.classList.add('pd-tab-btn-active');
+    panel.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
 
     btn.addEventListener('click', () => {
-      if (window.matchMedia(DESKTOP_QUERY).matches) {
+      if (desktopQuery.matches) {
         nav.querySelectorAll('.pd-tab-btn').forEach((b) => {
           b.classList.remove('pd-tab-btn-active');
           b.setAttribute('aria-expanded', 'false');
@@ -803,13 +878,15 @@ function buildTabs(descriptionPanel, specsPanel, appsPanel, mediaPanel) {
   });
 
   tabs.append(nav, ...allPanels.map((p) => p.panel));
+  syncTabMode(tabs, defaultId, desktopQuery.matches);
+  desktopQuery.addEventListener('change', ({ matches }) => {
+    syncTabMode(tabs, defaultId, matches);
+  });
   return tabs;
 }
 
-// ── Eager module-level fetches ────────────────────────────────────────────
-// Placed here — after all function definitions — to satisfy no-use-before-define
-// while still starting network requests as early as possible (before the
-// browser calls decorate(), reducing LCP resource-load delay).
+// After all function defs to satisfy no-use-before-define while starting
+// network early (before decorate()) to reduce LCP resource-load delay.
 (function startEagerFetches() {
   const sp = new URLSearchParams(window.location.search);
   const earlyPartNumber = sp.get('part_number');

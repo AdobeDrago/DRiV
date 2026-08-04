@@ -1,7 +1,7 @@
 .where-to-buy-result-container > .where-to-buy-result-wrapper {
   margin: 0 auto;
   padding: 0;
-  max-width: 1440px;
+  max-width: var(--page-max-width);
 }
 
 .where-to-buy-result {
@@ -31,8 +31,6 @@
   margin: 0;
   color: var(--text-color);
 }
-
-/* ---- Search bar ---- */
 
 .where-to-buy-result .where-to-buy-result-searchbar {
   display: flex;
@@ -72,6 +70,17 @@
   font-size: var(--body-font-size-xs);
 }
 
+/* Custom dropdown caret, right-aligned with a small gap from the edge
+   instead of flush against it. Applies at all breakpoints. */
+.where-to-buy-result .where-to-buy-result-field select {
+  appearance: none;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23545454' d='M1.4 0.6 6 5.2 10.6.6 12 2 6 8 0 2z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 12px 8px;
+}
+
 .where-to-buy-result .where-to-buy-result-field input:focus-visible,
 .where-to-buy-result .where-to-buy-result-field select:focus-visible {
   outline: none;
@@ -79,7 +88,6 @@
   box-shadow: 0 0 0 2px rgb(196 18 48 / 25%);
 }
 
-/* Shared primary CTAs: Search + Directions */
 .where-to-buy-result .where-to-buy-result-submit,
 .where-to-buy-result .where-to-buy-result-row-directions {
   display: inline-flex;
@@ -122,8 +130,6 @@
   background-color: #a30f28;
   color: #fff;
 }
-
-/* ---- Map ---- */
 
 .where-to-buy-result .where-to-buy-result-map {
   width: 100%;
@@ -173,13 +179,11 @@
   background-color: var(--brand-color);
 }
 
-/* ---- Body: filters + results ---- */
-
 .where-to-buy-result .where-to-buy-result-body {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 24px 16px;
+  padding: 45px 26px 38px;
 }
 
 .where-to-buy-result .where-to-buy-result-filters {
@@ -253,8 +257,8 @@
   background-color: var(--link-color);
 }
 
-.where-to-buy-result .where-to-buy-result-filter-option input[type="radio"]:focus-visible + label span {
-  outline: 2px solid var(--brand-color);
+.where-to-buy-result .where-to-buy-result-filter-option input[type="radio"]:focus + label span {
+  outline: 2px solid var(--link-hover-color);
   outline-offset: 1px;
 }
 
@@ -306,31 +310,32 @@
 
 .where-to-buy-result .where-to-buy-result-results-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 8px;
 }
 
 .where-to-buy-result .where-to-buy-result-headline {
+  flex: 1 1 auto;
   margin: 0;
   color: var(--dark-color);
   font-weight: 400;
+  text-align: center;
   text-transform: none;
   font-size: 28px;
 }
 
 .where-to-buy-result .where-to-buy-result-filter-toggle {
-  flex-shrink: 0;
-  border: 0;
+  flex: 1 1 auto;
+  margin: 10px 0;
+  border: 2px solid var(--dark-color);
   background-color: var(--dark-color);
-  padding: 10px 16px;
+  padding: 17px 40px;
   color: #fff;
   font-size: var(--body-font-size-xs);
   cursor: pointer;
 }
-
-/* ---- Results list ---- */
 
 .where-to-buy-result .where-to-buy-result-list {
   margin: 0;
@@ -420,7 +425,7 @@
   }
 }
 
-@media (width >= 600px) {
+@media (width >= 768px) {
   .where-to-buy-result .where-to-buy-result-searchbar {
     margin: 24px 24px 20px;
     padding: 20px 24px;
@@ -431,7 +436,7 @@
   }
 }
 
-@media (width >= 900px) {
+@media (width >= 1025px) {
   .where-to-buy-result .where-to-buy-result-searchbar {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -465,7 +470,9 @@
   }
 
   .where-to-buy-result .where-to-buy-result-headline {
-    font-size: 36px;
+    flex: 0 1 auto;
+    text-align: left;
+    font-size: 40px;
   }
 
   .where-to-buy-result .where-to-buy-result-filter-toggle {

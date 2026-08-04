@@ -15,10 +15,12 @@
 
 import { fetchPlaceholders, getPlaceholdersPrefix } from '../../../scripts/placeholders.js';
 import { sitePath } from '../../../scripts/drivparts-paths.js';
+import {
+  buildCatalogUrl,
+  fetchJson,
+} from '../../../scripts/catalog.js';
 
-export const CATALOG_API_BASE = 'https://moogparts-catalog-api.atul-code-auth0.workers.dev';
-/** Shared query params sent with every catalog-api request. */
-const CATALOG_PARAMS = { brand: 'corporate', locale: 'en_US', country_code: 'US' };
+export { buildCatalogUrl, fetchJson };
 
 /** English fallbacks when placeholders.json is missing or a key is absent. */
 const FALLBACK_LABELS = {
@@ -83,27 +85,6 @@ const ENGINE_TYPE = { label: 'Heavy Duty/Industrial', groupId: '90023' };
 
 let instanceCount = 0;
 const openDropdowns = new Set();
-
-/** Builds a catalog-api URL for a passthrough endpoint, merging the shared brand/locale params. */
-export function buildCatalogUrl(endpoint, params) {
-  const usp = new URLSearchParams({ ...CATALOG_PARAMS, ...params });
-  return `${CATALOG_API_BASE}/drivparts/${endpoint}?${usp}`;
-}
-
-/**
- * Fetches JSON, normalizing network failures and non-2xx responses to `{ ok: false }`
- * instead of throwing, so callers can drive a single error/retry path.
- * @returns {Promise<{ ok: boolean, data?: unknown }>}
- */
-export async function fetchJson(url) {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return { ok: false };
-    return { ok: true, data: await res.json() };
-  } catch {
-    return { ok: false };
-  }
-}
 
 /** Removes a field's inline error message, if one is showing. */
 function clearFieldError(field) {
@@ -1084,27 +1065,47 @@ export default async function decorate(block) {
       disabled: true,
     },
   ];
-  block.textContent = '';
+  block.replaceChildren();
 
-  const tabButtons = tabDefs.map((tab, index) => {
+  // Authored title/tab labels are untrusted — build with textContent, never innerHTML.
+  const header = document.createElement('div');
+  header.className = 'parts-finder-header';
+  const title = document.createElement('p');
+  title.className = 'parts-finder-title';
+  title.textContent = heading;
+  const tabList = document.createElement('div');
+  tabList.className = 'parts-finder-tabs';
+  tabList.setAttribute('role', 'tablist');
+  tabList.setAttribute('aria-label', heading);
+  header.append(title, tabList);
+  block.append(header);
+
+  tabDefs.forEach((tab) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.id = `${uid}-tab-${tab.id}`;
+    button.className = 'parts-finder-tab';
+    button.setAttribute('role', 'tab');
+    button.textContent = tab.label;
     if (tab.disabled) {
-      return `<button type="button" role="tab" id="${uid}-tab-${tab.id}" class="parts-finder-tab is-disabled" disabled aria-disabled="true" tabindex="-1">${tab.label}</button>`;
+      button.classList.add('is-disabled');
+      button.disabled = true;
+      button.setAttribute('aria-disabled', 'true');
+      button.tabIndex = -1;
+    } else {
+      button.setAttribute('aria-controls', `${uid}-panel-${tab.id}`);
+      button.setAttribute('aria-selected', 'false');
+      button.tabIndex = -1;
+      const panel = document.createElement('div');
+      panel.className = 'parts-finder-panel';
+      panel.id = `${uid}-panel-${tab.id}`;
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', button.id);
+      panel.hidden = true;
+      block.append(panel);
     }
-    return `<button type="button" role="tab" id="${uid}-tab-${tab.id}" aria-controls="${uid}-panel-${tab.id}" aria-selected="${index === 0}" class="parts-finder-tab">${tab.label}</button>`;
-  }).join('');
-  const panels = tabDefs.filter((tab) => !tab.disabled).map((tab, index) => (
-    `<div class="parts-finder-panel" id="${uid}-panel-${tab.id}" role="tabpanel" aria-labelledby="${uid}-tab-${tab.id}"${index === 0 ? '' : ' hidden'}></div>`
-  )).join('');
-
-  block.innerHTML = `
-    <div class="parts-finder-header">
-      <p class="parts-finder-title">${heading}</p>
-      <div class="parts-finder-tabs" role="tablist">
-        ${tabButtons}
-      </div>
-    </div>
-    ${panels}
-  `;
+    tabList.append(button);
+  });
 
   const tabs = tabDefs.filter((tab) => !tab.disabled).map((tab) => {
     const button = block.querySelector(`#${uid}-tab-${tab.id}`);
@@ -1116,20 +1117,32 @@ export default async function decorate(block) {
     return { button, panel, controller };
   });
 
-  // Shows the given tab's panel and hides the rest, closing any open dropdown and
-  // (re)triggering the newly-active panel's data load via its activate() callback.
-  function activateTab(activeButton) {
+  function activateTab(activeButton, { focus = false } = {}) {
     closeAllDropdowns();
     tabs.forEach(({ button, panel, controller }) => {
       const isActive = button === activeButton;
       button.setAttribute('aria-selected', String(isActive));
+      button.tabIndex = isActive ? 0 : -1;
       panel.hidden = !isActive;
       if (isActive) controller.activate();
     });
+    if (focus) activeButton.focus();
   }
 
   tabs.forEach(({ button }) => {
     button.addEventListener('click', () => activateTab(button));
+  });
+
+  tabList.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    const buttons = tabs.map(({ button }) => button);
+    const current = buttons.indexOf(document.activeElement);
+    if (current < 0) return;
+    event.preventDefault();
+    const next = event.key === 'ArrowRight'
+      ? (current + 1) % buttons.length
+      : (current - 1 + buttons.length) % buttons.length;
+    activateTab(buttons[next], { focus: true });
   });
 
   // This block sits in the page's first (eager) section, so decorate() runs

@@ -31,7 +31,7 @@
   padding: 24px 16px;
 }
 
-@media (width >= 600px) {
+@media (width >= 768px) {
   .columns-promo > div > div {
     padding: 32px 24px;
   }
@@ -97,7 +97,7 @@ main .columns-promo a.button:any-link:hover {
   text-decoration: none;
 }
 
-@media (width >= 900px) {
+@media (width >= 1025px) {
   .columns-promo > div {
     flex-direction: row;
     align-items: center;
@@ -205,13 +205,13 @@ main .columns-promo a.button:any-link:hover {
   margin-inline: 16px;
 }
 
-@media (width >= 600px) {
+@media (width >= 768px) {
   .section.columns-promo-container:has(.columns-promo.card)::before {
     margin-inline: 24px;
   }
 }
 
-@media (width >= 900px) {
+@media (width >= 1025px) {
   .section.columns-promo-container:has(.columns-promo.card)::before {
     margin-inline: 100px;
   }
@@ -335,7 +335,7 @@ main .columns-promo.card p > a:any-link:hover {
   text-decoration: none;
 }
 
-@media (width >= 900px) {
+@media (width >= 1025px) {
   main .columns-promo.card > div {
     flex-direction: row;
     align-items: stretch;
