@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const MOOGPARTS_CATALOG_ORIGIN = 'https://www.moogparts.com/driv/partfinder';
 const DRIVEPARTS_CATALOG_ORIGIN = 'https://www.drivparts.com/driv/partfinder';
 const CROSS_SELL_ORIGIN = 'https://www.moogparts.com/content/loc-na/loc-us/fmmp-moog/en_US/find-my-part/find-my-part-results/jcr:content/main-par/cross_sell.by-tags';

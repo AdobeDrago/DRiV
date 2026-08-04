@@ -370,12 +370,14 @@ main .section.dark {
   padding: 40px 0;
 }
 
-main .section.dark h1,
-main .section.dark h2,
-main .section.dark h3,
-main .section.dark h4,
-main .section.dark h5,
-main .section.dark h6 {
+/* Match body.drivparts .default-content-wrapper heading specificity (0,3,2)
+   so dark-section white text wins by source order without descending-specificity. */
+body.drivparts .section.dark h1,
+body.drivparts .section.dark h2,
+body.drivparts .section.dark h3,
+body.drivparts .section.dark h4,
+body.drivparts .section.dark h5,
+body.drivparts .section.dark h6 {
   color: #fff;
 }
 
