@@ -108,10 +108,6 @@ main .columns-promo a.button:any-link:hover {
     order: unset;
   }
 
-  .columns-promo > div > .columns-promo-img-col {
-    padding: 0;
-  }
-
   .columns-promo > div > div:not(.columns-promo-img-col) {
     margin-top: 30px;
     padding: 0 70px 70px;
@@ -169,10 +165,6 @@ main .columns-promo a.button:any-link:hover {
     text-transform: none;
   }
 
-  main .section.sign-in-container .columns-promo p {
-    margin-bottom: 20px;
-  }
-
   main .section.sign-in-container .columns-promo .button-wrapper,
   main .section.sign-in-container .columns-promo .button-container {
     margin: 0;
@@ -218,7 +210,7 @@ main .columns-promo a.button:any-link:hover {
 }
 
 .columns-promo.card {
-  margin-top: 30px;
+  margin: 30px auto;
   border: 1px solid #d8d8d8;
   background-color: #fff;
   overflow: hidden;
@@ -239,46 +231,19 @@ main .columns-promo.card > div > .columns-promo-img-col {
   flex-shrink: 0;
 }
 
-.columns-promo.card img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
 /* content column — mobile padding only; desktop overrides below */
 main .columns-promo.card > div > div:not(.columns-promo-img-col) {
   order: 1;
   padding: 24px 24px 32px;
 }
 
-/* headings — mobile-first, match columns-promo scale */
+/* headings — type scale inherited from .columns-promo; the card only centres it */
 main .section .columns-promo.card h2 {
-  margin: 0 0 16px;
-  color: var(--link-color);
-  font-family: var(--heading-font-family);
-  font-weight: 400;
-  font-size: 28px;
-  line-height: 32px;
   text-align: center;
 }
 
 .columns-promo.card h4 {
-  margin: 0 0 16px;
-  color: var(--link-color);
-  font-family: var(--heading-font-family);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.2;
   text-align: center;
-}
-
-.columns-promo.card p {
-  margin: 0 0 16px;
-  color: var(--link-color);
-  font-family: var(--body-font-family);
-  font-size: 14px;
-  line-height: 21px;
 }
 
 /* ── CTA: space above + red button ──────────────────────────────────────
@@ -348,26 +313,9 @@ main .columns-promo.card p > a:any-link:hover {
     order: unset;
   }
 
-  /*
-   * Image fills the full card height. Absolute picture/img so object-fit
-   * cover works once the column is stretched by the content column.
-   */
   main .columns-promo.card > div > .columns-promo-img-col {
-    position: relative;
     padding: 0;
-    align-self: stretch;
     margin: 25px 0;
-  }
-
-  main .columns-promo.card > div > .columns-promo-img-col picture,
-  main .columns-promo.card > div > .columns-promo-img-col img {
-    position: absolute;
-    inset: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
   }
 
   /*
@@ -380,21 +328,11 @@ main .columns-promo.card p > a:any-link:hover {
   }
 
   main .section .columns-promo.card h2 {
-    margin-bottom: 20px;
-    font-size: 40px;
-    line-height: 44px;
     text-align: left;
   }
 
   .columns-promo.card h4 {
-    margin-bottom: 20px;
-    font-size: 18px;
-    line-height: 1.1;
     text-align: left;
-  }
-
-  .columns-promo.card p {
-    margin-bottom: 20px;
   }
 
   .columns-promo.card p:has(> a:only-child) {
