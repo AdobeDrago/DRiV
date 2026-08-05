@@ -96,10 +96,11 @@ function wireTabGroup(tabList, entries, label) {
   selectTab(0);
 }
 
-// `eager`: the very first result row's image is this page's LCP element on
-// mobile (no hero image competes with it there). Every other row stays
-// `loading="lazy"` as before -- eagering all of them would cost
-// bandwidth/requests for images that are below the fold.
+// `eager`: this page's LCP element is one of the first few result rows'
+// images (no hero image competes with it there), and which row varies by
+// search -- not reliably row 0. Callers pass `eager` for the first 3 rows;
+// every row after that stays `loading="lazy"`, since eagering all of them
+// would cost bandwidth/requests for images that are below the fold.
 function buildProductImage(className, imageUrl, altText, sizeAttrs = {}, { eager = false } = {}) {
   const div = document.createElement('div');
   div.className = className;
@@ -572,7 +573,13 @@ function buildListRow(app, { eager = false } = {}) {
 function renderResultsList(applications, listEl) {
   listEl.innerHTML = '';
   applications.forEach((app, index) => {
-    listEl.appendChild(buildListRow(app, { eager: index === 0 }));
+    // First 3 rows eager: LCP measurements showed the actual largest-image
+    // row varies by search result (not reliably row 0), so widening the
+    // eager window covers more of the likely candidates. Still only a partial
+    // fix -- these are unoptimized full-resolution primaries (no
+    // `productThumbnails` from the list endpoint), so this removes the
+    // `loading="lazy"` discovery delay but not the download time itself.
+    listEl.appendChild(buildListRow(app, { eager: index < 3 }));
   });
 }
 
