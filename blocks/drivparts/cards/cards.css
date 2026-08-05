@@ -1,0 +1,82 @@
+/* Block: drivparts/cards
+ * The DRiV brands directory (brands.html). Full-width stacked rows: brand
+ * logo on the left, description plus a "Learn More" text link on the right,
+ * on a white background with a subtle divider between entries.
+ */
+
+.cards-wrapper {
+  background-color: #fff;
+}
+
+.cards > ul {
+  list-style: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.cards > ul > li {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 24px;
+  padding: 32px 0;
+}
+
+.cards > ul > li + li {
+  border-top: 1px solid var(--border-color, #e6e6e6);
+}
+
+@media (width >= 700px) {
+  .cards > ul > li {
+    grid-template-columns: 280px 1fr;
+    gap: 48px;
+    padding: 40px 0;
+  }
+}
+
+/* logo cell */
+.cards .cards-card-image {
+  line-height: 0;
+  text-align: center;
+}
+
+.cards .cards-card-image img {
+  width: auto;
+  max-width: 100%;
+  max-height: 100px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* copy cell */
+.cards .cards-card-body {
+  display: block;
+}
+
+.cards .cards-card-description {
+  margin: 0 0 16px;
+  color: var(--text-color);
+  font-size: var(--body-font-size-s);
+  line-height: 1.5;
+}
+
+.cards .cards-card-cta {
+  margin: 0;
+}
+
+.cards .cards-card-link:any-link {
+  display: inline-block;
+  color: var(--link-hover-color, #164991);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.cards .cards-card-link:hover,
+.cards .cards-card-link:focus-visible {
+  color: var(--brand-color, #c41230);
+  text-decoration: underline;
+}

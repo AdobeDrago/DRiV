@@ -1,0 +1,117 @@
+/* Block: drivparts/brand-nav
+ * The brands directory left rail — a red "◀ BRANDS" header over a vertical
+ * list of brand links. Matches the sub-navigation on drivparts.com/brands:
+ * white panel, red 16px uppercase heading with a thin divider, and 14px
+ * normal-weight grey links indented beneath it.
+ */
+
+.brand-nav {
+  padding: 0;
+  background-color: transparent;
+}
+
+@media (width >= 900px) {
+  .brand-nav {
+    /* stays alongside the scrolling brand list on desktop */
+    position: sticky;
+    top: 24px;
+  }
+}
+
+/* heading: red, uppercase, with a small left-pointing caret and a divider */
+.brand-nav-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #d9d9d9;
+  color: var(--brand-color-hover, #b5122d);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.brand-nav-back {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 7px solid var(--brand-color-hover, #b5122d);
+}
+
+/* link list */
+.brand-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 25px;
+}
+
+.brand-nav-list li {
+  margin: 8px 0;
+}
+
+.brand-nav-link:any-link {
+  display: inline;
+  color: var(--text-color, #3a3a3a);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  text-decoration: none;
+}
+
+.brand-nav-link:hover,
+.brand-nav-link:focus-visible {
+  color: var(--brand-color-hover, #b5122d);
+  text-decoration: none;
+}
+
+/* ============================================================
+   Brands page two-column layout.
+   The brands page is the only page carrying a brand-nav block, so
+   `main:has(.brand-nav)` scopes this to that page. Sidebar sits in the
+   left column across all rows; the hero and brand cards stack in the
+   right column — matching drivparts.com/brands.
+   ============================================================ */
+@media (width >= 900px) {
+  main:has(.brand-nav.block) {
+    display: grid;
+    grid-template-columns: minmax(220px, 25%) 1fr;
+    align-items: start;
+    max-width: var(--page-max-width, 1440px);
+    margin-inline: auto;
+  }
+
+  /* reset the stacked-section vertical rhythm inside the grid */
+  main:has(.brand-nav.block) > .section {
+    margin: 0;
+  }
+
+  /* left column: the brand-nav section spans every row */
+  main:has(.brand-nav.block) > .section:has(.brand-nav) {
+    grid-column: 1;
+    grid-row: 1 / 999;
+    padding: 32px 24px 40px;
+  }
+
+  /* the generic `main > .section > div` rule adds wide page gutters
+     (intended for full-width sections) that collapse this narrow column
+     almost to nothing — drop them so the sidebar gets its full width */
+  main:has(.brand-nav.block) > .section:has(.brand-nav) > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* right column: hero, cards and everything else stack here */
+  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) {
+    grid-column: 2;
+  }
+
+  /* the section gutters are handled by the grid, so drop the inner
+     max-width/auto-margins that would otherwise re-centre each block */
+  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) > div {
+    max-width: none;
+    margin: 0;
+  }
+}
