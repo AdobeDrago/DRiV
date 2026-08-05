@@ -546,6 +546,7 @@ const DRIVPARTS_BLOCKS = new Set([
   'hybris-storefront',
   'columns-promo',
   'hero-banner',
+  'brand-detail',
   'embed-signin',
   'widget',
   'brand-nav',
