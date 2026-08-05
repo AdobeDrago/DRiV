@@ -1,0 +1,68 @@
+/* Block: drivparts/brand-nav
+ * The brands directory left rail — a "BRANDS" header over a vertical list of
+ * brand links, on a light grey panel. Matches the sub-navigation on
+ * drivparts.com/brands.
+ */
+
+.brand-nav {
+  background-color: #ececec;
+  padding: 32px 24px;
+}
+
+@media (width >= 900px) {
+  .brand-nav {
+    /* sticks alongside the scrolling brand list on desktop */
+    position: sticky;
+    top: 24px;
+    padding: 40px 28px;
+  }
+}
+
+/* heading: brand-red, uppercase, with a left "back" caret */
+.brand-nav-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #d4d4d4;
+  color: var(--brand-color, #c41230);
+  font-size: var(--body-font-size-m, 22px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.brand-nav-back {
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 8px solid var(--brand-color, #c41230);
+}
+
+/* link list */
+.brand-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.brand-nav-list li {
+  margin: 0;
+}
+
+.brand-nav-link:any-link {
+  display: block;
+  padding: 8px 0;
+  color: var(--text-color, #3a3a3a);
+  font-size: var(--body-font-size-s, 18px);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brand-nav-link:hover,
+.brand-nav-link:focus-visible {
+  color: var(--brand-color, #c41230);
+  text-decoration: none;
+}
