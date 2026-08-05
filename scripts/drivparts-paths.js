@@ -25,6 +25,6 @@ export function sitePath(path) {
   if (normalized === DRIVPARTS_ROOT || normalized.startsWith(`${DRIVPARTS_ROOT}/`)) {
     return normalized;
   }
-  if (normalized === '/') return DRIVPARTS_ROOT;
+  if (normalized === '/') return `${DRIVPARTS_ROOT}/`;
   return `${DRIVPARTS_ROOT}${normalized}`;
 }
