@@ -336,6 +336,20 @@
     grid-template-areas:
       "sidebar top"
       "sidebar main";
+
+    /* Without this, both rows default to `auto`, and CSS Grid distributes
+       the sidebar's height (it spans both rows via the areas above) across
+       BOTH of them when the sidebar is taller than the content column --
+       e.g. once filters narrow the results to a short list but the facets
+       panel stays tall. That inflated the `top` row (topRowSlot: just the
+       count/pagination bar, ~58px of real content) up to 200+ px, showing as
+       a large empty gap between that bar and the first result row. Capping
+       `top` at `min-content` and giving `main` `1fr` sends any height the
+       sidebar needs beyond its own row into `main` instead -- extra space
+       lands as blank space after the results, not before them. Verified: no
+       change to either row's size in the normal case (many results, sidebar
+       shorter than the content column). */
+    grid-template-rows: min-content 1fr;
     gap: 0 24px;
     padding: 24px 0 0;
   }
