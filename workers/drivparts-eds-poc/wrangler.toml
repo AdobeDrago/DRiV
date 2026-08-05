@@ -1,0 +1,8 @@
+name = "drivparts-eds-poc"
+main = "index.js"
+compatibility_date = "2026-07-28"
+account_id = "525642d028ea297dfb5bf68a0d3df229"
+workers_dev = true
+
+[observability]
+enabled = true

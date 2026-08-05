@@ -1,0 +1,423 @@
+/* stylelint-disable no-descending-specificity */
+
+/* ===== DRiV footer — match www.drivparts.com ===== */
+
+footer {
+  background-image: linear-gradient(#545454 50%, #3a3a3a);
+  color: #fff;
+  font-size: 14px;
+}
+
+footer .footer-inner {
+  position: relative;
+}
+
+footer .footer-inner ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer-inner a:any-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer .footer-inner a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Social / Find Us bar — title + icons on one row ---- */
+footer .footer-social {
+  background-image: linear-gradient(#c41230 50%, #ad102a);
+  box-shadow: 0 1px 6px rgb(0 0 0 / 40%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+footer .footer-social-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px 40px;
+}
+
+footer .footer-social-heading {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 14px;
+  line-height: 40px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  white-space: nowrap;
+}
+
+footer .footer-social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+footer .footer-social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+footer .footer-social-links img {
+  width: 30px;
+  height: 30px;
+}
+
+/* ---- Link columns ---- */
+footer .footer-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 15px 20px;
+}
+
+footer .footer-column {
+  padding: 0 10px;
+}
+
+footer .footer-column-header {
+  display: block;
+}
+
+footer .footer-accordion-toggle {
+  display: none;
+}
+
+footer .footer-column h3,
+footer .footer-locale-title {
+  margin: 0 0 30px;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 500;
+}
+
+footer .footer-column h3 a:any-link {
+  color: #fff;
+}
+
+/* Desktop matches www.drivparts.com (22px line-height, compact stacks) */
+footer .footer-column li {
+  margin: 0;
+  line-height: 22px;
+}
+
+footer .footer-column li a {
+  display: inline;
+  font-weight: normal;
+}
+
+footer .footer-column-locale {
+  display: none;
+}
+
+/* ---- Footer locale panel: in-flow, dark footer background (not red) ---- */
+footer .locale-panel-footer {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  background-color: transparent;
+  padding: 20px 15px 28px;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+footer .locale-panel-footer .locale-panel-region li {
+  flex-basis: 50%;
+}
+
+footer .locale-panel-footer .locale-panel-region-title {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+/* ---- Bottom bar ---- */
+footer .footer-bottom-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px 15px;
+  font-size: 12px;
+}
+
+footer .footer-logo {
+  display: inline-flex;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+footer .footer-logo img {
+  display: block;
+  width: 30px;
+  height: auto;
+}
+
+/* `column-gap` (not the pipe's own padding) provides the space before each
+   pipe -- when a line wraps, that gap collapses at the wrap point (it only
+   applies *between* items on the same line), so the pipe starting the new
+   line sits flush left under "Privacy Statement" instead of looking indented
+   by its own left padding. */
+footer .footer-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 10px;
+  flex: 1 1 auto;
+  font-size: 12px;
+}
+
+footer .footer-legal-links > li > a,
+footer .footer-legal-links > li > button {
+  display: inline-block;
+  line-height: 21px;
+  white-space: nowrap;
+}
+
+footer .footer-legal-links > li > a::before,
+footer .footer-legal-links > li > button::before {
+  content: '|';
+  padding-right: 10px;
+}
+
+footer .footer-legal-links > li:first-child > a::before,
+footer .footer-legal-links > li:first-child > button::before {
+  content: none;
+  padding: 0;
+}
+
+/* .footer-cookie-settings is a <button> (see footer.js) -- reset it to look
+   like the <a> siblings it sits next to. */
+footer .footer-cookie-settings {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Live site renders these two in all-caps, unlike the rest of the list. */
+footer .footer-cookie-settings,
+footer .footer-cookie-notice {
+  text-transform: uppercase;
+}
+
+footer .footer-locale {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+footer .footer-locale-caret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentcolor;
+}
+
+footer .footer-locale[aria-expanded='true'] .footer-locale-caret {
+  border-top: 0;
+  border-bottom: 5px solid currentcolor;
+}
+
+/* ===== Tablet ===== */
+@media (width >= 600px) {
+  footer .footer-columns {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ===== Desktop ===== */
+@media (width >= 1025px) {
+  footer .footer-columns {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    column-gap: 8px;
+    padding: 40px 15px 20px;
+  }
+
+  footer .footer-column {
+    padding: 0 10px;
+  }
+}
+
+/* ===== Mobile accordion footer ===== */
+@media (width < 1025px) {
+  footer .footer-social {
+    display: none;
+  }
+
+  footer .footer-columns {
+    display: block;
+    max-width: none;
+    padding: 0;
+    gap: 0;
+  }
+
+  footer .footer-column {
+    padding: 0;
+    border-bottom: 1px solid rgb(255 255 255 / 20%);
+  }
+
+  footer .footer-column-locale {
+    display: block;
+  }
+
+  footer .footer-column-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0;
+    background-image: linear-gradient(#545454, #3a3a3a);
+  }
+
+  footer .footer-column h3,
+  footer .footer-locale-title {
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 16px 16px 16px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  footer .footer-accordion-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    border: 0;
+    background: #1a1a1a;
+    color: #fff;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  footer .footer-accordion-icon,
+  footer .footer-accordion-icon::before {
+    display: block;
+    position: relative;
+    width: 14px;
+    height: 2px;
+    background: #fff;
+  }
+
+  footer .footer-accordion-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: rotate(90deg);
+  }
+
+  footer .footer-column.is-open .footer-accordion-icon::before {
+    display: none;
+  }
+
+  footer .footer-column-links {
+    display: none;
+    background: #3a3a3a;
+    padding: 8px 0 12px;
+  }
+
+  footer .footer-column.is-open > .footer-column-links {
+    display: block;
+  }
+
+  footer .footer-column-links li {
+    line-height: 1.2;
+  }
+
+  /* Mobile: ≥48px touch targets (Lighthouse / WCAG best practice) */
+  footer .footer-column-links li a {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 48px;
+    padding: 12px 20px;
+    color: #fff;
+    font-size: 14px;
+  }
+
+  footer .footer-locale {
+    display: none;
+  }
+
+  footer .locale-panel-footer {
+    max-width: none;
+    padding: 12px 16px 20px;
+  }
+
+  footer .locale-panel-footer .locale-panel-inner {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  footer .locale-panel-footer .locale-panel-region {
+    flex: none;
+  }
+
+  footer .locale-panel-footer .locale-panel-region li {
+    flex-basis: 100%;
+  }
+
+  footer .locale-panel-footer .locale-panel-region-title {
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  footer .footer-bottom-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    max-width: none;
+    padding: 24px 20px 28px;
+  }
+
+  footer .footer-logo {
+    margin-right: 0;
+  }
+
+  footer .footer-logo img {
+    width: 42px;
+  }
+
+  footer .footer-legal-links {
+    flex: none;
+    width: 100%;
+    row-gap: 6px;
+  }
+}

@@ -1,0 +1,121 @@
+/*
+ * Widget block
+ *
+ * The widget block is a generic loader that fetches an interactive tool asset
+ * (referenced by a link) and swaps it into the block. Until that asset loads
+ * -- or when it fails to load, e.g. in local preview -- the block stays in a
+ * placeholder state that shows the source link. These styles frame that
+ * placeholder/loading state cleanly and reproduce the source container
+ * treatment for homepage instances:
+ *   - Parts Finder ( /widgets/parts-finder.html )  -> light framed card
+ */
+
+.widget {
+  display: block;
+  box-sizing: border-box;
+}
+
+/* Placeholder/loading frame: single row -> single cell -> paragraph -> link */
+.widget > div > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 83px;
+  padding: 20px 15px;
+}
+
+.widget > div > div > p {
+  margin: 0;
+}
+
+/* The source link acts as a call-to-action while the tool loads */
+.widget > div > div a:any-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 16px 40px;
+  border: 0;
+  background-color: var(--brand-color);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.widget > div > div a:any-link:hover,
+.widget > div > div a:any-link:focus-visible {
+  background-color: #a30f28;
+  color: #fff;
+  text-decoration: none;
+}
+
+/*
+ * Parts Finder variant -- white framed card. In the source the tool renders in
+ * a panel (.driv-tabs-list__container) with a white background, 4px rounded
+ * corners and a soft drop shadow (0 1px 5px rgba(0, 0, 0, 0.25)), padded 15px.
+ * We reproduce that panel treatment for the placeholder/loading state.
+ */
+.widget:has(a[href*="parts-finder"]) {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 25%);
+  padding: 15px;
+}
+
+/*
+ * Placeholder header (title + static tab labels) authored ahead of the CTA
+ * link in the parts-finder widget cell -- shown when the real backend-driven
+ * Parts Finder asset isn't available (e.g. local preview). Echoes the
+ * source's `.driv-tabs-list__header` layout: title left, tabs right,
+ * "Vehicle" (the first tab) underlined as the default-active tab.
+ * Authored as a plain paragraph + list, so it's editable content rather
+ * than JS-generated markup. Not interactive.
+ */
+.widget:has(a[href*="parts-finder"]) > div > div {
+  min-height: 120px;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.widget:has(a[href*="parts-finder"]) > div > div > p:has(a) {
+  flex: 0 0 100%;
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.widget:has(a[href*="parts-finder"]) > div > div > p:first-child {
+  flex: 1 0 auto;
+  margin: 0;
+  color: #1a1a1a;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.widget:has(a[href*="parts-finder"]) > div > div > ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #1a1a1a;
+  font-family: var(--heading-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.widget:has(a[href*="parts-finder"]) > div > div > ul > li:first-child {
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--brand-color);
+}

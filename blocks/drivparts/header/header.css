@@ -1,0 +1,803 @@
+/* stylelint-disable no-descending-specificity */
+
+/* ===== DRiV header / nav — match www.drivparts.com ===== */
+
+/* Height is controlled by styles.css (critical path) to prevent layout shift
+   caused by this lazy-loaded file overriding it before content is rendered. */
+
+/* Drawer is appended to <body> — both roots need these vars.
+   --nav-drawer-top is overridden inline by header.js when the menu opens. */
+header,
+.nav-mobile {
+  --nav-drawer-top: var(--nav-height);
+  --nav-drawer-reveal: 43px;
+}
+
+header .nav-wrapper {
+  width: 100%;
+  z-index: 10;
+}
+
+header nav {
+  font-family: var(--body-font-family);
+}
+
+header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header nav a:any-link {
+  text-decoration: none;
+}
+
+header .nav-brand {
+  position: relative;
+  background-image: linear-gradient(#fff 50%, #e7e7e7);
+}
+
+header .nav-brand a:any-link {
+  color: #545454;
+  font-weight: normal;
+}
+
+header .nav-brand .icon {
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
+  vertical-align: -2px;
+  color: #545454;
+}
+
+header .nav-brand .icon img {
+  filter: none;
+}
+
+/* ---- Row 0: utility / eyebrow bar ---- */
+header .nav-utility {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 15px;
+  height: 40px;
+  font-size: 14px;
+  color: #545454;
+}
+
+/* Results page: logo and utility links sit flush against the viewport edges
+   instead of being inset inside the 1440px centered container. Every other
+   page (including homepage and part-details) keeps the centered layout. */
+header.is-results .nav-utility {
+  max-width: none;
+}
+
+header .nav-locale {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #545454;
+  cursor: pointer;
+  line-height: 23px;
+}
+
+header .nav-locale .nav-caret {
+  border-top-color: #3a3a3a;
+}
+
+header .nav-locale[aria-expanded='true'] .nav-caret {
+  border-top: 0;
+  border-bottom: 5px solid #3a3a3a;
+}
+
+/* header locale panel sits just below the utility bar */
+header .locale-panel-header {
+  top: 40px;
+}
+
+header .nav-utility-links {
+  display: flex;
+  align-items: center;
+}
+
+header .nav-utility-links > li > a {
+  display: inline-flex;
+  align-items: center;
+  border-left: 1px solid #545454;
+  color: #545454;
+  margin-left: 10px;
+  padding-left: 10px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+header .nav-utility-links > li:first-child > a {
+  border-left: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+header .nav-utility-links a:hover {
+  color: var(--brand-color, #c41230);
+}
+
+/* Authenticated utility links (QA: Welcome | My Account | Shopping Cart | Sign Out) */
+header .nav-utility-links.is-authenticated > li.nav-auth-welcome {
+  color: #545454;
+  line-height: 1.2;
+  white-space: nowrap;
+  font-size: inherit;
+}
+
+header .nav-utility-links.is-authenticated > li.nav-auth-account > a,
+header .nav-utility-links.is-authenticated > li.nav-auth-cart > a,
+header .nav-utility-links.is-authenticated > li.nav-auth-signout > a,
+header .nav-utility-links.is-authenticated > li.nav-auth-endemulate > a {
+  border-left: 1px solid #545454;
+  color: #545454;
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+/* Mini-cart hover popup (QA .hybris-cart-popup) */
+header .nav-utility-links > li.nav-auth-cart {
+  position: relative;
+}
+
+header .nav-mini-cart-popup {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 500;
+  box-sizing: border-box;
+  width: 420px;
+  max-width: min(420px, 92vw);
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 15%);
+  color: #333;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+header .nav-mini-cart-popup[hidden] {
+  display: none !important;
+}
+
+header .nav-mini-cart-title {
+  position: relative;
+  margin: 0 0 12px;
+  padding-right: 28px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+header .nav-mini-cart-close {
+  position: absolute;
+  top: -4px;
+  right: 0;
+  border: none;
+  background: none;
+  color: #333;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+
+header .nav-mini-cart-content {
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+header .nav-mini-cart-entry {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-height: 70px;
+  margin: 10px 0;
+  padding-bottom: 10px;
+}
+
+header .nav-mini-cart-entry-image {
+  flex: 0 1 86px;
+  width: 86px;
+  height: auto;
+  object-fit: contain;
+}
+
+header .nav-mini-cart-entry-info {
+  flex: 1 1 50%;
+  padding: 0 20px;
+  line-height: 21px;
+}
+
+header .nav-mini-cart-entry-name {
+  display: block;
+}
+
+header .nav-mini-cart-entry-code,
+header .nav-mini-cart-entry-qty {
+  margin: 0;
+}
+
+header .nav-mini-cart-entry-qty {
+  font-weight: 700;
+}
+
+header .nav-mini-cart-entry-rate {
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+header .nav-mini-cart-total {
+  margin: 20px 0;
+  padding: 10px 15px;
+  text-align: right;
+}
+
+header .nav-mini-cart-total p {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+header .nav-mini-cart-checkout {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 16px;
+  background: var(--brand-color, #c41230);
+  color: #fff !important;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+header .nav-mini-cart-checkout:hover {
+  color: #fff !important;
+  opacity: 0.92;
+}
+
+@media (width < 900px) {
+  header .nav-mini-cart-popup {
+    display: none !important;
+  }
+}
+
+header .nav-utility-links a[hidden],
+header .nav-utility-links li[hidden] {
+  display: none !important;
+}
+
+/* ---- Row 1: logo + quick links ---- */
+header .nav-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 12px 15px 16px;
+}
+
+header.is-results .nav-logo-row {
+  max-width: none;
+}
+
+header .nav-logo img {
+  display: block;
+  width: 200px;
+  height: auto;
+}
+
+header .nav-quick-links {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #545454;
+}
+
+header .nav-quick-links > li > a {
+  align-items: center;
+  color: #545454;
+  border-right: 1px solid #545454;
+  padding-right: 10px;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+header .nav-quick-links > li:last-child > a {
+  border-right: none;
+  padding-right: 0;
+  margin-right: 0;
+}
+
+header .nav-quick-links a:hover {
+  color: var(--brand-color, #c41230);
+}
+
+/* ---- Row 2: main red nav bar ---- */
+header .nav-main {
+  background-image: linear-gradient(#c41230 50%, #ad102a);
+  box-shadow: 0 1px 6px rgb(0 0 0 / 40%), inset 0 1px 1px rgb(0 0 0 / 40%);
+}
+
+header .nav-main-inner {
+  display: flex;
+  align-items: stretch;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 15px;
+  min-height: 60px;
+}
+
+header .nav-menu {
+  display: flex;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 60px;
+}
+
+header .nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 0 auto;
+  border-left: 1px solid rgb(54 54 54 / 30%);
+  text-align: center;
+}
+
+/* Author `display: flex` above beats the UA [hidden] rule — restore it. */
+header .nav-item[hidden] {
+  display: none;
+}
+
+header .nav-item:last-of-type {
+  border-right: 1px solid rgb(54 54 54 / 30%);
+}
+
+header .nav-item > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 60px;
+  padding: 0 16px;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 60px;
+  white-space: nowrap;
+}
+
+header .nav-item:hover > a,
+header .nav-item.has-dropdown > a[aria-expanded='true'] {
+  background-color: #b5122d;
+}
+
+header .nav-caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentcolor;
+}
+
+/* dropdown panels — width matches parent nav item */
+header .nav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #8b0d22;
+  padding: 8px 0;
+  z-index: 20;
+  text-align: center;
+}
+
+header .nav-item.has-dropdown:has(> a[aria-expanded='true']) > .nav-dropdown {
+  display: block;
+}
+
+header .nav-dropdown li a {
+  display: block;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.3;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+header .nav-dropdown li a:hover {
+  background-color: rgb(0 0 0 / 20%);
+}
+
+/* search form — split button + input like drivparts.com */
+header .nav-search {
+  display: flex;
+  align-items: stretch;
+  flex: 0 0 auto;
+  align-self: center;
+  margin-left: 10px;
+  height: 32px;
+  min-width: 250px;
+}
+
+header .nav-search-submit {
+  display: inline-flex;
+  justify-content: center;
+  width: 35px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  background-color: #fff;
+  cursor: pointer;
+  color: #545454;
+}
+
+header .nav-search-submit .icon {
+  width: 14px;
+  height: 14px;
+}
+
+header .nav-search input {
+  flex: 1 1 auto;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  padding: 0 10px;
+  height: 32px;
+  font: inherit;
+  font-size: 14px;
+  min-width: 0;
+  outline: none;
+  background-color: #fff;
+  color: #545454;
+}
+
+header .nav-search input::placeholder {
+  color: #999;
+}
+
+/* hamburger hidden on desktop */
+header .nav-hamburger {
+  display: none;
+}
+
+/* mobile drawer hidden on desktop (may live on body) */
+.nav-mobile {
+  display: none;
+}
+
+/* ===== Mobile (< 900px) ===== */
+@media (width < 900px) {
+  header {
+    overflow: visible;
+  }
+
+  header .nav-wrapper {
+    position: relative;
+    z-index: 100;
+    width: 100%;
+  }
+
+  header .nav-utility,
+  header .locale-panel-header,
+  header .nav-quick-links,
+  header .nav-main {
+    display: none;
+  }
+
+  header .nav-brand {
+    background: #fff;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 15%);
+  }
+
+  header .nav-logo-row {
+    padding: 10px 16px;
+  }
+
+  header .nav-logo img {
+    width: 200px;
+  }
+
+  header .nav-hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  header .nav-hamburger-icon,
+  header .nav-hamburger-icon::before,
+  header .nav-hamburger-icon::after {
+    display: block;
+    position: relative;
+    width: 22px;
+    height: 2px;
+    background-color: #c41230;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  header .nav-hamburger-icon::before,
+  header .nav-hamburger-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+
+  header .nav-hamburger-icon::before { top: -7px; }
+  header .nav-hamburger-icon::after { top: 7px; }
+
+  header .nav-hamburger[aria-expanded='true'] .nav-hamburger-icon {
+    background-color: transparent;
+  }
+
+  header .nav-hamburger[aria-expanded='true'] .nav-hamburger-icon::before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+
+  header .nav-hamburger[aria-expanded='true'] .nav-hamburger-icon::after {
+    top: 0;
+    transform: rotate(-45deg);
+  }
+
+  /* ---- Mobile drawer: 43px left reveal + flush right (chevrons stay visible) ---- */
+
+  /* Left reveal + flush right; --nav-drawer-top set inline by header.js */
+  .nav-mobile {
+    display: block;
+    position: fixed !important;
+    inset: var(--nav-drawer-top) 0 0 var(--nav-drawer-reveal) !important;
+    width: auto !important;
+    max-width: none !important;
+    height: calc(100dvh - var(--nav-drawer-top)) !important;
+    min-height: calc(100dvh - var(--nav-drawer-top)) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0;
+    box-sizing: border-box;
+    overflow: hidden auto;
+    background: #f2f2f2;
+    box-shadow: none;
+    z-index: 95;
+    transform: none !important;
+  }
+
+  /* Drill-downs own the scroll; don't let root list show underneath */
+  .nav-mobile[data-level]:not([data-level='root']) {
+    overflow: hidden;
+  }
+
+  .nav-mobile[hidden] {
+    display: none;
+  }
+
+  /* stacked panels — drill-downs slide in from the right */
+  .nav-mobile-panel {
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    background: #f2f2f2;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-mobile-root {
+    position: relative;
+    z-index: 1;
+    min-height: 100%;
+    top: 13px;
+  }
+
+  .nav-mobile[data-level]:not([data-level='root']) .nav-mobile-root {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .nav-mobile-panel:not(.nav-mobile-root) {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: 100%;
+    min-height: 100%;
+    overflow: auto;
+    background: #f2f2f2;
+    transform: translateX(100%);
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .nav-mobile-panel:not(.nav-mobile-root).is-active {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+    top: 13px;
+  }
+
+  .nav-mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 16px 18px;
+    border: 0;
+    border-bottom: 1px solid #d4d4d4;
+    background: linear-gradient(#fff 0%, #ececec 100%);
+    color: #3a3a3a;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .nav-mobile-link[hidden] {
+    display: none;
+  }
+
+  .nav-mobile-link:any-link {
+    color: #3a3a3a;
+  }
+
+  .nav-mobile-link .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 0;
+    flex-shrink: 0;
+  }
+
+  .nav-mobile-chevron {
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin-left: auto;
+    border-right: 2px solid #c41230;
+    border-bottom: 2px solid #c41230;
+    transform: rotate(-45deg);
+    flex-shrink: 0;
+  }
+
+  .nav-mobile .nav-search {
+    display: flex;
+    margin: 12px 16px;
+    min-width: 0;
+    width: calc(100% - 32px);
+    height: 40px;
+  }
+
+  .nav-mobile .nav-search-submit,
+  .nav-mobile .nav-search input {
+    height: 40px;
+  }
+
+  /* drill-down back bar */
+  .nav-mobile-back {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 16px 18px;
+    border: 0;
+    background-color: #c41230;
+    color: #fff;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .nav-mobile-back-arrow {
+    width: 10px;
+    height: 10px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .nav-mobile-sublist a {
+    display: block;
+    padding: 16px 18px;
+    border-bottom: 1px solid #d4d4d4;
+    background: linear-gradient(#fff 0%, #ececec 100%);
+    color: #3a3a3a;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .nav-mobile-sublist a:any-link {
+    color: #3a3a3a;
+  }
+
+  /* locale drill-down */
+  .nav-mobile ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-mobile li {
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-mobile-locale-region-title {
+    margin: 0;
+    padding: 12px 18px;
+    background: #e7e7e7;
+    color: #3a3a3a;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .nav-mobile-locale-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+    color: #3a3a3a;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .nav-mobile-locale-option input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #164991;
+    flex-shrink: 0;
+  }
+
+  /* Dim page behind open drawer (left strip / margin gap) — mobile/tablet only */
+  body.nav-open::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgb(0 0 0 / 60%);
+    z-index: 90;
+  }
+}

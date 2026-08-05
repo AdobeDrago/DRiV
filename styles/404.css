@@ -1,0 +1,120 @@
+main.error > .section.error-band {
+  margin: 0;
+}
+
+main.error > .section.error-band > .default-content-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+main.error > .section.error-band-code {
+  background-color: #e7e7e7;
+  text-align: center;
+}
+
+main.error > .section.error-band-code > .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 35px 10px;
+  background-color: var(--background-color);
+  background-image:
+    radial-gradient(circle at 50% 50%, #f8f8f8 4px, transparent 5.5px),
+    radial-gradient(circle at 50% 50%, #f8f8f8 4px, transparent 5.5px);
+  background-position: 0 0, 15.25px 12.5px;
+  background-size: 30.5px 25px;
+}
+
+main.error > .section.error-band-code h1 {
+  margin: 0;
+  color: var(--link-color);
+  font-size: 30px;
+  line-height: 33px;
+  transform: scaleX(0.976);
+}
+
+main.error > .section.error-band-message {
+  padding: 33px 0 21px;
+  background-color: #e7e7e7;
+  text-align: center;
+}
+
+main.error > .section.error-band-message > .default-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+main.error > .section.error-band-message h2 {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.65px;
+  line-height: 33px;
+  text-transform: none;
+}
+
+main.error .error-cta {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 179px;
+  background-color: var(--brand-color);
+  padding: 24px 39px;
+  color: #fff;
+  font-size: var(--body-font-size-xs);
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  line-height: 21px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+main.error .error-cta::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+  background-image:
+    radial-gradient(circle at 3px 2px, currentcolor 1.5px, transparent 1.5px),
+    radial-gradient(circle at 7px 5px, currentcolor 1.5px, transparent 1.5px),
+    radial-gradient(circle at 3px 8px, currentcolor 1.5px, transparent 1.5px);
+}
+
+main.error .error-cta:hover {
+  background-color: var(--brand-color-hover, #b5122d);
+  color: #fff;
+  text-decoration: none;
+}
+
+main.error .error-cta:focus-visible {
+  outline: 2px solid var(--text-color);
+  outline-offset: 2px;
+}
+
+@media (width >= 1025px) {
+  main.error > .section.error-band-code > .default-content-wrapper {
+    padding-top: 35px;
+  }
+
+  main.error > .section.error-band-code h1 {
+    font-size: 70px;
+    line-height: 70px;
+  }
+
+  main.error > .section.error-band-message {
+    padding-top: 44px;
+  }
+
+  main.error > .section.error-band-message h2 {
+    font-size: var(--heading-size-xxl);
+    letter-spacing: -0.87px;
+    line-height: 44px;
+  }
+}
