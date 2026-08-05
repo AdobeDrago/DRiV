@@ -14,7 +14,7 @@
  * expose credentials, cookies, tokens, or account data in logs.
  */
 
-const EDS_ORIGIN = 'https://feature-thrishan--driv--adobedrago.aem.page';
+const EDS_ORIGIN = 'https://code-and-theory--driv--adobedrago.aem.page';
 const HYBRIS_ORIGIN = 'https://qa.drivparts.com';
 
 /**
