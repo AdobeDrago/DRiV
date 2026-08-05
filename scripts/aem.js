@@ -546,7 +546,6 @@ const DRIVPARTS_BLOCKS = new Set([
   'hybris-storefront',
   'columns-promo',
   'hero-banner',
-  'embed-signin',
   'widget',
 ]);
 
@@ -554,9 +553,6 @@ const DRIVPARTS_OVERRIDES = new Set([
   'header',
   'footer',
   'fragment',
-  'cards',
-  'columns',
-  'hero',
 ]);
 
 /**
