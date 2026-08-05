@@ -18,6 +18,14 @@ import {
   getStorefrontDocMode,
 } from '../../../scripts/storefront-session.js';
 
+const frameResizeObservers = new WeakMap();
+
+/** Section children that make up the hero row, still outside the layout. */
+const HERO_WRAPPER_SELECTOR = ':scope > .parts-finder-wrapper, '
+  + ':scope > .columns-promo-wrapper, '
+  + ':scope > .sign-in-wrapper, '
+  + ':scope > .hybris-storefront-wrapper';
+
 /**
  * Always resolve to a same-origin path so CSP frame-ancestors 'self' passes.
  * @param {string} href
@@ -87,7 +95,9 @@ function showProxyHint(block, src) {
 }
 
 /**
- * Apply anonymous / CSR (Emulate Account) / emulating (B2B) layout classes.
+ * Publish the anonymous / CSR (Emulate Account) / emulating (B2B) mode as
+ * data-storefront-mode on both the block and its section, which is what the
+ * hero layout in drivparts.css keys off.
  * Dispatches storefront:auth so the header can refresh Welcome / End Emulate.
  * @param {Element} block
  * @param {HTMLIFrameElement} frame
@@ -102,20 +112,12 @@ function syncAuthLayout(block, frame) {
   const prev = block.dataset.storefrontMode || 'anonymous';
   block.dataset.storefrontMode = mode;
 
-  const isCsr = mode === 'csr';
-  const isEmulating = mode === 'emulating';
-  block.classList.toggle('hybris-storefront-authenticated', isCsr);
-  block.classList.toggle('hybris-storefront-emulating', isEmulating);
-
   const section = block.closest('.section');
-  if (section) {
-    section.classList.toggle('hybris-storefront-auth', isCsr);
-    section.classList.toggle('hybris-storefront-emulating', isEmulating);
-  }
+  if (section) section.dataset.storefrontMode = mode;
 
   if (mode !== prev) {
     window.dispatchEvent(new CustomEvent('storefront:auth', {
-      detail: { loggedIn: isCsr || isEmulating, mode },
+      detail: { loggedIn: mode === 'csr' || mode === 'emulating', mode },
     }));
   }
 }
@@ -163,6 +165,93 @@ function bindLoginReturn(frame) {
 }
 
 /**
+ * @param {Document} doc
+ * @returns {number} Content height of the framed document
+ */
+function measureDocumentHeight(doc) {
+  const { body, documentElement } = doc;
+  return Math.ceil(Math.max(
+    body?.scrollHeight || 0,
+    documentElement.scrollHeight,
+  ));
+}
+
+/**
+ * Size the same-origin iframe to its document and follow later content changes.
+ *
+ * The frame is collapsed before every measurement: an iframe with an explicit
+ * height gives its document that viewport height, so `scrollHeight` can only
+ * ever grow and the panel would stay at its tallest (mobile) size on resize.
+ * @param {Element} block
+ * @param {HTMLIFrameElement} frame
+ */
+function bindFrameHeight(block, frame) {
+  const previous = frameResizeObservers.get(frame);
+  if (previous) {
+    previous.contentObserver.disconnect();
+    previous.widthObserver.disconnect();
+    cancelAnimationFrame(previous.animationFrame);
+  }
+
+  let doc;
+  try {
+    doc = frame.contentDocument;
+  } catch (e) {
+    return;
+  }
+  if (!doc?.documentElement) return;
+
+  const state = {
+    contentObserver: null,
+    widthObserver: null,
+    animationFrame: 0,
+    width: frame.clientWidth,
+    isApplying: false,
+  };
+
+  const applyHeight = () => {
+    state.isApplying = true;
+    block.style.minHeight = '0';
+    frame.style.minHeight = '0';
+    frame.style.height = '0';
+    // Flush the parent layout so the document reflows at the collapsed size
+    frame.getBoundingClientRect();
+
+    const height = measureDocumentHeight(doc);
+    const value = height ? `${height}px` : '';
+    frame.style.height = value;
+    block.style.height = value;
+
+    // Our own writes resize the framed document; ignore that echo
+    requestAnimationFrame(() => {
+      state.isApplying = false;
+    });
+  };
+
+  const scheduleUpdate = () => {
+    cancelAnimationFrame(state.animationFrame);
+    state.animationFrame = requestAnimationFrame(applyHeight);
+  };
+
+  state.contentObserver = new ResizeObserver(() => {
+    if (state.isApplying) return;
+    scheduleUpdate();
+  });
+  if (doc.body) state.contentObserver.observe(doc.body);
+
+  state.widthObserver = new ResizeObserver(([entry]) => {
+    const width = Math.round(entry.contentRect.width);
+    if (width === state.width) return;
+    state.width = width;
+    scheduleUpdate();
+  });
+  state.widthObserver.observe(frame);
+
+  frameResizeObservers.set(frame, state);
+  scheduleUpdate();
+}
+
+/**
  * Recover when Hybris redirects the embedded login to the EDS homepage.
  * Without this guard the homepage recursively renders inside the iframe until
  * the user refreshes the outer page.
@@ -184,6 +273,24 @@ function ensureStorefrontRoute(frame, src) {
 }
 
 /**
+ * Keep the section background full width while constraining its block layout.
+ * Idempotent: re-running adopts wrappers from blocks that decorated later.
+ * @param {Element} section
+ */
+function wrapStorefrontLayout(section) {
+  const unwrapped = section.querySelectorAll(HERO_WRAPPER_SELECTOR);
+  if (!unwrapped.length) return;
+
+  let layout = section.querySelector(':scope > .hybris-storefront-layout');
+  if (!layout) {
+    layout = document.createElement('div');
+    layout.className = 'hybris-storefront-layout';
+    unwrapped[0].before(layout);
+  }
+  unwrapped.forEach((wrapper) => layout.append(wrapper));
+}
+
+/**
  * @param {Element} block
  */
 export default async function decorate(block) {
@@ -196,13 +303,21 @@ export default async function decorate(block) {
   const src = toSameOriginSrc(raw);
 
   const section = block.closest('.section');
-  if (section) section.classList.add('sign-in-container');
+  if (section) {
+    // columns-promo scopes its compact hero card on .sign-in-container
+    section.classList.add('sign-in-container');
+    section.dataset.storefrontMode = 'anonymous';
+    wrapStorefrontLayout(section);
+  }
 
   const reachable = await isStorefrontReachable(src);
   if (!reachable) {
     showProxyHint(block, src);
     return;
   }
+
+  // Sibling blocks may have decorated during the reachability check
+  if (section) wrapStorefrontLayout(section);
 
   const frame = document.createElement('iframe');
   frame.className = 'hybris-storefront-frame';
@@ -217,6 +332,7 @@ export default async function decorate(block) {
     if (!ensureStorefrontRoute(frame, src)) return;
     syncAuthLayout(block, frame);
     bindLoginReturn(frame);
+    bindFrameHeight(block, frame);
   });
 
   // First paint may race CSS; sync once DOM is ready inside the frame
