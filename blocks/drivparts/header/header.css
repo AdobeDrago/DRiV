@@ -385,8 +385,9 @@ header .nav-item > a {
 }
 
 header .nav-item:hover > a,
-header .nav-item.has-dropdown > a[aria-expanded='true'] {
-  background-color: #b5122d;
+header .nav-item.has-dropdown > a[aria-expanded='true'],
+header .nav-item-active > a {
+  background-color: rgb(0 0 0 / 30%);
 }
 
 header .nav-caret {

@@ -4,6 +4,10 @@
  * on a white background with a subtle divider between entries.
  */
 
+.cards-wrapper {
+  background-color: #fff;
+}
+
 .cards > ul {
   list-style: none;
   display: block;

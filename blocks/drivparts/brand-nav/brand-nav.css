@@ -48,14 +48,14 @@
 }
 
 .brand-nav-list li {
-  margin: 15px 0;
+  margin: 8px 0;
 }
 
 .brand-nav-link:any-link {
   display: inline;
   color: var(--text-color, #3a3a3a);
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 16px;
   text-decoration: none;
 }
@@ -92,6 +92,15 @@
     grid-column: 1;
     grid-row: 1 / 999;
     padding: 32px 24px 40px;
+  }
+
+  /* the generic `main > .section > div` rule adds wide page gutters
+     (intended for full-width sections) that collapse this narrow column
+     almost to nothing — drop them so the sidebar gets its full width */
+  main:has(.brand-nav.block) > .section:has(.brand-nav) > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
   }
 
   /* right column: hero, cards and everything else stack here */

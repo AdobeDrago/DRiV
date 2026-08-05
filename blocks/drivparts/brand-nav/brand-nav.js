@@ -41,7 +41,10 @@ export default function decorate(block) {
   list.className = 'brand-nav-list';
   links.forEach((a) => {
     const li = document.createElement('li');
-    a.classList.add('brand-nav-link');
+    // overwrite rather than add: decorateButtons() already stamped a lone
+    // link in its own <p>/<div> as `button` (the global MOOG-pill style)
+    // before this block's decorate() ran
+    a.className = 'brand-nav-link';
     li.append(a);
     list.append(li);
   });
