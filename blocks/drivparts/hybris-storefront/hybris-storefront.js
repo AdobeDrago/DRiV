@@ -20,6 +20,12 @@ import {
 
 const frameResizeObservers = new WeakMap();
 
+/** Section children that make up the hero row, still outside the layout. */
+const HERO_WRAPPER_SELECTOR = ':scope > .parts-finder-wrapper, '
+  + ':scope > .columns-promo-wrapper, '
+  + ':scope > .sign-in-wrapper, '
+  + ':scope > .hybris-storefront-wrapper';
+
 /**
  * Always resolve to a same-origin path so CSP frame-ancestors 'self' passes.
  * @param {string} href
@@ -89,7 +95,9 @@ function showProxyHint(block, src) {
 }
 
 /**
- * Apply anonymous / CSR (Emulate Account) / emulating (B2B) layout classes.
+ * Publish the anonymous / CSR (Emulate Account) / emulating (B2B) mode as
+ * data-storefront-mode on both the block and its section, which is what the
+ * hero layout in drivparts.css keys off.
  * Dispatches storefront:auth so the header can refresh Welcome / End Emulate.
  * @param {Element} block
  * @param {HTMLIFrameElement} frame
@@ -104,20 +112,12 @@ function syncAuthLayout(block, frame) {
   const prev = block.dataset.storefrontMode || 'anonymous';
   block.dataset.storefrontMode = mode;
 
-  const isCsr = mode === 'csr';
-  const isEmulating = mode === 'emulating';
-  block.classList.toggle('hybris-storefront-authenticated', isCsr);
-  block.classList.toggle('hybris-storefront-emulating', isEmulating);
-
   const section = block.closest('.section');
-  if (section) {
-    section.classList.toggle('hybris-storefront-auth', isCsr);
-    section.classList.toggle('hybris-storefront-emulating', isEmulating);
-  }
+  if (section) section.dataset.storefrontMode = mode;
 
   if (mode !== prev) {
     window.dispatchEvent(new CustomEvent('storefront:auth', {
-      detail: { loggedIn: isCsr || isEmulating, mode },
+      detail: { loggedIn: mode === 'csr' || mode === 'emulating', mode },
     }));
   }
 }
@@ -274,23 +274,20 @@ function ensureStorefrontRoute(frame, src) {
 
 /**
  * Keep the section background full width while constraining its block layout.
+ * Idempotent: re-running adopts wrappers from blocks that decorated later.
  * @param {Element} section
  */
 function wrapStorefrontLayout(section) {
-  if (section.querySelector(':scope > .hybris-storefront-layout')) return;
+  const unwrapped = section.querySelectorAll(HERO_WRAPPER_SELECTOR);
+  if (!unwrapped.length) return;
 
-  const wrappers = section.querySelectorAll(
-    ':scope > .parts-finder-wrapper, '
-    + ':scope > .columns-promo-wrapper, '
-    + ':scope > .sign-in-wrapper, '
-    + ':scope > .hybris-storefront-wrapper',
-  );
-  if (!wrappers.length) return;
-
-  const layout = document.createElement('div');
-  layout.className = 'hybris-storefront-layout';
-  wrappers[0].before(layout);
-  wrappers.forEach((wrapper) => layout.append(wrapper));
+  let layout = section.querySelector(':scope > .hybris-storefront-layout');
+  if (!layout) {
+    layout = document.createElement('div');
+    layout.className = 'hybris-storefront-layout';
+    unwrapped[0].before(layout);
+  }
+  unwrapped.forEach((wrapper) => layout.append(wrapper));
 }
 
 /**
@@ -307,7 +304,9 @@ export default async function decorate(block) {
 
   const section = block.closest('.section');
   if (section) {
+    // columns-promo scopes its compact hero card on .sign-in-container
     section.classList.add('sign-in-container');
+    section.dataset.storefrontMode = 'anonymous';
     wrapStorefrontLayout(section);
   }
 
@@ -316,6 +315,9 @@ export default async function decorate(block) {
     showProxyHint(block, src);
     return;
   }
+
+  // Sibling blocks may have decorated during the reachability check
+  if (section) wrapStorefrontLayout(section);
 
   const frame = document.createElement('iframe');
   frame.className = 'hybris-storefront-frame';

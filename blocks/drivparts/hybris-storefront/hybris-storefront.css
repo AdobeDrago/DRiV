@@ -1,7 +1,8 @@
 /*
  * hybris-storefront block
- * Matches the main-site .page-include-container storefront embed:
- * fixed ~340px tall at desktop, taller when the Hybris panel stacks on mobile.
+ * Matches the main-site .page-include-container storefront embed. The
+ * min-heights below only reserve space until hybris-storefront.js measures the
+ * framed document and takes over sizing.
  */
 
 .hybris-storefront {

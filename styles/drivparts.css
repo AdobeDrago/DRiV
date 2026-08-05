@@ -217,17 +217,6 @@ button.button.primary:focus-visible {
   color: #fff;
 }
 
-a.button.primary[aria-disabled="true"],
-a.button.primary[aria-disabled="true"]:hover,
-a.button.primary[aria-disabled="true"]:focus-visible,
-button.button.primary:disabled,
-button.button.primary:disabled:hover,
-button.button.primary:disabled:focus-visible {
-  background-color: var(--light-color);
-  border-color: var(--light-color);
-  color: var(--dark-color);
-}
-
 a.button.secondary,
 button.button.secondary {
   border-color: var(--text-color);
@@ -241,17 +230,6 @@ button.button.secondary:hover,
 button.button.secondary:focus-visible {
   border-color: var(--dark-color);
   background-color: var(--light-color);
-  color: var(--dark-color);
-}
-
-a.button.secondary[aria-disabled="true"],
-a.button.secondary[aria-disabled="true"]:hover,
-a.button.secondary[aria-disabled="true"]:focus-visible,
-button.button.secondary:disabled,
-button.button.secondary:disabled:hover,
-button.button.secondary:disabled:focus-visible {
-  background-color: var(--light-color);
-  border-color: var(--light-color);
   color: var(--dark-color);
 }
 
@@ -270,12 +248,13 @@ button.button.accent:focus-visible {
   background-color: var(--link-hover-color);
 }
 
-a.button.accent[aria-disabled="true"],
-a.button.accent[aria-disabled="true"]:hover,
-a.button.accent[aria-disabled="true"]:focus-visible,
-button.button.accent:disabled,
-button.button.accent:disabled:hover,
-button.button.accent:disabled:focus-visible {
+/* Last so it wins the equal-specificity tie against every variant's hover */
+a.button[aria-disabled="true"],
+a.button[aria-disabled="true"]:hover,
+a.button[aria-disabled="true"]:focus-visible,
+button.button:disabled,
+button.button:disabled:hover,
+button.button:disabled:focus-visible {
   background-color: var(--light-color);
   border-color: var(--light-color);
   color: var(--dark-color);
@@ -370,85 +349,66 @@ main .section.part-finder-result-container > div {
   padding: 0;
 }
 
-/* Homepage hero: stacked below 1025; flex row at desktop. min-height reserves decorated height to avoid CLS */
-main .section.dark.sign-in-container,
+/*
+ * Homepage hero. The section stays full-bleed so its background image spans the
+ * viewport; the inner layout carries the page max-width so content cannot drift
+ * on wide screens. Frame height is owned by hybris-storefront.js once the
+ * framed document reports its size, so no fixed heights are reserved here.
+ */
 main .section.dark.hybris-storefront-container {
-  min-height: 1100px;
   padding: 0;
 }
 
-main .section.dark.sign-in-container > .hybris-storefront-layout,
 main .section.dark.hybris-storefront-container > .hybris-storefront-layout {
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column-reverse;
   width: 100%;
   max-width: var(--page-max-width);
   margin: 0 auto;
   padding: 24px 0;
-  display: flex;
-  flex-direction: column-reverse;
 }
 
-main .section.dark.sign-in-container > .hybris-storefront-layout > div,
 main .section.dark.hybris-storefront-container > .hybris-storefront-layout > div {
   margin-top: 16px;
   margin-bottom: 16px;
 }
 
-main .section.dark.sign-in-container > .hybris-storefront-layout > div:first-child,
-main .section.dark.hybris-storefront-container > .hybris-storefront-layout > div:first-child {
+main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .parts-finder-wrapper {
   margin-top: 20px;
   padding: 0 15px;
 }
 
+main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .hybris-storefront-wrapper {
+  margin-bottom: 0;
+}
+
 @media (width >= 768px) {
-  main .section.dark.sign-in-container > .hybris-storefront-layout > div:first-child,
-  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > div:first-child {
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .parts-finder-wrapper {
     margin-top: 0;
   }
 }
 
-main .section.dark.sign-in-container > .hybris-storefront-layout > div:last-child,
-main .section.dark.hybris-storefront-container > .hybris-storefront-layout > div:last-child {
-  margin-bottom: 0;
-}
-
-/* CSR: Emulate Account replaces the hero trio */
-main .section.dark.hybris-storefront-auth > .hybris-storefront-layout > .parts-finder-wrapper,
-main .section.dark.hybris-storefront-auth > .hybris-storefront-layout > .columns-promo-wrapper,
-main .section.dark.hybris-storefront-auth > .hybris-storefront-layout > .sign-in-wrapper {
-  display: none !important;
-}
-
-main .section.dark.hybris-storefront-auth {
-  min-height: 360px;
-}
-
-/* Emulating: hide promo + sign-in; Parts Finder overlays the iframe slot */
-main .section.dark.hybris-storefront-emulating > .hybris-storefront-layout > .columns-promo-wrapper,
-main .section.dark.hybris-storefront-emulating > .hybris-storefront-layout > .sign-in-wrapper {
-  display: none !important;
-}
-
-main .section.dark.hybris-storefront-emulating {
-  min-height: 760px;
+/*
+ * CSR: Emulate Account replaces the hero trio.
+ * Emulating: B2B Account Details replaces promo + sign-in, Parts Finder stays.
+ */
+main .section.dark.hybris-storefront-container[data-storefront-mode="csr"] > .hybris-storefront-layout > .parts-finder-wrapper,
+main .section.dark.hybris-storefront-container[data-storefront-mode="csr"] > .hybris-storefront-layout > .columns-promo-wrapper,
+main .section.dark.hybris-storefront-container[data-storefront-mode="csr"] > .hybris-storefront-layout > .sign-in-wrapper,
+main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout > .columns-promo-wrapper,
+main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout > .sign-in-wrapper {
+  display: none;
 }
 
 @media (width >= 1025px) {
-  main .section.dark.sign-in-container,
-  main .section.dark.hybris-storefront-container {
-    min-height: 340px;
-  }
-
-  main .section.dark.sign-in-container > .hybris-storefront-layout,
   main .section.dark.hybris-storefront-container > .hybris-storefront-layout {
-    display: flex;
+    flex-direction: row;
     align-items: stretch;
     gap: 24px;
-    min-height: 340px;
     padding: 40px 0;
   }
 
-  main .section.dark.sign-in-container > .hybris-storefront-layout > div,
   main .section.dark.hybris-storefront-container > .hybris-storefront-layout > div {
     display: flex;
     max-width: none;
@@ -456,88 +416,57 @@ main .section.dark.hybris-storefront-emulating {
     padding: 0;
   }
 
-  main .section.dark.sign-in-container > .hybris-storefront-layout > .parts-finder-wrapper,
-  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .parts-finder-wrapper {
-    flex: 1 1 0;
-    padding: 10px 0;
-  }
-
-  main .section.dark.sign-in-container > .hybris-storefront-layout > .columns-promo-wrapper,
-  main .section.dark.sign-in-container > .hybris-storefront-layout > .sign-in-wrapper {
-    flex: 1 1 0;
-  }
-
-  main .section.dark.sign-in-container > .hybris-storefront-layout > .hybris-storefront-wrapper,
-  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .hybris-storefront-wrapper {
-    flex: 1 1 0;
-    overflow: hidden;
-  }
-
-  main .section.dark.sign-in-container > .hybris-storefront-layout > div > div,
   main .section.dark.hybris-storefront-container > .hybris-storefront-layout > div > div {
     width: 100%;
   }
 
-  main .section.dark.hybris-storefront-auth > .hybris-storefront-layout > .hybris-storefront-wrapper {
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .parts-finder-wrapper,
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .columns-promo-wrapper,
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .sign-in-wrapper,
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .hybris-storefront-wrapper {
+    flex: 1 1 0;
+  }
+
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .hybris-storefront-wrapper {
+    overflow: hidden;
+  }
+
+  main .section.dark.hybris-storefront-container[data-storefront-mode="csr"] > .hybris-storefront-layout > .hybris-storefront-wrapper {
     flex: 1 1 100%;
-    width: 100%;
     overflow: visible;
   }
 
-  main .section.dark.hybris-storefront-auth > .hybris-storefront-layout > .hybris-storefront-wrapper > .hybris-storefront {
-    overflow: hidden;
-  }
-
-  main .section.dark.hybris-storefront-auth > .hybris-storefront-layout > .hybris-storefront-wrapper .hybris-storefront-frame {
-    width: 100%;
-    max-width: none;
-    margin-left: 0;
-  }
-
-  main .section.dark.hybris-storefront-emulating > .hybris-storefront-layout {
+  /* Emulating: the frame spans the row and its empty lower-left slot is filled
+     by the native Parts Finder, layered over the same grid area. */
+  main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout {
     display: grid;
     grid-template-columns: 1fr;
-    min-height: 760px;
   }
 
-  main .section.dark.hybris-storefront-emulating > .hybris-storefront-layout > .hybris-storefront-wrapper {
+  main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout > .hybris-storefront-wrapper {
     grid-area: 1 / 1;
-    flex: 1 1 100%;
     width: 100%;
-    order: 0;
-    overflow: hidden;
   }
 
-  main .section.dark.hybris-storefront-emulating > .hybris-storefront-layout > .hybris-storefront-wrapper > .hybris-storefront {
-    overflow: hidden;
-  }
-
-  main .section.dark.hybris-storefront-emulating > .hybris-storefront-layout > .hybris-storefront-wrapper .hybris-storefront-frame {
-    width: 100%;
-    max-width: none;
-    margin-left: 0;
-  }
-
-  main .section.dark.hybris-storefront-emulating > .hybris-storefront-layout > .parts-finder-wrapper {
+  main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout > .parts-finder-wrapper {
     z-index: 1;
     grid-area: 1 / 1;
     place-self: end start;
-    width: 47.6%;
+    width: 48%;
     height: 325px;
   }
 
-  main .section.dark.hybris-storefront-emulating > .hybris-storefront-layout > .parts-finder-wrapper > .parts-finder {
+  main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout > .parts-finder-wrapper > .parts-finder {
     padding-top: 20px;
   }
 
-  /* Anonymous: 2× frame + -100% shift hides Hybris left column; keeps in-frame width ≥992 (Bootstrap lg) */
-  main .section.dark.sign-in-container:not(.hybris-storefront-auth, .hybris-storefront-emulating) > .hybris-storefront-layout > .hybris-storefront-wrapper > .hybris-storefront,
-  main .section.dark.hybris-storefront-container:not(.hybris-storefront-auth, .hybris-storefront-emulating) > .hybris-storefront-layout > .hybris-storefront-wrapper > .hybris-storefront {
+  /* Anonymous: a 2× frame shifted left hides the Hybris parts-finder column and
+     keeps the in-frame width ≥992px so Bootstrap lg stays side by side. */
+  main .section.dark.hybris-storefront-container[data-storefront-mode="anonymous"] > .hybris-storefront-layout > .hybris-storefront-wrapper > .hybris-storefront {
     overflow: hidden;
   }
 
-  main .section.dark.sign-in-container:not(.hybris-storefront-auth, .hybris-storefront-emulating) > .hybris-storefront-layout > .hybris-storefront-wrapper .hybris-storefront-frame,
-  main .section.dark.hybris-storefront-container:not(.hybris-storefront-auth, .hybris-storefront-emulating) > .hybris-storefront-layout > .hybris-storefront-wrapper .hybris-storefront-frame {
+  main .section.dark.hybris-storefront-container[data-storefront-mode="anonymous"] > .hybris-storefront-layout > .hybris-storefront-wrapper .hybris-storefront-frame {
     width: 200%;
     max-width: none;
     margin-left: -100%;
