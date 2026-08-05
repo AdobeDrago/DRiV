@@ -18,6 +18,8 @@ import {
   getStorefrontDocMode,
 } from '../../../scripts/storefront-session.js';
 
+const frameResizeObservers = new WeakMap();
+
 /**
  * Always resolve to a same-origin path so CSP frame-ancestors 'self' passes.
  * @param {string} href
@@ -163,6 +165,93 @@ function bindLoginReturn(frame) {
 }
 
 /**
+ * @param {Document} doc
+ * @returns {number} Content height of the framed document
+ */
+function measureDocumentHeight(doc) {
+  const { body, documentElement } = doc;
+  return Math.ceil(Math.max(
+    body?.scrollHeight || 0,
+    documentElement.scrollHeight,
+  ));
+}
+
+/**
+ * Size the same-origin iframe to its document and follow later content changes.
+ *
+ * The frame is collapsed before every measurement: an iframe with an explicit
+ * height gives its document that viewport height, so `scrollHeight` can only
+ * ever grow and the panel would stay at its tallest (mobile) size on resize.
+ * @param {Element} block
+ * @param {HTMLIFrameElement} frame
+ */
+function bindFrameHeight(block, frame) {
+  const previous = frameResizeObservers.get(frame);
+  if (previous) {
+    previous.contentObserver.disconnect();
+    previous.widthObserver.disconnect();
+    cancelAnimationFrame(previous.animationFrame);
+  }
+
+  let doc;
+  try {
+    doc = frame.contentDocument;
+  } catch (e) {
+    return;
+  }
+  if (!doc?.documentElement) return;
+
+  const state = {
+    contentObserver: null,
+    widthObserver: null,
+    animationFrame: 0,
+    width: frame.clientWidth,
+    isApplying: false,
+  };
+
+  const applyHeight = () => {
+    state.isApplying = true;
+    block.style.minHeight = '0';
+    frame.style.minHeight = '0';
+    frame.style.height = '0';
+    // Flush the parent layout so the document reflows at the collapsed size
+    frame.getBoundingClientRect();
+
+    const height = measureDocumentHeight(doc);
+    const value = height ? `${height}px` : '';
+    frame.style.height = value;
+    block.style.height = value;
+
+    // Our own writes resize the framed document; ignore that echo
+    requestAnimationFrame(() => {
+      state.isApplying = false;
+    });
+  };
+
+  const scheduleUpdate = () => {
+    cancelAnimationFrame(state.animationFrame);
+    state.animationFrame = requestAnimationFrame(applyHeight);
+  };
+
+  state.contentObserver = new ResizeObserver(() => {
+    if (state.isApplying) return;
+    scheduleUpdate();
+  });
+  if (doc.body) state.contentObserver.observe(doc.body);
+
+  state.widthObserver = new ResizeObserver(([entry]) => {
+    const width = Math.round(entry.contentRect.width);
+    if (width === state.width) return;
+    state.width = width;
+    scheduleUpdate();
+  });
+  state.widthObserver.observe(frame);
+
+  frameResizeObservers.set(frame, state);
+  scheduleUpdate();
+}
+
+/**
  * Recover when Hybris redirects the embedded login to the EDS homepage.
  * Without this guard the homepage recursively renders inside the iframe until
  * the user refreshes the outer page.
@@ -184,6 +273,27 @@ function ensureStorefrontRoute(frame, src) {
 }
 
 /**
+ * Keep the section background full width while constraining its block layout.
+ * @param {Element} section
+ */
+function wrapStorefrontLayout(section) {
+  if (section.querySelector(':scope > .hybris-storefront-layout')) return;
+
+  const wrappers = section.querySelectorAll(
+    ':scope > .parts-finder-wrapper, '
+    + ':scope > .columns-promo-wrapper, '
+    + ':scope > .sign-in-wrapper, '
+    + ':scope > .hybris-storefront-wrapper',
+  );
+  if (!wrappers.length) return;
+
+  const layout = document.createElement('div');
+  layout.className = 'hybris-storefront-layout';
+  wrappers[0].before(layout);
+  wrappers.forEach((wrapper) => layout.append(wrapper));
+}
+
+/**
  * @param {Element} block
  */
 export default async function decorate(block) {
@@ -196,7 +306,10 @@ export default async function decorate(block) {
   const src = toSameOriginSrc(raw);
 
   const section = block.closest('.section');
-  if (section) section.classList.add('sign-in-container');
+  if (section) {
+    section.classList.add('sign-in-container');
+    wrapStorefrontLayout(section);
+  }
 
   const reachable = await isStorefrontReachable(src);
   if (!reachable) {
@@ -217,6 +330,7 @@ export default async function decorate(block) {
     if (!ensureStorefrontRoute(frame, src)) return;
     syncAuthLayout(block, frame);
     bindLoginReturn(frame);
+    bindFrameHeight(block, frame);
   });
 
   // First paint may race CSS; sync once DOM is ready inside the frame
