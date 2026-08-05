@@ -3,6 +3,7 @@
 /* Drop light/highlight/dark section padding; keep standard section gutter */
 main .section.hero-banner-container {
   padding: 0;
+  margin: 20px 0;
 }
 
 .hero-banner {
