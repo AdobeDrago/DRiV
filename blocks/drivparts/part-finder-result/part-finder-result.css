@@ -332,10 +332,25 @@
   .part-finder-result .results-content-wrapper {
     --main-pad-x: 32px;
 
-    grid-template-columns: 280px 1fr;
-    grid-template-areas:
-      "sidebar top"
-      "sidebar main";
+    /*
+     * Row sizes (`min-content` / `1fr`) are set here, not left to default
+     * `auto`, because the sidebar area spans both rows below: with `auto`
+     * rows, CSS Grid distributes the sidebar's height across BOTH of them
+     * whenever the sidebar is taller than the content column -- e.g. once
+     * filters narrow the results to a short list but the facets panel stays
+     * tall. That inflated the `top` row (topRowSlot: just the count/
+     * pagination bar, ~58px of real content) up to 200+ px, showing as a
+     * large empty gap between that bar and the first result row. Capping
+     * `top` at `min-content` and giving `main` `1fr` sends any height the
+     * sidebar needs beyond its own row into `main` instead -- extra space
+     * lands as blank space after the results, not before them. Verified: no
+     * change to either row's size in the normal case (many results, sidebar
+     * shorter than the content column).
+     */
+    grid-template:
+      "sidebar top" min-content
+      "sidebar main" 1fr
+      / 280px 1fr;
     gap: 0 24px;
     padding: 24px 0 0;
   }
