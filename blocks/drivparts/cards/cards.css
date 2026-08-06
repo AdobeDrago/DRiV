@@ -2,7 +2,6 @@
 
 .section.cards-container > .cards-wrapper {
   margin: 0;
-  padding: 0 54px;
   background-color: var(--background-color, #fff);
 }
 
@@ -23,7 +22,7 @@ main .section.hero-banner-container:has(.hero-banner.brands) + .section.cards-co
   grid-template-columns: 1fr;
   align-items: center;
   gap: 32px;
-  padding: 32px 0;
+  padding: 32px 54px;
 }
 
 .cards .cards-card-image {
@@ -36,7 +35,7 @@ main .section.hero-banner-container:has(.hero-banner.brands) + .section.cards-co
   .cards > ul > li {
     grid-template-columns: 280px 1fr;
     gap: 64px;
-    padding: 40px 0;
+    padding: 40px 54px;
   }
 
   .cards .cards-card-image {
@@ -87,31 +86,18 @@ main .section.hero-banner-container:has(.hero-banner.brands) + .section.cards-co
 .cards .cards-card-cta-button .button {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
 }
 
+/* Three-dot cluster (two stacked + one at mid-right) — matches the source's icomoon glyph. */
 .cards-card-cta-icon {
   position: relative;
   display: inline-block;
-  width: 10px;
-  height: 4px;
-}
-
-.cards-card-cta-icon::before,
-.cards-card-cta-icon::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background-color: currentcolor;
-}
-
-.cards-card-cta-icon::before {
-  left: 0;
-}
-
-.cards-card-cta-icon::after {
-  right: 0;
+  box-shadow:
+    -8px -5px 0 currentcolor,
+    -8px 5px 0 currentcolor;
 }
