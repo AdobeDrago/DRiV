@@ -1,28 +1,10 @@
-/* Block: hero-banner
- * Source: drivparts.com OVERDRiV rewards banner
- * (#page-content .second-par .carouselWithOptionalSplit)
- *
- * The source visual is a SINGLE composite image (dark bg + engine photo +
- * OVERDRiV branding + baked-in gold "Start Earning Rewards" CTA + phone
- * mockup + "Enroll for FREE" ribbon). Extracted source computed styles:
- *   - inner art element .has-bg: 1230 x 300 (aspect-ratio 4.1 : 1),
- *     background-size: contain, background-position: 50% 50%, no-repeat
- *   - surround container .carousel-container: background rgb(204, 204, 204)
- *     (#ccc), max-width 1440px, padding 28px 0, centered
- *   - outer wrapper padding: 0 20px
- *   - the whole banner is one clickable link; the CTA label text is
- *     white 14px din-bold with no visible chrome (the visible button is
- *     part of the artwork).
- *
- * Migrated content model: one row / one cell containing the banner
- * <picture> and a CTA <a>. The block JS wraps the picture in the CTA link.
- */
+/* Block: hero-banner — full-width clickable banner image with a baked-in CTA. */
 
-/* Full-width: override the section max-width/padding so the banner spans
-   edge to edge. Selector is scoped tighter than the global
-   `main > .section > div` rule so it wins on specificity. */
 main .section.hero-banner-container {
   padding: 0;
+
+  --hero-banner-gold: #c1a35f;
+  --hero-banner-gold-dark: #a88a45;
 }
 
 main .section.hero-banner-container > .hero-banner-wrapper {
@@ -31,52 +13,37 @@ main .section.hero-banner-container > .hero-banner-wrapper {
   padding: 0;
 }
 
-/* Grey surround band matches the source (rgb(204, 204, 204)).
-   Keep the desktop inset (122px) unchanged; only relax gutters below 900px
-   so the composite art stays usable on mobile/tablet. */
 .hero-banner {
   padding: 16px;
   background-color: rgb(204 204 204);
-  color: #fff;
+  color: var(--background-color, #fff);
   margin: 0 0 10px;
 }
 
-@media (width >= 600px) {
+/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+@media (width >= 768px) {
   .hero-banner {
     padding: 24px 20px;
     margin: 0 24px 10px;
   }
 }
 
-@media (width >= 900px) {
-  .hero-banner {
-    padding: 28px 20px;
-    margin: 0 122px 10px;
-  }
-}
-
-/* Row reset */
 .hero-banner > div {
   margin: 0;
   padding: 0;
 }
 
-/* Cell: constrain the artwork band to its container max-width, centered.
-   Source container max-width is 1440px; the art itself caps at 1230px. */
 .hero-banner > div > div {
   max-width: 1440px;
   margin: 0 auto;
   padding: 0;
 }
 
-/* Whole-banner clickable link built by decorate() */
 .hero-banner .hero-banner-link,
 .hero-banner picture {
   display: block;
 }
 
-/* Banner image: intrinsic band is 1230 x 300 => aspect-ratio 4.1 : 1.
-   Centered, contained, capped at 1230px so it never upscales past source. */
 .hero-banner img {
   display: block;
   width: 100%;
@@ -88,11 +55,8 @@ main .section.hero-banner-container > .hero-banner-wrapper {
   object-position: center;
 }
 
-/* CTA label: on the source the visible button is baked into the artwork,
-   so the wrapping link exposes the label only for accessibility. Keep the
-   image link visually clean (no underline / decoration). */
 .hero-banner .hero-banner-link:any-link {
-  color: #fff;
+  color: var(--background-color, #fff);
   text-decoration: none;
 }
 
@@ -100,10 +64,7 @@ main .section.hero-banner-container > .hero-banner-wrapper {
   text-decoration: none;
 }
 
-/* --- Fallback: no banner image authored (e.g. text-only variant) ---
-   Render a real dark banner with a centered gold pill CTA that echoes the
-   baked-in source button (gold #c1a35f pill, white uppercase label). */
-
+/* Fallback when no banner image is authored: a dark banner with a gold pill CTA. */
 .hero-banner.no-image {
   padding: 40px 24px;
   background-color: var(--dark-color);
@@ -122,8 +83,8 @@ main .section.hero-banner-container > .hero-banner-wrapper {
   border: 0;
   border-radius: 999px;
   padding: 14px 28px;
-  background-color: #c1a35f;
-  color: #fff;
+  background-color: var(--hero-banner-gold);
+  color: var(--background-color, #fff);
   font-size: var(--body-font-size-xs);
   font-weight: 700;
   line-height: 1.25;
@@ -134,22 +95,12 @@ main .section.hero-banner-container > .hero-banner-wrapper {
 
 .hero-banner.no-image a:hover,
 .hero-banner.no-image a:focus-visible {
-  background-color: #a88a45;
-  color: #fff;
+  background-color: var(--hero-banner-gold-dark);
+  color: var(--background-color, #fff);
   text-decoration: none;
 }
 
-@media (width >= 900px) {
-  .hero-banner.no-image a:any-link {
-    padding: 16px 32px;
-    font-size: var(--body-font-size-s);
-  }
-}
-
-/* ============================================================
-   "brands" variant — full-width header image with the heading and
-   intro paragraph overlaid, centered in white (matches brands.html).
-   ============================================================ */
+/* "brands" variant: full-width header image with heading/intro overlaid. */
 main .section.hero-banner-container:has(.hero-banner.brands) {
   margin: 0;
   padding: 0;
@@ -169,18 +120,10 @@ main .section.hero-banner-container > .hero-banner-wrapper:has(.hero-banner.bran
   margin: 0;
   padding: 48px 24px;
   background-color: #1a1a1a;
-  color: #fff;
+  color: var(--background-color, #fff);
   overflow: hidden;
 }
 
-@media (width >= 900px) {
-  .hero-banner.brands {
-    min-height: 420px;
-    padding: 64px 32px;
-  }
-}
-
-/* background image layer */
 .hero-banner.brands .hero-banner-background {
   position: absolute;
   inset: 0;
@@ -196,7 +139,6 @@ main .section.hero-banner-container > .hero-banner-wrapper:has(.hero-banner.bran
   object-position: center;
 }
 
-/* dark scrim so white copy stays legible over the photo */
 .hero-banner.brands .hero-banner-background::after {
   content: "";
   position: absolute;
@@ -204,7 +146,6 @@ main .section.hero-banner-container > .hero-banner-wrapper:has(.hero-banner.bran
   background: linear-gradient(180deg, rgb(0 0 0 / 25%) 0%, rgb(0 0 0 / 55%) 100%);
 }
 
-/* overlaid copy */
 .hero-banner.brands .hero-banner-content {
   position: relative;
   z-index: 1;
@@ -215,16 +156,33 @@ main .section.hero-banner-container > .hero-banner-wrapper:has(.hero-banner.bran
 
 .hero-banner.brands .hero-banner-content h1 {
   margin: 0 0 16px;
-  color: #fff;
+  color: var(--background-color, #fff);
   font-size: clamp(40px, 7vw, 70px);
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1;
   text-transform: uppercase;
 }
 
 .hero-banner.brands .hero-banner-content p {
   margin: 0;
-  color: #fff;
-  font-size: var(--body-font-size-xs, 16px);
+  color: var(--background-color, #fff);
+  font-size: var(--body-font-size-xs, 14px);
   line-height: 1.5;
+}
+
+@media (width >= 1024px) {
+  .hero-banner {
+    padding: 28px 20px;
+    margin: 0 122px 10px;
+  }
+
+  .hero-banner.no-image a:any-link {
+    padding: 16px 32px;
+    font-size: var(--body-font-size-s);
+  }
+
+  .hero-banner.brands {
+    min-height: 244px;
+    padding: 64px 32px;
+  }
 }
