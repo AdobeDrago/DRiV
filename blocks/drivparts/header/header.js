@@ -560,6 +560,21 @@ function buildLogoRow(section) {
 }
 
 /**
+ * Marks a top-level nav item active when the current page is that link's
+ * target (or a page beneath it, e.g. /drivparts/brands/abex under BRANDS).
+ * @param {Element} item The .nav-item <li>
+ */
+function markActiveNavItem(item) {
+  const link = item.querySelector(':scope > a');
+  if (!link || !link.href) return;
+  const linkPath = new URL(link.href, window.location.href).pathname.replace(/\/$/, '');
+  const currentPath = window.location.pathname.replace(/\/$/, '');
+  if (linkPath && (currentPath === linkPath || currentPath.startsWith(`${linkPath}/`))) {
+    item.classList.add('nav-item-active');
+  }
+}
+
+/**
  * Builds the main nav row (row 2): nav items with dropdowns + search form.
  * @param {Element} section The source section div
  */
@@ -577,6 +592,7 @@ function buildMainNav(section) {
       item.classList.add('nav-item');
       item.querySelectorAll(':scope > p').forEach((p) => p.replaceWith(...p.childNodes));
       markAuthNavVisibility(item, mainNavItemLabel(item));
+      markActiveNavItem(item);
       const submenu = item.querySelector(':scope > ul');
       if (submenu) {
         item.classList.add('has-dropdown');

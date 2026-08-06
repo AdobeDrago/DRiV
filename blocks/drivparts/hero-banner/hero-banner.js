@@ -10,7 +10,37 @@
  *
  * @param {Element} block The block element
  */
+
+/**
+ * "brands" variant — the DRiV brands landing hero. A full-width header image
+ * with the page heading and intro paragraph overlaid, centered in white.
+ * Authored as three rows: picture, heading, intro paragraph.
+ * @param {Element} block The block element
+ */
+function decorateBrands(block) {
+  const picture = block.querySelector('picture');
+
+  const background = document.createElement('div');
+  background.className = 'hero-banner-background';
+  if (picture) background.append(picture);
+
+  const content = document.createElement('div');
+  content.className = 'hero-banner-content';
+  // move everything that isn't the picture into the overlay content layer
+  [...block.querySelectorAll(':scope > div')].forEach((row) => {
+    if (row.querySelector('picture')) return;
+    [...row.children].forEach((el) => content.append(el));
+  });
+
+  block.replaceChildren(background, content);
+}
+
 export default function decorate(block) {
+  if (block.classList.contains('brands')) {
+    decorateBrands(block);
+    return;
+  }
+
   const picture = block.querySelector('picture');
   const link = block.querySelector('a[href]');
 

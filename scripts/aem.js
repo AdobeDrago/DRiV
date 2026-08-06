@@ -549,6 +549,7 @@ const DRIVPARTS_BLOCKS = new Set([
   'brand-detail',
   'embed-signin',
   'widget',
+  'brand-nav',
 ]);
 
 const DRIVPARTS_OVERRIDES = new Set([
