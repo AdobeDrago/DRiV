@@ -4,7 +4,7 @@
  * Layout: 25% brand sidebar + 75% hero/article on desktop; stacked on mobile.
  */
 
-/* Full-bleed: beat drivparts section gutters so the 25/75 split spans the page. */
+/* Align with the standard site page container (header/footer / --page-max-width). */
 main .section.brand-detail-section,
 main .section.brand-detail-container {
   margin: 0;
@@ -14,9 +14,10 @@ main .section.brand-detail-container {
 
 main .section.brand-detail-section > .brand-detail-wrapper,
 main .section.brand-detail-container > .brand-detail-wrapper {
-  max-width: none;
-  margin: 0;
+  max-width: var(--page-max-width, 1440px);
+  margin: 0 auto;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .brand-detail {
@@ -77,6 +78,21 @@ main .section.brand-detail-container > .brand-detail-wrapper {
   font-weight: 700;
   line-height: 16px;
   text-decoration: none;
+  overflow-wrap: break-word;
+}
+
+/* External-link icon — matches production .brand-link[target="_blank"]::after */
+.brand-detail-site-link[target="_blank"]::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: -2px 0 0 8px;
+  vertical-align: middle;
+  background-color: var(--brand-color);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E") center / contain no-repeat;
+  /* stylelint-disable-next-line property-no-vendor-prefix -- Safari mask support */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .brand-detail-site-link:hover,
