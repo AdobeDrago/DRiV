@@ -1,0 +1,378 @@
+/*
+ * brand-detail
+ * Source: https://www.drivparts.com/brands/*.html
+ * Layout: 25% brand sidebar + 75% hero/article on desktop; stacked on mobile.
+ */
+
+/* Align with the standard site page container (header/footer / --page-max-width). */
+main .section.brand-detail-section,
+main .section.brand-detail-container {
+  margin: 0;
+  padding: 0;
+  background-color: #efefef;
+}
+
+main .section.brand-detail-section > .brand-detail-wrapper,
+main .section.brand-detail-container > .brand-detail-wrapper {
+  max-width: var(--page-max-width, 1440px);
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.brand-detail {
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.brand-detail-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ---- Sidebar (logo, site link, browse parts) ---- */
+
+.brand-detail-sidebar {
+  box-sizing: border-box;
+  padding: 25px 20px;
+}
+
+.brand-detail-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.brand-detail-logo-link,
+.brand-detail-logo {
+  display: block;
+  max-width: 100%;
+}
+
+.brand-detail-logo-link:any-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-detail-logo-link:hover {
+  text-decoration: none;
+}
+
+.brand-detail-logo-link img,
+.brand-detail-logo img {
+  display: block;
+  width: 100%;
+  max-width: 335px;
+  height: auto;
+}
+
+.brand-detail-site-link:any-link {
+  display: block;
+  margin-top: 25px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+
+/* External-link icon — matches production .brand-link[target="_blank"]::after */
+.brand-detail-site-link[target="_blank"]::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: -2px 0 0 8px;
+  vertical-align: middle;
+  background-color: var(--brand-color);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E") center / contain no-repeat;
+  /* stylelint-disable-next-line property-no-vendor-prefix -- Safari mask support */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.brand-detail-site-link:hover,
+.brand-detail-site-link:focus-visible {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+/* ---- Browse Parts accordion ---- */
+
+.brand-detail-browse {
+  margin-top: 28px;
+}
+
+.brand-detail-browse-toggle {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 0 10px;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+  padding: 0 0 10px;
+  background: transparent;
+  color: var(--brand-color);
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.1;
+  text-align: left;
+  cursor: pointer;
+}
+
+.brand-detail-browse-toggle::after {
+  content: '';
+  flex: 0 0 auto;
+  width: 0;
+  height: 0;
+  margin-left: 8px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid currentcolor;
+}
+
+.brand-detail-browse.is-collapsed .brand-detail-browse-toggle::after {
+  border-top: 0;
+  border-bottom: 6px solid currentcolor;
+}
+
+.brand-detail-browse-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.brand-detail-browse.is-collapsed .brand-detail-browse-list {
+  display: none;
+}
+
+.brand-detail-browse-list li {
+  margin: 10px 0;
+  padding: 0;
+}
+
+.brand-detail-browse-list a:any-link {
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 28px;
+  text-decoration: none;
+}
+
+.brand-detail-browse-list a:hover,
+.brand-detail-browse-list a:focus-visible {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+/* ---- Main column (hero + article) ---- */
+
+.brand-detail-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brand-detail-hero {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+  background-color: #222;
+}
+
+.brand-detail-hero picture,
+.brand-detail-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.brand-detail-hero img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.brand-detail-article {
+  box-sizing: border-box;
+  background-color: #fff;
+  padding: 28px 0 8px;
+}
+
+.brand-detail-content {
+  box-sizing: border-box;
+  padding: 0 20px;
+}
+
+.brand-detail-content h1,
+main .section .brand-detail-content h1 {
+  margin: 15px 0 24px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: 38px;
+  line-height: 1.1;
+}
+
+.brand-detail-content h2,
+main .section .brand-detail-content h2 {
+  margin: 15px 0 8px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.brand-detail-content h3,
+main .section .brand-detail-content h3 {
+  margin: 0 0 16px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.brand-detail-content h4,
+main .section .brand-detail-content h4 {
+  margin: 15px 0 12px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+.brand-detail-content p,
+.brand-detail-content li {
+  margin: 0 0 24px;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.brand-detail-content ul {
+  margin: 0 0 24px;
+  padding-left: 1.25em;
+}
+
+.brand-detail-content li {
+  margin-bottom: 8px;
+}
+
+.brand-detail-content a:any-link {
+  color: var(--brand-color);
+  text-decoration: none;
+}
+
+.brand-detail-content a:hover,
+.brand-detail-content a:focus-visible {
+  color: var(--brand-color-dark);
+  text-decoration: underline;
+}
+
+.brand-detail-links {
+  margin-top: 8px;
+}
+
+.brand-detail-utilities {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.brand-detail-back:any-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--brand-color);
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 21px;
+  text-decoration: none;
+}
+
+/* Three-dot left chevron — matches production .cta-link-left icomoon glyph */
+.brand-detail-back::before {
+  content: '';
+  flex: 0 0 auto;
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background-color: currentcolor;
+  box-shadow:
+    4px -3.5px 0 currentcolor,
+    4px 3.5px 0 currentcolor;
+}
+
+.brand-detail-back:hover,
+.brand-detail-back:focus-visible {
+  color: var(--brand-color-dark);
+  text-decoration: none;
+}
+
+.brand-detail-back-full {
+  display: none;
+}
+
+.brand-detail-back-short {
+  display: inline;
+}
+
+@media (width >= 900px) {
+  .brand-detail-layout {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .brand-detail-sidebar {
+    flex: 0 0 25%;
+    width: 25%;
+    max-width: 360px;
+    padding: 55px 65px;
+  }
+
+  .brand-detail-logo-link img,
+  .brand-detail-logo img {
+    max-width: 230px;
+  }
+
+  .brand-detail-main {
+    flex: 1 1 75%;
+    width: 75%;
+  }
+
+  .brand-detail-article {
+    padding: 55px 0 35px;
+  }
+
+  .brand-detail-content {
+    padding: 0 85px;
+  }
+
+  .brand-detail-utilities {
+    padding: 20px 55px;
+  }
+
+  .brand-detail-back-short {
+    display: none;
+  }
+
+  .brand-detail-back-full {
+    display: inline;
+  }
+}
