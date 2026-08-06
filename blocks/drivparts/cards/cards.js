@@ -1,19 +1,7 @@
 import { createOptimizedPicture } from '../../../scripts/aem.js';
 
-/**
- * DriveParts cards block.
- *
- * On DriveParts pages this overrides the stock cards block. The brands
- * directory (brands.html) authors a `cards list` variant: each entry is a
- * full-width row with the brand logo on the left and a description plus a
- * visible "Learn More" link on the right (matches the source design).
- *
- * Authored structure per row (two cells):
- *   [ logo <picture> ] | [ description <p> , CTA <p><a> ]
- *
- * @param {Element} block The block element
- */
-export default function decorate(block) {
+// Converts each authored row into an <li>, tagging cells as the logo image or the description/CTA.
+function buildCardList(block) {
   const ul = document.createElement('ul');
 
   [...block.children].forEach((row) => {
@@ -26,30 +14,60 @@ export default function decorate(block) {
     ul.append(li);
   });
 
-  // brand logos are small; keep them crisp without upscaling
+  return ul;
+}
+
+// Brand logos are small; re-optimize them so they stay crisp without upscaling.
+function optimizeLogos(ul) {
   ul.querySelectorAll('picture > img').forEach((img) => img
     .closest('picture')
     .replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '500' }])));
+}
 
-  ul.querySelectorAll(':scope > li').forEach((li) => {
+// Turns the last card's CTA into a real button, matching the source's treatment of the final entry.
+function makeButtonCta(p, a) {
+  p.classList.add('cards-card-cta', 'cards-card-cta-button');
+  a.classList.add('button', 'primary');
+
+  const icon = document.createElement('span');
+  icon.className = 'cards-card-cta-icon';
+  icon.setAttribute('aria-hidden', 'true');
+  a.append(icon);
+}
+
+// Reverts the generic drivparts pill-button decoration so the CTA renders as a plain text link.
+function makeTextLinkCta(p, a) {
+  p.classList.remove('button-container');
+  p.classList.add('cards-card-cta');
+  a.classList.remove('button', 'primary', 'secondary', 'accent');
+  a.classList.add('cards-card-link');
+}
+
+// Splits each card body into a description and a CTA: a button for the last card, else a text link.
+function tagCardBodyContent(ul) {
+  const items = [...ul.querySelectorAll(':scope > li')];
+  items.forEach((li, index) => {
     const body = li.querySelector('.cards-card-body');
     if (!body) return;
 
+    const isLastCard = index === items.length - 1;
     [...body.querySelectorAll(':scope > p')].forEach((p) => {
       const a = p.querySelector('a');
-      if (a) {
-        // the generic drivparts button decoration runs before blocks and can
-        // turn a standalone link into a pill button — revert that so the CTA
-        // renders as a plain text link like the source
-        p.classList.remove('button-container');
-        p.classList.add('cards-card-cta');
-        a.classList.remove('button', 'primary', 'secondary', 'accent');
-        a.classList.add('cards-card-link');
-      } else {
+      if (!a) {
         p.classList.add('cards-card-description');
+        return;
       }
+
+      if (isLastCard) makeButtonCta(p, a);
+      else makeTextLinkCta(p, a);
     });
   });
+}
 
+// Builds the brands directory list: each authored row becomes a logo + description/CTA list item.
+export default function decorate(block) {
+  const ul = buildCardList(block);
+  optimizeLogos(ul);
+  tagCardBodyContent(ul);
   block.replaceChildren(ul);
 }

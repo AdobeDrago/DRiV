@@ -1,11 +1,14 @@
-/* Block: drivparts/cards
- * The DRiV brands directory (brands.html). Full-width stacked rows: brand
- * logo on the left, description plus a "Learn More" text link on the right,
- * on a white background with a subtle divider between entries.
- */
+/* Block: drivparts/cards — the brands directory list (logo + description/CTA rows). */
 
-.cards-wrapper {
-  background-color: #fff;
+.section.cards-container > .cards-wrapper {
+  margin: 0;
+  padding: 0 54px;
+  background-color: var(--background-color, #fff);
+}
+
+/* Drops the default section top margin so the list sits flush under the "brands" hero banner. */
+main .section.hero-banner-container:has(.hero-banner.brands) + .section.cards-container {
+  margin-top: 0;
 }
 
 .cards > ul {
@@ -19,26 +22,26 @@
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
-  gap: 24px;
+  gap: 32px;
   padding: 32px 0;
 }
 
-.cards > ul > li + li {
-  border-top: 1px solid var(--border-color, #e6e6e6);
-}
-
-@media (width >= 700px) {
-  .cards > ul > li {
-    grid-template-columns: 280px 1fr;
-    gap: 48px;
-    padding: 40px 0;
-  }
-}
-
-/* logo cell */
 .cards .cards-card-image {
   line-height: 0;
-  text-align: center;
+  text-align: left;
+}
+
+/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+@media (width >= 768px) {
+  .cards > ul > li {
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+    padding: 40px 0;
+  }
+
+  .cards .cards-card-image {
+    text-align: center;
+  }
 }
 
 .cards .cards-card-image img {
@@ -49,7 +52,6 @@
   object-fit: contain;
 }
 
-/* copy cell */
 .cards .cards-card-body {
   display: block;
 }
@@ -57,7 +59,7 @@
 .cards .cards-card-description {
   margin: 0 0 16px;
   color: var(--text-color);
-  font-size: var(--body-font-size-s);
+  font-size: var(--body-font-size-xs, 14px);
   line-height: 1.5;
 }
 
@@ -79,4 +81,37 @@
 .cards .cards-card-link:focus-visible {
   color: var(--brand-color, #c41230);
   text-decoration: underline;
+}
+
+/* Last card only: reuses the site's global .button style, with a small icon appended. */
+.cards .cards-card-cta-button .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cards-card-cta-icon {
+  position: relative;
+  display: inline-block;
+  width: 10px;
+  height: 4px;
+}
+
+.cards-card-cta-icon::before,
+.cards-card-cta-icon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: currentcolor;
+}
+
+.cards-card-cta-icon::before {
+  left: 0;
+}
+
+.cards-card-cta-icon::after {
+  right: 0;
 }

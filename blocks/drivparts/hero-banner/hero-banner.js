@@ -1,22 +1,4 @@
-/**
- * Hero-banner block.
- *
- * Source (drivparts.com OVERDRiV banner) is a single composite banner image
- * where the entire banner is one clickable link (the "Start Earning Rewards"
- * CTA is baked into the artwork). The authored content provides the banner
- * <picture> plus a CTA <a>. To match the source we make the whole banner
- * clickable and keep the CTA label as the link's accessible name rather than
- * rendering a duplicate button on top of the artwork.
- *
- * @param {Element} block The block element
- */
-
-/**
- * "brands" variant — the DRiV brands landing hero. A full-width header image
- * with the page heading and intro paragraph overlaid, centered in white.
- * Authored as three rows: picture, heading, intro paragraph.
- * @param {Element} block The block element
- */
+// "brands" variant: rebuilds the block into a background layer plus an overlaid heading/intro.
 function decorateBrands(block) {
   const picture = block.querySelector('picture');
 
@@ -26,7 +8,6 @@ function decorateBrands(block) {
 
   const content = document.createElement('div');
   content.className = 'hero-banner-content';
-  // move everything that isn't the picture into the overlay content layer
   [...block.querySelectorAll(':scope > div')].forEach((row) => {
     if (row.querySelector('picture')) return;
     [...row.children].forEach((el) => content.append(el));
@@ -35,6 +16,26 @@ function decorateBrands(block) {
   block.replaceChildren(background, content);
 }
 
+// Wraps the banner picture and CTA link into one clickable anchor, using the CTA text as its label.
+function wrapInSingleLink(block, picture, link) {
+  const anchor = document.createElement('a');
+  anchor.href = link.href;
+  anchor.className = 'hero-banner-link';
+  if (link.target) anchor.target = link.target;
+  anchor.setAttribute('aria-label', link.textContent.trim() || (picture.querySelector('img')?.alt ?? ''));
+
+  anchor.appendChild(picture);
+  const cell = link.closest('div') || block;
+  const linkWrapper = link.parentElement;
+  link.remove();
+  if (linkWrapper && linkWrapper !== cell && linkWrapper.textContent.trim() === '' && !linkWrapper.querySelector('img, picture')) {
+    linkWrapper.remove();
+  }
+  cell.querySelectorAll('p:empty').forEach((p) => p.remove());
+  cell.prepend(anchor);
+}
+
+// Makes the whole banner image clickable using the authored CTA instead of a separate button.
 export default function decorate(block) {
   if (block.classList.contains('brands')) {
     decorateBrands(block);
@@ -46,28 +47,8 @@ export default function decorate(block) {
 
   if (!picture) {
     block.classList.add('no-image');
+    return;
   }
 
-  // If we have both a banner image and a CTA link, make the whole banner the
-  // link (matches the source, avoids a duplicate CTA over the baked-in artwork).
-  if (picture && link) {
-    const anchor = document.createElement('a');
-    anchor.href = link.href;
-    anchor.className = 'hero-banner-link';
-    if (link.target) anchor.target = link.target;
-    // Use the CTA text as the accessible label for the image-only link.
-    anchor.setAttribute('aria-label', link.textContent.trim() || (picture.querySelector('img')?.alt ?? ''));
-
-    anchor.appendChild(picture);
-    // Replace the original cell contents with the single wrapping anchor.
-    const cell = link.closest('div') || block;
-    // Remove the original link (and its paragraph wrapper if now empty).
-    const linkWrapper = link.parentElement;
-    link.remove();
-    if (linkWrapper && linkWrapper !== cell && linkWrapper.textContent.trim() === '' && !linkWrapper.querySelector('img, picture')) {
-      linkWrapper.remove();
-    }
-    cell.querySelectorAll('p:empty').forEach((p) => p.remove());
-    cell.prepend(anchor);
-  }
+  if (link) wrapInSingleLink(block, picture, link);
 }
