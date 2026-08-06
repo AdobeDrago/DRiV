@@ -1,0 +1,215 @@
+/* Block: drivparts/brand-nav — the brands directory left rail. */
+
+.brand-nav {
+  padding: 0;
+  background-color: transparent;
+}
+
+.section:has(.brand-nav.block) > .brand-nav-wrapper {
+  margin: 15px 0;
+}
+
+/* Brand-nav is authored after the hero/cards sections, so below desktop it
+   would render at the bottom of the page — move it to the top instead.
+   Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+@media (width < 1024px) {
+  main:has(.brand-nav.block) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  main:has(.brand-nav.block) > .section:has(.brand-nav) {
+    order: -1;
+  }
+}
+
+.brand-nav-heading-row {
+  display: flex;
+  align-items: stretch;
+}
+
+.brand-nav-accent {
+  flex-shrink: 0;
+  width: 37px;
+  background-color: var(--background-color, #fff);
+}
+
+.brand-nav-heading {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  background-color: var(--brand-color-hover, #b5122d);
+  color: var(--background-color, #fff);
+  font-family: inherit;
+  font-size: var(--body-font-size-s, 16px);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.brand-nav-heading-link:any-link {
+  flex: 1;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-nav-heading-link:hover,
+.brand-nav-heading-link:focus-visible {
+  text-decoration: none;
+}
+
+.brand-nav-back {
+  display: none;
+}
+
+.brand-nav-toggle {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.brand-nav-toggle-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+}
+
+.brand-nav-toggle-icon::before,
+.brand-nav-toggle-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: var(--background-color, #fff);
+  transform: translate(-50%, -50%);
+}
+
+.brand-nav-toggle-icon::before {
+  width: 100%;
+  height: 2px;
+}
+
+.brand-nav-toggle-icon::after {
+  width: 2px;
+  height: 100%;
+}
+
+.brand-nav.is-open .brand-nav-toggle-icon::after {
+  display: none;
+}
+
+.brand-nav-list {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 16px 0 8px 25px;
+}
+
+.brand-nav.is-open .brand-nav-list {
+  display: block;
+}
+
+.brand-nav-list li {
+  margin: 8px 0;
+}
+
+.brand-nav-link:any-link {
+  display: inline;
+  color: var(--text-color, #3a3a3a);
+  font-size: var(--body-font-size-xs, 14px);
+  font-weight: 700;
+  line-height: 16px;
+  text-decoration: none;
+}
+
+.brand-nav-link:hover,
+.brand-nav-link:focus-visible {
+  color: var(--brand-color-hover, #b5122d);
+  text-decoration: none;
+}
+
+/* Desktop two-column layout: brand-nav in a left rail, hero/cards on the right. */
+@media (width >= 1024px) {
+  .brand-nav {
+    position: sticky;
+    top: 24px;
+  }
+
+  .brand-nav-accent {
+    display: none;
+  }
+
+  .brand-nav-heading {
+    flex: none;
+    margin: 0 0 15px;
+    border-bottom: 1px solid var(--border-color, #e6e6e6);
+    border-radius: 0;
+    padding: 0 0 12px;
+    background-color: transparent;
+    color: var(--brand-color-hover, #b5122d);
+  }
+
+  .brand-nav-back {
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 7px solid var(--brand-color-hover, #b5122d);
+  }
+
+  .brand-nav-toggle {
+    display: none;
+  }
+
+  .brand-nav-list,
+  .brand-nav.is-open .brand-nav-list {
+    display: block;
+    padding: 0 0 0 25px;
+  }
+
+  main:has(.brand-nav.block) {
+    display: grid;
+    grid-template-columns: minmax(220px, 25%) 1fr;
+    align-items: start;
+    max-width: var(--page-max-width, 1440px);
+    margin-inline: auto;
+  }
+
+  main:has(.brand-nav.block) > .section {
+    margin: 0;
+  }
+
+  /* Left padding (96px) is tuned so "BRANDS" lines up with "DIGITAL
+     CATALOGS" in the header at the page's 1440px designed max-width. */
+  main:has(.brand-nav.block) > .section:has(.brand-nav) {
+    grid-column: 1;
+    grid-row: 1 / 999;
+    padding: 32px 24px 40px 96px;
+  }
+
+  /* Drops the generic `main > .section > div` page gutters, which would
+     otherwise collapse this narrow column almost to nothing. */
+  main:has(.brand-nav.block) > .section:has(.brand-nav) > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) {
+    grid-column: 2;
+  }
+
+  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) > div {
+    max-width: none;
+    margin: 0;
+  }
+}

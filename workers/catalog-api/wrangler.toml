@@ -1,0 +1,14 @@
+name = "moogparts-catalog-api"
+main = "index.js"
+compatibility_date = "2024-09-23"
+account_id = "525642d028ea297dfb5bf68a0d3df229"
+
+[observability]
+enabled = true
+
+# Deploy with: npx wrangler deploy
+#
+# For production, replace the workers.dev URL with a custom domain route:
+# [[routes]]
+# pattern = "api.moogparts.com/*"
+# zone_name = "moogparts.com"

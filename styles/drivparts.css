@@ -1,0 +1,475 @@
+/*
+ * Copyright 2020 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
+/* Inlined from brand.css to avoid a cascaded render-blocking fetch */
+:root {
+  --heading-font-family: "DIN", "DIN Next", "Helvetica Neue", helvetica, arial, sans-serif;
+  --body-font-family: "DIN", "DIN Next", "Helvetica Neue", helvetica, arial, sans-serif;
+  --background-color: #fff;
+  --text-color: #3a3a3a;
+  --link-color: #545454;
+  --link-hover-color: #164991;
+  --brand-color: #c41230;
+  --brand-color-dark: #ad102a;
+  --brand-color-hover: #b5122d;
+  --brand-color-deep: #8b0d22;
+  --dark-color: #3a3a3a;
+  --light-color: #f2f2f2;
+  --section-padding: 40px;
+  --content-max-width: 1200px;
+  --page-max-width: 1440px;
+  --nav-height: 60px;
+  --heading-size-xxl: 40px;
+  --heading-size-xl: 32px;
+  --heading-size-l: 22px;
+  --heading-size-m: 18px;
+  --heading-size-s: 16px;
+  --heading-size-xs: 14px;
+  --body-font-size-m: 18px;
+  --body-font-size-s: 16px;
+  --body-font-size-xs: 14px;
+  --heading-font-size-xxl: 36px;
+  --heading-font-size-xl: 28px;
+  --heading-font-size-l: 24px;
+  --heading-font-size-m: 20px;
+  --heading-font-size-s: 18px;
+  --heading-font-size-xs: 16px;
+}
+
+@media (width >= 900px) {
+  :root {
+    --heading-font-size-xxl: var(--heading-size-xxl);
+    --heading-font-size-xl: var(--heading-size-xl);
+    --heading-font-size-l: var(--heading-size-l);
+    --heading-font-size-m: var(--heading-size-m);
+    --heading-font-size-s: var(--heading-size-s);
+    --heading-font-size-xs: var(--heading-size-xs);
+  }
+}
+
+body {
+  display: none;
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+  background-color: #efefef;
+}
+
+body.appear {
+  display: block;
+}
+
+header {
+  height: var(--nav-height);
+}
+
+/* Reserve full desktop nav height before lazy header.css loads (40 + 89 + 60) */
+@media (width >= 900px) {
+  header {
+    height: 189px;
+  }
+}
+
+header .header,
+footer .footer {
+  visibility: hidden;
+}
+
+header .header[data-block-status="loaded"],
+footer .footer[data-block-status="loaded"] {
+  visibility: visible;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  line-height: 1.1;
+  scroll-margin: 40px;
+}
+
+h1 { font-size: var(--heading-font-size-xxl); }
+h2 { font-size: var(--heading-font-size-xl); }
+h3 { font-size: var(--heading-font-size-l); }
+h4 { font-size: var(--heading-font-size-m); }
+h5 { font-size: var(--heading-font-size-s); }
+h6 { font-size: var(--heading-font-size-xs); }
+
+/* Beat styles.css MOOG heading color (0,2,1) */
+body.drivparts .section .default-content-wrapper h1,
+body.drivparts .section .default-content-wrapper h3,
+body.drivparts .section .default-content-wrapper h4,
+body.drivparts .section .default-content-wrapper h5,
+body.drivparts .section .default-content-wrapper h6 {
+  color: var(--text-color);
+}
+
+body.drivparts #how-to-use-drivpartscom {
+  color: var(--brand-color);
+  text-transform: uppercase;
+}
+
+p,
+dl,
+ol,
+ul,
+pre,
+blockquote {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+}
+
+code,
+pre {
+  font-size: var(--body-font-size-s);
+}
+
+pre {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--light-color);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+a:any-link {
+  color: var(--link-color);
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+p.button-wrapper {
+  margin: 12px 0;
+}
+
+a.button:any-link,
+button.button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 0;
+  padding: 16px 40px;
+  font: inherit;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a.button[aria-disabled="true"],
+button.button:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+a.button.primary,
+button.button.primary {
+  border-color: var(--brand-color);
+  background-color: var(--brand-color);
+  color: #fff;
+}
+
+a.button.primary:hover,
+a.button.primary:focus-visible,
+button.button.primary:hover,
+button.button.primary:focus-visible {
+  border-color: #a30f28;
+  background-color: #a30f28;
+  color: #fff;
+}
+
+a.button.secondary,
+button.button.secondary {
+  border-color: var(--text-color);
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+a.button.secondary:hover,
+a.button.secondary:focus-visible,
+button.button.secondary:hover,
+button.button.secondary:focus-visible {
+  border-color: var(--dark-color);
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+a.button.accent,
+button.button.accent {
+  border-color: var(--link-color);
+  background-color: var(--link-color);
+  color: var(--background-color);
+}
+
+a.button.accent:hover,
+a.button.accent:focus-visible,
+button.button.accent:hover,
+button.button.accent:focus-visible {
+  border-color: var(--link-hover-color);
+  background-color: var(--link-hover-color);
+}
+
+/* Last so it wins the equal-specificity tie against every variant's hover */
+a.button[aria-disabled="true"],
+a.button[aria-disabled="true"]:hover,
+a.button[aria-disabled="true"]:focus-visible,
+button.button:disabled,
+button.button:disabled:hover,
+button.button:disabled:focus-visible {
+  background-color: var(--light-color);
+  border-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+main img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+.icon {
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+
+.icon img {
+  height: 100%;
+  width: 100%;
+}
+
+main > .section {
+  margin: 40px 0;
+}
+
+main > .section > div {
+  max-width: var(--content-max-width);
+  margin: 40px auto 20px;
+  padding: 0 16px;
+}
+
+main > .section:first-of-type {
+  margin-top: 0;
+}
+
+@media (width >= 768px) {
+  main > .section > div {
+    padding: 0 24px;
+  }
+}
+
+@media (width >= 1025px) {
+  main > .section > div {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+}
+
+main .section.light,
+main .section.highlight {
+  background-color: var(--light-color);
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.dark {
+  background-color: var(--dark-color);
+  color: #fff;
+  margin: 0;
+  padding: 40px 0;
+}
+
+body.drivparts .section.dark h1,
+body.drivparts .section.dark h2,
+body.drivparts .section.dark h3,
+body.drivparts .section.dark h4,
+body.drivparts .section.dark h5,
+body.drivparts .section.dark h6 {
+  color: #fff;
+}
+
+main .section.dark a:any-link {
+  color: #fff;
+}
+
+main .section[data-background] {
+  background-repeat: repeat;
+  background-position: top left;
+  background-size: 28px;
+}
+
+/* Full-bleed results toolbar — beats section gutter at every breakpoint */
+main .section.part-finder-result-container {
+  margin: 0;
+}
+
+main .section.part-finder-result-container > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Homepage hero. The section stays full-bleed so its background image spans the
+ * viewport; the inner layout carries the page max-width so content cannot drift
+ * on wide screens. Frame height is owned by hybris-storefront.js once the
+ * framed document reports its size, so no fixed heights are reserved here.
+ */
+main .section.dark.hybris-storefront-container {
+  padding: 0;
+}
+
+main .section.dark.hybris-storefront-container > .hybris-storefront-layout {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: 24px 0;
+}
+
+main .section.dark.hybris-storefront-container > .hybris-storefront-layout > div {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .parts-finder-wrapper {
+  margin-top: 20px;
+  padding: 0 15px;
+}
+
+main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .hybris-storefront-wrapper {
+  margin-bottom: 0;
+}
+
+@media (width >= 768px) {
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .parts-finder-wrapper {
+    margin-top: 0;
+  }
+}
+
+/*
+ * CSR: Emulate Account replaces the hero trio.
+ * Emulating: B2B Account Details replaces promo + sign-in, Parts Finder stays.
+ */
+main .section.dark.hybris-storefront-container[data-storefront-mode="csr"] > .hybris-storefront-layout > .parts-finder-wrapper,
+main .section.dark.hybris-storefront-container[data-storefront-mode="csr"] > .hybris-storefront-layout > .columns-promo-wrapper,
+main .section.dark.hybris-storefront-container[data-storefront-mode="csr"] > .hybris-storefront-layout > .sign-in-wrapper,
+main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout > .columns-promo-wrapper,
+main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout > .sign-in-wrapper {
+  display: none;
+}
+
+@media (width >= 1025px) {
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 24px;
+    padding: 40px 0;
+  }
+
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > div {
+    display: flex;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > div > div {
+    width: 100%;
+  }
+
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .parts-finder-wrapper,
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .columns-promo-wrapper,
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .sign-in-wrapper,
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .hybris-storefront-wrapper {
+    flex: 1 1 0;
+  }
+
+  main .section.dark.hybris-storefront-container > .hybris-storefront-layout > .hybris-storefront-wrapper {
+    overflow: hidden;
+  }
+
+  main .section.dark.hybris-storefront-container[data-storefront-mode="csr"] > .hybris-storefront-layout > .hybris-storefront-wrapper {
+    flex: 1 1 100%;
+    overflow: visible;
+  }
+
+  /* Emulating: the frame spans the row and its empty lower-left slot is filled
+     by the native Parts Finder, layered over the same grid area. */
+  main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout > .hybris-storefront-wrapper {
+    grid-area: 1 / 1;
+    width: 100%;
+  }
+
+  main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout > .parts-finder-wrapper {
+    z-index: 1;
+    grid-area: 1 / 1;
+    place-self: end start;
+    width: 48%;
+    height: 325px;
+  }
+
+  main .section.dark.hybris-storefront-container[data-storefront-mode="emulating"] > .hybris-storefront-layout > .parts-finder-wrapper > .parts-finder {
+    padding-top: 20px;
+  }
+
+  /* Anonymous: a 2× frame shifted left hides the Hybris parts-finder column and
+     keeps the in-frame width ≥992px so Bootstrap lg stays side by side. */
+  main .section.dark.hybris-storefront-container[data-storefront-mode="anonymous"] > .hybris-storefront-layout > .hybris-storefront-wrapper > .hybris-storefront {
+    overflow: hidden;
+  }
+
+  main .section.dark.hybris-storefront-container[data-storefront-mode="anonymous"] > .hybris-storefront-layout > .hybris-storefront-wrapper .hybris-storefront-frame {
+    width: 200%;
+    max-width: none;
+    margin-left: -100%;
+  }
+}

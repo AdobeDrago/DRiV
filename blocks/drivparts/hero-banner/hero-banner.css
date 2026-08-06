@@ -1,0 +1,201 @@
+/* Block: hero-banner — full-width clickable banner image with a baked-in CTA. */
+
+main .section.hero-banner-container {
+  padding: 0;
+  margin: 20px 0;
+
+  --hero-banner-gold: #c1a35f;
+  --hero-banner-gold-dark: #a88a45;
+}
+
+main .section.hero-banner-container > .hero-banner-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-banner {
+  padding: 16px;
+  background-color: rgb(204 204 204);
+  color: var(--background-color, #fff);
+  margin: 0 0 10px;
+}
+
+/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+@media (width >= 768px) {
+  .hero-banner {
+    padding: 24px 20px;
+    margin: 0 24px 10px;
+  }
+
+  .hero-banner .button-container {
+    padding: 20px 10px;
+  }
+}
+
+.hero-banner > div {
+  margin: 0;
+  padding: 0;
+}
+
+.hero-banner > div > div {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.hero-banner .hero-banner-link,
+.hero-banner picture {
+  display: block;
+}
+
+.hero-banner .button-container {
+  padding: 15px 0;
+}
+
+.hero-banner img {
+  display: block;
+  width: 100%;
+  max-width: 1230px;
+  height: auto;
+  margin: 0 auto;
+  aspect-ratio: 1230 / 300;
+  object-fit: contain;
+  object-position: center;
+}
+
+.hero-banner .hero-banner-link:any-link {
+  color: var(--background-color, #fff);
+  text-decoration: none;
+}
+
+.hero-banner .hero-banner-link:hover {
+  text-decoration: none;
+}
+
+/* Fallback when no banner image is authored: a dark banner with a gold pill CTA. */
+.hero-banner.no-image {
+  padding: 40px 24px;
+  background-color: var(--dark-color);
+}
+
+.hero-banner.no-image > div > div {
+  max-width: 1230px;
+  text-align: center;
+}
+
+.hero-banner.no-image a:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 28px;
+  background-color: var(--hero-banner-gold);
+  color: var(--background-color, #fff);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.hero-banner.no-image a:hover,
+.hero-banner.no-image a:focus-visible {
+  background-color: var(--hero-banner-gold-dark);
+  color: var(--background-color, #fff);
+  text-decoration: none;
+}
+
+/* "brands" variant: full-width header image with heading/intro overlaid. */
+main .section.hero-banner-container:has(.hero-banner.brands) {
+  margin: 0;
+  padding: 0;
+}
+
+main .section.hero-banner-container > .hero-banner-wrapper:has(.hero-banner.brands) {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-banner.brands {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 300px;
+  margin: 0;
+  padding: 48px 24px;
+  background-color: #1a1a1a;
+  color: var(--background-color, #fff);
+  overflow: hidden;
+}
+
+.hero-banner.brands .hero-banner-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-banner.brands .hero-banner-background picture,
+.hero-banner.brands .hero-banner-background img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-banner.brands .hero-banner-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(0 0 0 / 25%) 0%, rgb(0 0 0 / 55%) 100%);
+}
+
+.hero-banner.brands .hero-banner-content {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0;
+  text-align: center;
+}
+
+.hero-banner.brands .hero-banner-content h1 {
+  margin: 0 0 16px;
+  color: var(--background-color, #fff);
+  font-size: clamp(40px, 7vw, 70px);
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero-banner.brands .hero-banner-content p {
+  margin: 0;
+  color: var(--background-color, #fff);
+  font-size: var(--body-font-size-xs, 14px);
+  line-height: 1.5;
+}
+
+@media (width >= 1024px) {
+  .hero-banner {
+    padding: 28px 20px;
+    margin: 0 122px 10px;
+  }
+
+  .hero-banner .button-container {
+    padding: 45px 0;
+  }
+
+  .hero-banner.no-image a:any-link {
+    padding: 16px 32px;
+    font-size: var(--body-font-size-s);
+  }
+
+  .hero-banner.brands {
+    min-height: 244px;
+    padding: 64px 32px;
+  }
+}

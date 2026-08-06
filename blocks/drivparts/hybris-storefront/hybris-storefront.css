@@ -1,0 +1,65 @@
+/*
+ * hybris-storefront block
+ * Matches the main-site .page-include-container storefront embed. The
+ * min-heights below only reserve space until hybris-storefront.js measures the
+ * framed document and takes over sizing.
+ */
+
+.hybris-storefront {
+  width: 100%;
+  min-height: 700px;
+  background-color: transparent;
+}
+
+.hybris-storefront-frame {
+  display: block;
+  width: 100%;
+  min-height: inherit;
+  border: 0;
+  background-color: transparent;
+}
+
+/* Relax section gutter so the frame can fill its hero column */
+.hybris-storefront-wrapper {
+  max-width: none;
+}
+
+.hybris-storefront-unavailable {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 340px;
+  padding: 24px;
+  background: #fff;
+  color: #1d1d1d;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid #ddd;
+}
+
+.hybris-storefront-unavailable p {
+  margin: 0 0 12px;
+}
+
+.hybris-storefront-unavailable ol {
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+.hybris-storefront-unavailable code {
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.hybris-storefront-unavailable a {
+  color: #c41230;
+}
+
+@media (width >= 1025px) {
+  .hybris-storefront {
+    min-height: 340px;
+  }
+
+  .hybris-storefront-frame {
+    min-height: 340px;
+  }
+}

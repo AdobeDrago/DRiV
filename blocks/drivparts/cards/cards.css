@@ -1,0 +1,103 @@
+/* Block: drivparts/cards — the brands directory list (logo + description/CTA rows). */
+
+.section.cards-container > .cards-wrapper {
+  margin: 0;
+  background-color: var(--background-color, #fff);
+}
+
+/* Drops the default section top margin so the list sits flush under the "brands" hero banner. */
+main .section.hero-banner-container:has(.hero-banner.brands) + .section.cards-container {
+  margin-top: 0;
+}
+
+.cards > ul {
+  list-style: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.cards > ul > li {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 32px;
+  padding: 32px 54px;
+}
+
+.cards .cards-card-image {
+  line-height: 0;
+  text-align: left;
+}
+
+/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+@media (width >= 768px) {
+  .cards > ul > li {
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+    padding: 40px 54px;
+  }
+
+  .cards .cards-card-image {
+    text-align: center;
+  }
+}
+
+.cards .cards-card-image img {
+  width: auto;
+  max-width: 100%;
+  max-height: 100px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.cards .cards-card-body {
+  display: block;
+}
+
+.cards .cards-card-description {
+  margin: 0 0 16px;
+  color: var(--text-color);
+  font-size: var(--body-font-size-xs, 14px);
+  line-height: 1.5;
+}
+
+.cards .cards-card-cta {
+  margin: 0;
+}
+
+.cards .cards-card-link:any-link {
+  display: inline-block;
+  color: var(--link-hover-color, #164991);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.cards .cards-card-link:hover,
+.cards .cards-card-link:focus-visible {
+  color: var(--brand-color, #c41230);
+  text-decoration: underline;
+}
+
+/* Last card only: reuses the site's global .button style, with a small icon appended. */
+.cards .cards-card-cta-button .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Three-dot cluster (two stacked + one at mid-right) — matches the source's icomoon glyph. */
+.cards-card-cta-icon {
+  position: relative;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: currentcolor;
+  box-shadow:
+    -8px -5px 0 currentcolor,
+    -8px 5px 0 currentcolor;
+}

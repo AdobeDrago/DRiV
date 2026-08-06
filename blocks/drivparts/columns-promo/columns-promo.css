@@ -1,0 +1,348 @@
+/* =====================================================================
+ * columns-promo
+ * "Garage Gurus" style promo — two-column layout, image left, content right.
+ * Values extracted from source computed styles at https://www.drivparts.com/
+ * (#page-content .second-par .tout-container).
+ * ===================================================================== */
+
+.columns-promo > div {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: var(--background-color);
+}
+
+/* image column: full-bleed, no padding */
+.columns-promo > div > .columns-promo-img-col {
+  order: 0;
+  padding: 0;
+}
+
+.columns-promo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* content column */
+.columns-promo > div > div {
+  order: 1;
+  padding: 24px 16px;
+}
+
+@media (width >= 768px) {
+  .columns-promo > div > div {
+    padding: 32px 24px;
+  }
+}
+
+/* headings — gray (#545454), weight 400; scale up from mobile */
+.columns-promo h2,
+main .section .columns-promo h2 {
+  margin: 0 0 16px;
+  color: var(--link-color);
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 32px;
+}
+
+.columns-promo h4 {
+  margin: 0 0 16px;
+  color: var(--link-color);
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.columns-promo p {
+  margin: 0 0 16px;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+/* CTA button */
+.columns-promo .button-container {
+  margin: 24px 0 0;
+}
+
+.columns-promo a.button:any-link,
+main .columns-promo a.button:any-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 16px 24px;
+  background-color: var(--brand-color);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  text-decoration: none;
+}
+
+.columns-promo a.button:any-link:hover,
+main .columns-promo a.button:any-link:hover {
+  background-color: #a30f28;
+  color: #fff;
+  text-decoration: none;
+}
+
+@media (width >= 1025px) {
+  .columns-promo > div {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .columns-promo > div > div {
+    flex: 1;
+    order: unset;
+  }
+
+  .columns-promo > div > div:not(.columns-promo-img-col) {
+    margin-top: 30px;
+    padding: 0 70px 70px;
+  }
+
+  .columns-promo h2,
+  main .section .columns-promo h2 {
+    margin-bottom: 20px;
+    font-size: 40px;
+    line-height: 44px;
+  }
+
+  .columns-promo h4 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.1;
+  }
+
+  .columns-promo p {
+    margin-bottom: 20px;
+  }
+
+  .columns-promo .button-container {
+    margin: 80px 0 0;
+  }
+
+  .columns-promo a.button:any-link,
+  main .columns-promo a.button:any-link {
+    padding: 24px 40px;
+  }
+
+  /*
+   * Compact variant: inside the homepage hero row the promo sits in a narrow
+   * (~quarter width) card, so keep image-over-text stacked and tighten the
+   * spacing/typography rather than using the wide side-by-side layout. It also
+   * fills the full column height so its white card bottom lines up with the
+   * Parts Finder and Sign In cards (they paint white on the block itself; here
+   * the white sits on this inner div, so it must stretch).
+   */
+  main .section.sign-in-container .columns-promo > div {
+    flex-direction: column;
+    align-items: stretch;
+    height: 100%;
+  }
+
+  main .section.sign-in-container .columns-promo > div > div:not(.columns-promo-img-col) {
+    margin-top: 0;
+    padding: 24px;
+  }
+
+  main .section.sign-in-container .columns-promo h2 {
+    margin-bottom: 12px;
+    font-size: 24px;
+    line-height: 28px;
+    text-transform: none;
+  }
+
+  main .section.sign-in-container .columns-promo .button-wrapper,
+  main .section.sign-in-container .columns-promo .button-container {
+    margin: 0;
+  }
+
+  main .section.sign-in-container .columns-promo a.button:any-link {
+    width: 100%;
+    padding: 16px 24px;
+    text-transform: uppercase;
+  }
+}
+
+/* =====================================================================
+ * columns-promo.card variant
+ * Same two-column layout as columns-promo but wrapped in a bordered
+ * white card. Authored as "Columns Promo (Card)" — EDS adds `card` as a
+ * second class on the block itself (never a fused `columns-promo-card`
+ * class, and never on the wrapper/section), so every rule below is
+ * scoped as a compound selector on `.columns-promo.card`.
+ * The "Learn More" CTA is a plain <p><a> (no strong/em wrapping) so
+ * decorateButtons skips it — we target p > a directly.
+ * ===================================================================== */
+
+/* Thin hr above any section containing a card-variant block */
+.section.columns-promo-container:has(.columns-promo.card)::before {
+  content: '';
+  display: block;
+  height: 1px;
+  background-color: #d8d8d8;
+  margin-inline: 16px;
+}
+
+@media (width >= 768px) {
+  .section.columns-promo-container:has(.columns-promo.card)::before {
+    margin-inline: 24px;
+  }
+}
+
+@media (width >= 1025px) {
+  .section.columns-promo-container:has(.columns-promo.card)::before {
+    margin-inline: 100px;
+  }
+}
+
+.columns-promo.card {
+  margin: 30px auto;
+  border: 1px solid #d8d8d8;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+/* specificity matches .columns-promo > div > div (0,1,2) to satisfy no-descending-specificity */
+main .columns-promo.card > div {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: var(--background-color);
+}
+
+/* image column */
+main .columns-promo.card > div > .columns-promo-img-col {
+  order: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+/* content column — mobile padding only; desktop overrides below */
+main .columns-promo.card > div > div:not(.columns-promo-img-col) {
+  order: 1;
+  padding: 24px 24px 32px;
+}
+
+/* headings — type scale inherited from .columns-promo; the card only centres it */
+main .section .columns-promo.card h2 {
+  text-align: center;
+}
+
+.columns-promo.card h4 {
+  text-align: center;
+}
+
+/* ── CTA: space above + red button ──────────────────────────────────────
+   decorateButtons skips plain <p><a> links (no strong/em), so we style
+   the paragraph and anchor directly instead of relying on .button class. */
+.columns-promo.card p:has(> a:only-child) {
+  margin-top: 24px;
+  margin-bottom: 0;
+}
+
+.columns-promo.card p > a:any-link,
+main .columns-promo.card p > a:any-link {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 16px 24px;
+  background-color: var(--brand-color);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.columns-promo.card p > a:any-link::after {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: #fff;
+
+  /* main dot = top-left; shadows form bottom-left + center-right → ":•" triangle */
+  box-shadow:
+    0 6px 0 #fff,     /* bottom-left dot */
+    7px 3px 0 #fff;   /* center-right dot */
+}
+
+.columns-promo.card p > a:any-link:hover,
+main .columns-promo.card p > a:any-link:hover {
+  background-color: #a30f28;
+  color: #fff;
+  text-decoration: none;
+}
+
+@media (width >= 1025px) {
+  main .columns-promo.card > div {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 60px;
+  }
+
+  main .columns-promo.card > div > div {
+    flex: 1 1 0;
+    min-width: 0;
+    order: unset;
+  }
+
+  main .columns-promo.card > div > .columns-promo-img-col {
+    padding: 0;
+    margin: 25px 0;
+  }
+
+  /*
+   * Match live .tout-content: margin-top 30px + padding 0 70px 70px
+   * (https://www.drivparts.com/ .tout-container).
+   */
+  main .columns-promo.card > div > div:not(.columns-promo-img-col) {
+    margin: 25px 0;
+    padding: 0 70px 0 0;
+  }
+
+  main .section .columns-promo.card h2 {
+    text-align: left;
+  }
+
+  .columns-promo.card h4 {
+    text-align: left;
+  }
+
+  .columns-promo.card p:has(> a:only-child) {
+    margin-top: 80px;
+  }
+
+  .columns-promo.card p > a:any-link,
+  main .columns-promo.card p > a:any-link {
+    display: inline-flex;
+    width: auto;
+    padding: 24px 40px;
+  }
+}

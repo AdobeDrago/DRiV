@@ -4,7 +4,7 @@
 <head>
   <meta
     http-equiv="Content-Security-Policy"
-    content="script-src 'nonce-aem' 'strict-dynamic' 'unsafe-inline' http: https:; base-uri 'self'; object-src 'none';"
+    content="script-src 'nonce-aem' 'strict-dynamic' 'unsafe-inline' http: https:; base-uri 'self'; object-src 'none'; frame-src 'self' https:; require-trusted-types-for 'script';"
     move-to-http-header="true"
   >
   <title>Page not found</title>
@@ -16,32 +16,80 @@
   <meta property="og:title" content="Page not found">
   <script nonce="aem" src="/scripts/aem.js" type="module"></script>
   <script nonce="aem" src="/scripts/scripts.js" type="module"></script>
-  <link rel="stylesheet" href="/styles/styles.css"/>
-
-  <!--  404 Specific Content  -->
-  <script nonce="aem" type="module">
-    window.addEventListener('load', () => {
-      if (document.referrer) {
-        const { origin, pathname } = new URL(document.referrer);
-        if (origin === window.location.origin) {
-          const backBtn = document.createElement('a');
-          backBtn.classList.add('button', 'error-button-back');
-          backBtn.href = pathname;
-          backBtn.textContent = 'Go back';
-          backBtn.title = 'Go back';
-          const btnContainer = document.querySelector('.button-container');
-          btnContainer.append(backBtn);
-        }
-      }
-    });
-  </script>
   <script nonce="aem" type="module">
     import { sampleRUM } from '/scripts/aem.js';
+    import { isDrivpartsPath, sitePath } from '/scripts/drivparts-paths.js';
+
     sampleRUM('404', { source: document.referrer });
+
+    if (isDrivpartsPath()) {
+      document.body.classList.add('drivparts');
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = '/styles/404.css';
+      document.head.append(link);
+
+      const main = document.querySelector('main.error');
+      main.replaceChildren();
+
+      const codeBand = document.createElement('div');
+      codeBand.className = 'section error-band error-band-code';
+      const codeWrap = document.createElement('div');
+      codeWrap.className = 'default-content-wrapper';
+      const codeHeading = document.createElement('h1');
+      codeHeading.textContent = '404';
+      codeWrap.append(codeHeading);
+      codeBand.append(codeWrap);
+
+      const msgBand = document.createElement('div');
+      msgBand.className = 'section error-band error-band-message';
+      const msgWrap = document.createElement('div');
+      msgWrap.className = 'default-content-wrapper';
+      const h2 = document.createElement('h2');
+      h2.textContent = 'This page does not exist!';
+      const home = document.createElement('a');
+      home.className = 'error-cta';
+      home.href = sitePath('/');
+      home.title = 'Home';
+      home.textContent = 'Return Home';
+      msgWrap.append(h2, home);
+
+      if (document.referrer) {
+        try {
+          const { origin, pathname } = new URL(document.referrer);
+          if (origin === window.location.origin) {
+            const back = document.createElement('a');
+            back.className = 'error-cta error-cta-back';
+            back.href = pathname;
+            back.title = 'Go back';
+            back.textContent = 'Go back';
+            msgWrap.append(back);
+          }
+        } catch { /* ignore invalid referrer */ }
+      }
+
+      msgBand.append(msgWrap);
+      main.append(codeBand, msgBand);
+    } else {
+      window.addEventListener('load', () => {
+        if (!document.referrer) return;
+        try {
+          const { origin, pathname } = new URL(document.referrer);
+          if (origin === window.location.origin) {
+            const backBtn = document.createElement('a');
+            backBtn.classList.add('button', 'error-button-back');
+            backBtn.href = pathname;
+            backBtn.textContent = 'Go back';
+            backBtn.title = 'Go back';
+            document.querySelector('.button-container')?.append(backBtn);
+          }
+        } catch { /* ignore invalid referrer */ }
+      });
+    }
   </script>
   <link rel="stylesheet" href="/styles/styles.css">
   <style>
-    main.error {
+    main.error:not(:has(.error-band)) {
       min-height: calc(100vh - var(--header-height));
       display: flex;
       align-items: center;

@@ -1,8 +1,7 @@
-/* eslint-disable import/no-cycle */
-import { NX_ORIGIN } from './scripts.js';
+const NX_ORIGIN = 'https://da.live/nx';
+const DA_EXP = '/public/plugins/exp/exp.js';
 
 let expMod;
-const DA_EXP = '/public/plugins/exp/exp.js';
 
 async function toggleExp() {
   const exists = document.querySelector('#aem-sidekick-exp');

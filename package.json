@@ -7,6 +7,11 @@
     "lint:js": "eslint .",
     "lint:css": "stylelint 'blocks/**/*.css' 'styles/*.css'",
     "lint": "npm run lint:js && npm run lint:css",
+    "proxy": "node tools/fmstorefront-proxy.mjs",
+    "deploy:catalog-api": "wrangler deploy -c workers/catalog-api/wrangler.toml",
+    "deploy:hybris-proxy": "wrangler deploy -c workers/drivparts-hybris-proxy/wrangler.toml",
+    "deploy:contact-proxy": "wrangler deploy -c workers/contact-proxy/wrangler.toml",
+    "deploy:eds-poc": "wrangler deploy -c workers/drivparts-eds-poc/wrangler.toml",
     "build:json": "npm-run-all -p build:json:models build:json:definitions build:json:filters",
     "build:json:models": "merge-json-cli -i \"ue/models/component-models.json\" -o \"component-models.json\"",
     "build:json:definitions": "merge-json-cli -i \"ue/models/component-definition.json\" -o \"component-definition.json\"",
@@ -28,10 +33,11 @@
     "eslint": "8.57.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.29.1",
-    "stylelint": "16.7.0",
-    "stylelint-config-standard": "36.0.1",
     "husky": "^9.1.7",
     "merge-json-cli": "^1.0.4",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "stylelint": "16.7.0",
+    "stylelint-config-standard": "36.0.1",
+    "wrangler": "^4.118.0"
   }
 }

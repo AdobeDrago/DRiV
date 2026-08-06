@@ -1,0 +1,306 @@
+.parts-list-modal {
+  box-sizing: border-box;
+  width: 96vw;
+  max-width: 1000px;
+  padding: 0;
+  border: none;
+  background: #fff;
+}
+
+.parts-list-modal::backdrop {
+  background: rgb(0 0 0 / 60%);
+}
+
+.parts-list-modal * {
+  box-sizing: border-box;
+}
+
+/* Title bar matches drivparts.com dialog chrome. */
+.parts-list-title-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #000;
+  padding: 14px 45px 14px 16px;
+  min-height: 60px;
+}
+
+.parts-list-title-icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.parts-list-title-icon span:first-child {
+  position: absolute;
+  top: 11px;
+  left: 10px;
+  width: 24px;
+  height: 23px;
+  border: 3px solid #000;
+  border-radius: 50%;
+}
+
+.parts-list-title-icon span:last-child {
+  position: absolute;
+  top: 50%;
+  left: 11px;
+  width: 50%;
+  border-top: 2px solid #000;
+}
+
+.parts-list-title {
+  margin: 0;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.parts-list-close-btn {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  background: #000;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.parts-list-status {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: var(--body-font-size-s, 0.875rem);
+  color: var(--dark-color);
+}
+
+.parts-list-status-error {
+  color: var(--brand-color);
+}
+
+.parts-list-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 16px;
+  flex-wrap: wrap;
+}
+
+.parts-list-print-btn,
+.parts-list-cart-btn,
+.parts-list-clear-btn {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.parts-list-print-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text-color);
+}
+
+.parts-list-cart-btn {
+  background: var(--dark-color);
+  color: #fff;
+  border: 2px solid var(--dark-color);
+  padding: 5px 10px;
+}
+
+.parts-list-clear-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--brand-color);
+}
+
+.parts-list-print-btn:disabled,
+.parts-list-cart-btn:disabled,
+.parts-list-clear-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.parts-list-close-btn:focus-visible,
+.parts-list-print-btn:focus-visible,
+.parts-list-cart-btn:focus-visible,
+.parts-list-clear-btn:focus-visible {
+  outline: 2px solid var(--link-hover-color);
+  outline-offset: 2px;
+}
+
+.parts-list-close-btn:focus-visible {
+  outline-color: #fff;
+}
+
+.parts-list-table-wrapper {
+  max-width: 100%;
+  max-height: 340px;
+  overflow: auto;
+}
+
+.parts-list-empty {
+  margin: 0;
+  padding: 32px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--dark-color);
+}
+
+.parts-list-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.parts-list-table {
+  display: block;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12px;
+}
+
+.parts-list-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--link-color);
+  color: #fff;
+  text-align: left;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 13px;
+  padding: 15px;
+  border-right: 1px solid #fff;
+}
+
+.parts-list-table th:last-child {
+  border-right: none;
+}
+
+.parts-list-table td {
+  padding: 10px 15px;
+  background: #ccc;
+  color: var(--text-color);
+  font-weight: 700;
+  border-top: 1px solid #fff;
+}
+
+.parts-list-qty-input {
+  width: 70px;
+  padding: 6px 4px;
+  border: 2px solid var(--brand-color);
+  border-radius: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--link-color);
+}
+
+.parts-list-qty-input:focus-visible {
+  outline: 2px solid var(--link-hover-color);
+  outline-offset: 2px;
+}
+
+.parts-list-table td.parts-list-remove-cell {
+  text-align: center;
+}
+
+.parts-list-remove-btn {
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--text-color);
+}
+
+.parts-list-remove-btn:focus-visible {
+  outline: 2px solid var(--link-hover-color);
+  outline-offset: 2px;
+}
+
+/* Inline SVG trash glyph (avoids loading an icon font). */
+.parts-list-trash-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (width >= 768px) {
+  .parts-list-modal {
+    width: 80%;
+  }
+
+  .parts-list-table {
+    display: table;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .parts-list-modal,
+  .parts-list-modal * {
+    visibility: visible;
+  }
+
+  .parts-list-modal {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    border: none;
+    background: #fff;
+  }
+
+  .parts-list-modal::backdrop {
+    display: none;
+  }
+
+  .parts-list-toolbar,
+  .parts-list-close-btn,
+  .parts-list-title-icon,
+  .parts-list-remove-cell,
+  .parts-list-table th:last-child {
+    display: none;
+  }
+
+  .parts-list-table-wrapper {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .parts-list-table {
+    display: table;
+  }
+
+  .parts-list-qty-input {
+    border: none;
+    width: auto;
+  }
+}

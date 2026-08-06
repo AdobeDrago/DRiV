@@ -532,6 +532,50 @@ function buildBlock(blockName, content) {
 }
 
 /**
+ * DriveParts-specific blocks live under blocks/drivparts/{name}/.
+ * Unique DriveParts names always resolve nested; stock-name overrides
+ * (header/footer/fragment/cards/columns/hero) only under /drivparts.
+ */
+const DRIVPARTS_BLOCKS = new Set([
+  'parts-finder',
+  'part-finder-result',
+  'part-details',
+  'parts-list',
+  'where-to-buy-search',
+  'where-to-buy-result',
+  'hybris-storefront',
+  'columns-promo',
+  'hero-banner',
+  'brand-detail',
+  'embed-signin',
+  'widget',
+  'brand-nav',
+]);
+
+const DRIVPARTS_OVERRIDES = new Set([
+  'header',
+  'footer',
+  'fragment',
+  'cards',
+  'columns',
+  'hero',
+]);
+
+/**
+ * Returns the directory URL for a block's JS/CSS modules.
+ * @param {string} blockName
+ * @returns {string}
+ */
+function getBlockBasePath(blockName) {
+  const onDrivparts = window.location.pathname === '/drivparts'
+    || window.location.pathname.startsWith('/drivparts/');
+  if (DRIVPARTS_BLOCKS.has(blockName) || (onDrivparts && DRIVPARTS_OVERRIDES.has(blockName))) {
+    return `${window.hlx.codeBasePath}/blocks/drivparts/${blockName}`;
+  }
+  return `${window.hlx.codeBasePath}/blocks/${blockName}`;
+}
+
+/**
  * Loads JS and CSS for a block.
  * @param {Element} block The block element
  */
@@ -541,12 +585,13 @@ async function loadBlock(block) {
     block.dataset.blockStatus = 'loading';
     const { blockName } = block.dataset;
     try {
-      const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`);
+      const base = getBlockBasePath(blockName);
+      const cssLoaded = loadCSS(`${base}/${blockName}.css`);
       const decorationComplete = new Promise((resolve) => {
         (async () => {
           try {
             const mod = await import(
-              `${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.js`
+              `${base}/${blockName}.js`
             );
             if (mod.default) {
               await mod.default(block);
