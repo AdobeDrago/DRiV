@@ -43,7 +43,7 @@ main .section.brand-detail-container > .brand-detail-wrapper {
 .brand-detail-brand {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .brand-detail-logo-link,
@@ -317,14 +317,25 @@ main .section .brand-detail-content h4 {
   display: inline;
 }
 
-@media (width >= 900px) {
+/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+@media (width >= 768px) {
+  .brand-detail-hero {
+    height: 420px;
+  }
+
+  .brand-detail-back-short {
+    display: none;
+  }
+
+  .brand-detail-back-full {
+    display: inline;
+  }
+}
+
+@media (width >= 1024px) {
   .brand-detail-layout {
     flex-direction: row;
     align-items: stretch;
-  }
-
-  .brand-detail-hero {
-    height: 420px;
   }
 
   .brand-detail-sidebar {
@@ -354,13 +365,5 @@ main .section .brand-detail-content h4 {
 
   .brand-detail-utilities {
     padding: 20px 85px;
-  }
-
-  .brand-detail-back-short {
-    display: none;
-  }
-
-  .brand-detail-back-full {
-    display: inline;
   }
 }
