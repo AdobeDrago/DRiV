@@ -27,7 +27,7 @@ function optimizeLogos(ul) {
 // Turns the last card's CTA into a real button, matching the source's treatment of the final entry.
 function makeButtonCta(p, a) {
   p.classList.add('cards-card-cta', 'cards-card-cta-button');
-  a.classList.add('button');
+  a.classList.add('button', 'primary');
 
   const icon = document.createElement('span');
   icon.className = 'cards-card-cta-icon';
