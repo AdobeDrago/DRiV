@@ -2,6 +2,7 @@
 
 main .section.hero-banner-container {
   padding: 0;
+  margin: 20px 0;
 
   --hero-banner-gold: #c1a35f;
   --hero-banner-gold-dark: #a88a45;
@@ -26,6 +27,10 @@ main .section.hero-banner-container > .hero-banner-wrapper {
     padding: 24px 20px;
     margin: 0 24px 10px;
   }
+
+  .hero-banner .button-container {
+    padding: 20px 10px;
+  }
 }
 
 .hero-banner > div {
@@ -42,6 +47,10 @@ main .section.hero-banner-container > .hero-banner-wrapper {
 .hero-banner .hero-banner-link,
 .hero-banner picture {
   display: block;
+}
+
+.hero-banner .button-container {
+  padding: 15px 0;
 }
 
 .hero-banner img {
@@ -174,6 +183,10 @@ main .section.hero-banner-container > .hero-banner-wrapper:has(.hero-banner.bran
   .hero-banner {
     padding: 28px 20px;
     margin: 0 122px 10px;
+  }
+
+  .hero-banner .button-container {
+    padding: 45px 0;
   }
 
   .hero-banner.no-image a:any-link {
