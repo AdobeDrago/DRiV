@@ -590,7 +590,6 @@
       <a class="sidebar-link" href="#moogparts-overview">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
         Overview
-        <span class="nav-status ns-planned">Planned</span>
       </a>
       <a class="sidebar-link" href="#moogparts-references">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
@@ -604,10 +603,28 @@
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2z"/></svg>
         Architecture
       </a>
-      <a class="sidebar-link" href="#moogparts-scenarios">
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">MoogParts Scenarios</div>
+      <a class="sidebar-link" href="#mp-s1">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
-        Scenarios
-        <span class="nav-status ns-planned">Planned</span>
+        Scenario 1 · Homepage
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+      <a class="sidebar-link" href="#mp-s2">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 2.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v10.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25V2.75z"/></svg>
+        Scenario 2 · Parts Catalog
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+      <a class="sidebar-link" href="#mp-s3">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0z"/></svg>
+        Scenario 3 · Find My Part
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+      <a class="sidebar-link" href="#mp-s4">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11z"/></svg>
+        Scenario 4 · Support
+        <span class="nav-status ns-done">Complete</span>
       </a>
     </div>
 
@@ -633,7 +650,7 @@
             <span class="url-card-label"><span class="dot dot-navy"></span>Project</span>
             <span class="url-card-title">MoogParts</span>
             <span class="url-card-url">www.moogparts.com → EDS</span>
-            <span class="url-card-desc">Documentation scaffold — same structure as DriveParts; content to be filled next.</span>
+            <span class="url-card-desc">Homepage, Parts catalog, Find My Part, and Support — scenarios follow the Moog site IA in DA and on the EDS preview.</span>
           </a>
         </div>
       </div>
@@ -1555,7 +1572,7 @@ npm run deploy:eds-poc</div>
       <div class="project-divider" id="moogparts">
         <div class="project-divider-eyebrow">Project</div>
         <h2>MoogParts</h2>
-        <p>AEM → Edge Delivery Services migration pilot for MoogParts. This section mirrors the DriveParts doc structure and will be filled out the same way — overview, references, setup, architecture, and scenarios.</p>
+        <p>AEM → Edge Delivery Services migration pilot for MoogParts (<a href="https://www.moogparts.com" target="_blank" rel="noopener" style="color:var(--brand-blue);">moogparts.com</a>). Source: <code class="code-inline">codeandtheory/moogparts-prototype</code>. Scenarios follow the Moog site IA in <a href="https://da.live/#/codeandtheory/moogparts-prototype" target="_blank" rel="noopener" style="color:var(--brand-blue);">Document Authoring</a> and the <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">EDS preview</a> — not the DriveParts pilot flow.</p>
       </div>
 
       <section class="doc-section" id="moogparts-overview">
@@ -1564,36 +1581,69 @@ npm run deploy:eds-poc</div>
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
           </span>
           Overview
-          <span class="status-badge sb-planned">Planned</span>
         </h2>
         <div class="section-rule"></div>
-        <div class="notice info">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span>MoogParts documentation is a scaffold. We will flesh this out using the same pattern as DriveParts (purpose, scenarios table, repository attributes).</span>
-        </div>
+        <p>A pilot validating MoogParts' migration from AEM Managed Services to Edge Delivery Services. Moog is a single-brand chassis site: homepage marketing bands, a Parts taxonomy (Steering / Suspension / Driveline / Wheel End), Find My Part catalog search, and Support content — plus locale trees for NA and EMEA.</p>
+
         <h3>Purpose</h3>
         <ul class="req-list">
-          <li>Validate migration of MoogParts pages to Edge Delivery Services.</li>
-          <li>Validate dynamic, backend-driven experiences (catalog APIs and related integrations).</li>
+          <li>Migrate MoogParts marketing, Parts catalog, and Support content to EDS with DA authoring under market/locale paths (<code class="code-inline">/na/en-us</code>, <code class="code-inline">/emea/en-eu</code>, …).</li>
+          <li>Replace the legacy AngularJS Find My Part SPA with EDS blocks + Cloudflare catalog proxy.</li>
+          <li>Preserve Moog's primary journeys from the live site mega-nav: Parts, Support, Technologies, Find My Part.</li>
         </ul>
-        <h3>The scenarios</h3>
+
+        <h3>Core engineering requirements</h3>
+        <ul class="req-list">
+          <li>EDS block-based model only (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>).</li>
+          <li>Catalog / cross-sell / FMMP via <code class="code-inline">moogparts-catalog-api</code>; contact submit via <code class="code-inline">moogparts-contact-proxy</code>.</li>
+          <li>Locale path prefixes via <code class="code-inline">getLocalePrefix()</code> (flat <code class="code-inline">/en-us</code> or nested <code class="code-inline">/na/en-us</code>, <code class="code-inline">/emea/en-eu</code>).</li>
+        </ul>
+
+        <h3>The four scenarios</h3>
         <table class="spec-table">
           <thead>
-            <tr><th>Scenario</th><th>Validates</th><th>Status</th><th>Live URL</th></tr>
+            <tr><th>Scenario</th><th>Validates</th><th>Status</th><th>Preview</th></tr>
           </thead>
           <tbody>
             <tr>
-              <td colspan="4" style="font-weight:400;color:var(--gray-600);">Scenarios TBD — to be defined next, following the DriveParts model.</td>
+              <td>1 · Homepage &amp; chrome</td>
+              <td>Mega-nav · heroes · campaign bands · category cards · embedded Find My Part</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/na/en-us/</a></td>
+            </tr>
+            <tr>
+              <td>2 · Parts catalog</td>
+              <td>L1 → L2 → L3 taxonomy (Steering, Suspension, Driveline, Wheel End)</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/parts</a></td>
+            </tr>
+            <tr>
+              <td>3 · Find My Part</td>
+              <td>Vehicle + part-number search → results → part details (+ cross-sell)</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/find-my-part" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/find-my-part</a></td>
+            </tr>
+            <tr>
+              <td>4 · Support</td>
+              <td>NA technical hub · EMEA support landing</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/technical" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/technical</a></td>
             </tr>
           </tbody>
         </table>
+        <p>Progress to date. Scenario 1 — homepage composition and mega-nav chrome. Scenario 2 — Parts L1–L3 content tree. Scenario 3 — Find My Part US end to end through <code class="code-inline">moogparts-catalog-api</code> (cross-sell is part of this flow, not a separate scenario). Scenario 4 — Support hubs (NA <code class="code-inline">/technical</code>, EMEA <code class="code-inline">/support</code>). Contact and mailing-list remain authorable utilities (see Architecture).</p>
+
         <h3>Repository</h3>
         <table class="spec-table">
           <tbody>
             <tr><td>Effort</td><td>MoogParts → Edge Delivery Services migration pilot</td></tr>
+            <tr><td>GitHub repo</td><td><code class="code-inline">codeandtheory/moogparts-prototype</code></td></tr>
+            <tr><td>DA content</td><td><a href="https://da.live/#/codeandtheory/moogparts-prototype" target="_blank" rel="noopener" style="color:var(--brand-blue);">da.live/#/codeandtheory/moogparts-prototype</a> — <code class="code-inline">na/</code>, <code class="code-inline">emea/</code>, <code class="code-inline">library/</code></td></tr>
+            <tr><td>Base</td><td><code class="code-inline">aem-boilerplate</code>, DA-compatible</td></tr>
+            <tr><td>Dev model</td><td>EDS block-based only (+ optional <code class="code-inline">widgets/</code> auto-blocks)</td></tr>
+            <tr><td>Backend services</td><td>MOOG catalog / cross-sell / FMMP · contact submit via Cloudflare Workers</td></tr>
             <tr><td>Reference site</td><td><a href="https://www.moogparts.com" target="_blank" rel="noopener" style="color:var(--brand-blue);">www.moogparts.com</a></td></tr>
-            <tr><td>Catalog upstream</td><td><code class="code-inline">catalog-api</code> · <code class="code-inline">GET /catalog/*</code> → <code class="code-inline">moogparts.com/driv/partfinder/*</code></td></tr>
-            <tr><td>Status</td><td><span class="nav-status ns-planned">Documentation planned</span></td></tr>
+            <tr><td>Assessment</td><td><code class="code-inline">moogparts-eds-migration-assessment.md</code> in the prototype repo</td></tr>
           </tbody>
         </table>
       </section>
@@ -1606,21 +1656,51 @@ npm run deploy:eds-poc</div>
           Key references
         </h2>
         <div class="section-rule"></div>
+
+        <h3>Repository</h3>
         <div class="url-grid">
-          <a class="url-card" href="https://www.moogparts.com" target="_blank" rel="noopener">
-            <span class="url-card-label"><span class="dot dot-navy"></span>Production</span>
-            <span class="url-card-title">MoogParts site</span>
-            <span class="url-card-url">www.moogparts.com</span>
-            <span class="url-card-desc">Migration source — production AEM site.</span>
-          </a>
-          <a class="url-card" href="https://www.moogparts.com/driv/partfinder" target="_blank" rel="noopener">
-            <span class="url-card-label"><span class="dot dot-orange"></span>Catalog</span>
-            <span class="url-card-title">MOOG parts catalog</span>
-            <span class="url-card-url">moogparts.com/driv/partfinder</span>
-            <span class="url-card-desc">Upstream for <code class="code-inline">catalog-api</code> <code class="code-inline">/catalog/*</code>.</span>
+          <a class="url-card" href="https://github.com/codeandtheory/moogparts-prototype" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>GitHub</span>
+            <span class="url-card-title">codeandtheory/moogparts-prototype</span>
+            <span class="url-card-url">github.com/codeandtheory/moogparts-prototype</span>
+            <span class="url-card-desc">MoogParts EDS prototype — blocks, widgets, workers.</span>
           </a>
         </div>
-        <p style="color:var(--gray-600);font-size:13px;">Author / preview / live EDS environments — to be added.</p>
+
+        <h3>Project environments</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://da.live/#/codeandtheory/moogparts-prototype" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Author</span>
+            <span class="url-card-title">Document Authoring</span>
+            <span class="url-card-url">da.live/#/codeandtheory/moogparts-prototype</span>
+            <span class="url-card-desc">Content tree: <code class="code-inline">na/en-us</code>, <code class="code-inline">na/es-mx</code>, <code class="code-inline">emea/*</code>, library, blocks.</span>
+          </a>
+          <a class="url-card" href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Preview</span>
+            <span class="url-card-title">EDS live preview (NA en-US)</span>
+            <span class="url-card-url">main--moogparts-prototype--codeandtheory.aem.live/na/en-us/</span>
+            <span class="url-card-desc">Primary flow reference for homepage and mega-nav journeys.</span>
+          </a>
+          <a class="url-card" href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Preview</span>
+            <span class="url-card-title">EDS live preview (EMEA en-EU)</span>
+            <span class="url-card-url">main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/</span>
+            <span class="url-card-desc">Parallel EU market homepage — products, Find My Part EU, support, newsletter.</span>
+          </a>
+          <a class="url-card" href="https://main--moogparts-prototype--codeandtheory.aem.page/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Preview</span>
+            <span class="url-card-title">EDS preview (aem.page)</span>
+            <span class="url-card-url">main--moogparts-prototype--codeandtheory.aem.page</span>
+            <span class="url-card-desc">Branch preview against main.</span>
+          </a>
+          <a class="url-card" href="https://www.moogparts.com/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-green"></span>Production</span>
+            <span class="url-card-title">moogparts.com</span>
+            <span class="url-card-url">www.moogparts.com</span>
+            <span class="url-card-desc">Migration source — AEM MS production.</span>
+          </a>
+        </div>
+
       </section>
 
       <section class="doc-section" id="moogparts-setup">
@@ -1631,7 +1711,33 @@ npm run deploy:eds-poc</div>
           Getting Started
         </h2>
         <div class="section-rule"></div>
-        <p>Install, lint, and local-dev notes for MoogParts — to be documented (same shape as DriveParts Install &amp; run / Linting).</p>
+        <ol class="steps">
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Clone and install</div>
+              <div class="code-block">git clone https://github.com/codeandtheory/moogparts-prototype.git
+cd moogparts-prototype
+npm install</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Run the AEM CLI</div>
+              <div class="code-block">aem up</div>
+              <p>Local EDS server at <code class="code-inline">http://localhost:3000</code>, content from DA (<code class="code-inline">codeandtheory/moogparts-prototype</code>). Start at <code class="code-inline">/na/en-us/</code>.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Lint</div>
+              <div class="code-block">npm run lint</div>
+              <p>CI runs lint on every push. Run after JS/CSS changes (including <code class="code-inline">workers/*/index.js</code>).</p>
+            </div>
+          </li>
+        </ol>
       </section>
 
       <section class="doc-section" id="moogparts-architecture">
@@ -1642,19 +1748,285 @@ npm run deploy:eds-poc</div>
           Architecture
         </h2>
         <div class="section-rule"></div>
-        <p>Block routing, page decoration, MoogParts-specific blocks, and supporting modules — to be documented.</p>
+        <p>Stock EDS/Helix decoration in <code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>. Blocks live flat under <code class="code-inline">blocks/</code> (no nested brand family). Content is organized by market/locale in DA — not by DriveParts brand hubs.</p>
+
+        <h3>Content &amp; locale tree</h3>
+        <table class="spec-table">
+          <thead><tr><th>Path</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><code class="code-inline">na/en-us/</code></td><td>Primary US English site (homepage, parts, find-my-part, technical, where-to-buy).</td></tr>
+            <tr><td><code class="code-inline">na/es-mx/</code></td><td>Mexico Spanish.</td></tr>
+            <tr><td><code class="code-inline">emea/en-eu</code>, <code class="code-inline">fr-fr</code>, <code class="code-inline">es-es</code></td><td>EMEA locales. Preview: <a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/emea/en-eu/</a> — EU homepage, <code class="code-inline">products</code>, <code class="code-inline">support</code>, <code class="code-inline">catalogue</code>, Find My Part EU / <code class="code-inline">part-details-eu</code>.</td></tr>
+            <tr><td><code class="code-inline">library/</code>, <code class="code-inline">blocks/</code></td><td>Shared DA library and block samples.</td></tr>
+          </tbody>
+        </table>
+        <p><code class="code-inline">getLocalePrefix()</code> scopes nav/footer fragments and Find My Part detail links under the active prefix.</p>
+
+        <h3>Mega-nav (IA)</h3>
+        <p>Authored in <code class="code-inline">na/en-us/nav</code>: <strong>Parts</strong> (Steering / Suspension / Driveline / Wheel End → product lines) · <strong>Support</strong> (bulletins, Diagnostic Center) · <strong>Technologies</strong> · <strong>Installation Guide Search</strong> · <strong>Find My Part</strong> CTA · utility links (Chassis System 101, Light Commercial Vehicle, locale picker).</p>
+        <p><strong>EMEA</strong> (<code class="code-inline">emea/en-eu</code>) is a parallel market IA, not a copy of NA: Problem Solver hero + video, Find My Part CTA, 5-year warranty, product families (Steering / Suspension / Wheel End Bearings), technical-support bands (QR / tips / Garage Gurus / 3D schematics), and newsletter signup. Content lives under <code class="code-inline">emea/en-eu/</code> (<code class="code-inline">products</code>, <code class="code-inline">support</code>, <code class="code-inline">catalogue</code>, <code class="code-inline">part-details</code>, …).</p>
+
+        <h3>Key blocks</h3>
+        <table class="spec-table">
+          <thead><tr><th>Block</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>header / footer / fragment</td><td>Site chrome; locale-aware fragment paths; mega-menu.</td></tr>
+            <tr><td>hero / hero-overlay / image-banner</td><td>Homepage and campaign heroes.</td></tr>
+            <tr><td>cards / cards-category / cards-article / cards-*</td><td>Category tiles, Chassis System 101 articles, other card layouts.</td></tr>
+            <tr><td>columns / columns-split</td><td>Bulletin + Diagnostic Center bands and multi-column layouts.</td></tr>
+            <tr><td>find-my-part-us</td><td>US vehicle + part-number search (homepage embed and dedicated page).</td></tr>
+            <tr><td>find-my-part-results-us</td><td>Results listing; links to part-details.</td></tr>
+            <tr><td>part-details / part-details-eu</td><td>Product detail via catalog product + applications APIs.</td></tr>
+            <tr><td>cross-sell</td><td>Related products on results/detail (part of Find My Part flow).</td></tr>
+            <tr><td>find-my-part-eu / part-number-search-us / brand-based-search</td><td>Additional catalog entry points (EU / alternate US).</td></tr>
+            <tr><td>contact / mailing-list</td><td>Authorable forms and newsletter CTA (utilities).</td></tr>
+            <tr><td>widget</td><td>Loads <code class="code-inline">/widgets/{path}/{name}</code> HTML/CSS/JS from authored links.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Cloudflare Workers</h3>
+        <table class="spec-table">
+          <thead><tr><th>Worker</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><code class="code-inline">moogparts-catalog-api</code></td><td><code class="code-inline">/catalog/*</code>, <code class="code-inline">/drivparts/*</code>, <code class="code-inline">/cross-sell</code>, <code class="code-inline">POST /fmmp/*</code> — CORS + 24h cache.</td></tr>
+            <tr><td><code class="code-inline">moogparts-contact-proxy</code></td><td><code class="code-inline">/submit</code> — form submit proxy with secret (contact utility).</td></tr>
+          </tbody>
+        </table>
       </section>
 
-      <section class="doc-section" id="moogparts-scenarios">
+      <!-- MP SCENARIO 1 -->
+      <section class="doc-section" id="mp-s1">
         <h2>
-          <span class="section-icon icon-seafoam">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
           </span>
-          Scenarios
-          <span class="status-badge sb-planned">Planned</span>
+          Scenario 1 — Homepage &amp; site chrome
+          <span class="status-badge sb-done">Complete</span>
         </h2>
         <div class="section-rule"></div>
-        <p>Pilot scenarios for MoogParts will be defined and documented here using the same checklist / flow / blocks pattern as DriveParts Scenarios 1–4.</p>
+        <p>Scenario 1 proves the Moog single-brand marketing shell on EDS: mega-nav, footer, locale switching, and the authored homepage composition that routes visitors into Parts, Find My Part, Support, and Technologies. Unlike DriveParts, there is no multi-brand hub — the NA homepage is the primary entry for every other Moog journey.</p>
+        <p><strong>Live (production):</strong> <a href="https://www.moogparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">www.moogparts.com/</a><br>
+        <strong>Building (EDS):</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/na/en-us/</a> <span class="nav-status ns-done">complete</span><br>
+        <strong>DA:</strong> <code class="code-inline">na/en-us/index</code>, <code class="code-inline">na/en-us/nav</code>, <code class="code-inline">na/en-us/footer</code></p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">EDS page render + DA authoring</div>
+              <div class="check-note">Homepage and chrome documents publish from DA (<code class="code-inline">codeandtheory/moogparts-prototype</code>) through the standard Helix decoration pipeline (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>).</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Mega-nav + footer fragments</div>
+              <div class="check-note">Locale-aware <code class="code-inline">header</code> / <code class="code-inline">footer</code> load <code class="code-inline">nav</code> and <code class="code-inline">footer</code> under the active prefix via <code class="code-inline">getLocalePrefix()</code>. Mega-menu: Parts (Steering / Suspension / Driveline / Wheel End → product lines), Support, Technologies, Installation Guide Search, Find My Part CTA, plus locale picker and utility links.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Homepage marketing bands</div>
+              <div class="check-note"><code class="code-inline">hero-overlay</code> (Problem Solver Technologies → Technologies) → embedded <code class="code-inline">find-my-part-us</code> (vehicle + part number) → Excellence Never Quits campaign hero → <code class="code-inline">columns-split</code> content bands → <code class="code-inline">cards-article</code> editorial tiles → <code class="code-inline">cards-category</code> (Steering / Suspension / Driveline / Wheel End) → <code class="code-inline">image-banner</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Deep links into other scenarios</div>
+              <div class="check-note">Category cards open Scenario 2 (<code class="code-inline">/parts/…</code>). Find My Part embed and CTA open Scenario 3. Support mega-nav opens Scenario 4. Locale picker can switch into EMEA (see tip below).</div>
+            </div>
+          </li>
+        </ul>
+        <h3>Homepage composition (NA)</h3>
+        <table class="spec-table">
+          <thead><tr><th>Band</th><th>Block</th><th>Leads to</th></tr></thead>
+          <tbody>
+            <tr><td>Hero</td><td><code class="code-inline">hero-overlay</code></td><td><code class="code-inline">/na/en-us/technologies</code></td></tr>
+            <tr><td>Find My Part</td><td><code class="code-inline">find-my-part-us</code></td><td>Results / part-number results (Scenario 3)</td></tr>
+            <tr><td>Campaign</td><td><code class="code-inline">hero-overlay</code></td><td>Excellence Never Quits campaign page</td></tr>
+            <tr><td>Content split</td><td><code class="code-inline">columns-split</code></td><td>Support / technical content</td></tr>
+            <tr><td>Editorial cards</td><td><code class="code-inline">cards-article</code></td><td>Support-related articles</td></tr>
+            <tr><td>Product families</td><td><code class="code-inline">cards-category</code></td><td><code class="code-inline">/parts/steering|suspension|driveline|wheel-end</code> (Scenario 2)</td></tr>
+          </tbody>
+        </table>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>EMEA parallel landing:</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/emea/en-eu/</a> is the EU marketing homepage (Problem Solver hero + video, 5-year warranty, product CTAs, technical-support bands, newsletter) — not the NA band layout above. DA: <code class="code-inline">emea/en-eu/index</code>, <code class="code-inline">nav</code>, <code class="code-inline">footer</code>.</span>
+        </div>
+      </section>
+
+      <!-- MP SCENARIO 2 -->
+      <section class="doc-section" id="mp-s2">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 2.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v10.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25V2.75z"/></svg>
+          </span>
+          Scenario 2 — Parts catalog
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Scenario 2 validates Moog’s authored product taxonomy on EDS: a Parts hub, four category families, and product-line pages. This is marketing content from DA — not live catalog-API listings (those belong to Find My Part). There are no DriveParts-style brand detail pages; the taxonomy is Steering, Suspension, Driveline, and Wheel End under <code class="code-inline">na/en-us/parts/</code>.</p>
+        <p><strong>Live (production):</strong> Parts mega-menu on <a href="https://www.moogparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">moogparts.com</a><br>
+        <strong>Building (EDS):</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/na/en-us/parts</a> → <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts/suspension" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/parts/suspension</a> → <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts/suspension/ball-joints" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/parts/suspension/ball-joints</a><br>
+        <strong>DA:</strong> <code class="code-inline">na/en-us/parts.html</code> → <code class="code-inline">parts/suspension</code> → <code class="code-inline">parts/suspension/ball-joints</code></p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">L1 Parts hub</div>
+              <div class="check-note"><code class="code-inline">/na/en-us/parts</code> introduces the four product families with CTAs into each category. The hub can also surface Where to Buy and mailing-list bands as utilities (not separate pilot scenarios).</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">L2 category pages</div>
+              <div class="check-note">Steering, Suspension, Driveline, and Wheel End pages list product lines that match the mega-nav (canonical example: Suspension → Ball Joints). Authored with marketing blocks such as heroes, <code class="code-inline">cards-category</code>, and columns.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">L3 product-line pages</div>
+              <div class="check-note">Leaf pages under each category (canonical example: <code class="code-inline">/parts/suspension/ball-joints</code>) describe a product line with authored imagery and copy — still DA content, not dynamic catalog search results.</div>
+            </div>
+          </li>
+        </ul>
+        <h3>Flow</h3>
+        <table class="spec-table">
+          <thead><tr><th>Step</th><th>Path</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td>1 · Hub</td><td><code class="code-inline">/na/en-us/parts</code></td><td>Four category CTAs (+ optional WTB / mailing-list bands).</td></tr>
+            <tr><td>2 · Category</td><td><code class="code-inline">/parts/suspension</code></td><td>Suspension product-line grid from page content / mega-nav.</td></tr>
+            <tr><td>3 · Product line</td><td><code class="code-inline">/parts/suspension/ball-joints</code></td><td>Authored Ball Joints marketing page.</td></tr>
+          </tbody>
+        </table>
+        <h3>Category map (NA)</h3>
+        <table class="spec-table">
+          <thead><tr><th>Family</th><th>Example product lines</th></tr></thead>
+          <tbody>
+            <tr><td>Steering</td><td>Center Drag Links, Idler Arms, Pitman Arms, Steering Stabilizers, Complete Pre-Assembled Steering Linkage, Tie Rod Ends</td></tr>
+            <tr><td>Suspension</td><td>Solid Sway Bar Kits, Alignment Parts, Bushings, Coil Springs, Control Arms, Sway Bar Links, Ball Joints</td></tr>
+            <tr><td>Driveline</td><td>PTO/AG, Universal Joints, Couplers, Constant Velocity Axles</td></tr>
+            <tr><td>Wheel End</td><td>Complete Knuckle Assembly, Hub Assemblies</td></tr>
+          </tbody>
+        </table>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>EMEA products:</strong> EU uses a parallel <code class="code-inline">emea/en-eu/products</code> tree (Steering / Suspension / Wheel End Bearings on the <a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/" target="_blank" rel="noopener" style="color:var(--brand-blue);">EMEA homepage</a>) — same idea as this scenario, different IA and labels.</span>
+        </div>
+      </section>
+
+      <!-- MP SCENARIO 3 -->
+      <section class="doc-section" id="mp-s3">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0z"/></svg>
+          </span>
+          Scenario 3 — Find My Part
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Scenario 3 replaces the legacy AngularJS Find My Part SPA with EDS blocks backed by <code class="code-inline">moogparts-catalog-api</code>. Visitors search by vehicle (year → make → model cascades) or by part number, land on a results page, open part details, and may see related products. <strong>Cross-sell is a step in this flow</strong> (results/detail), not a standalone pilot scenario.</p>
+        <p><strong>Live (production):</strong> <a href="https://www.moogparts.com/find-my-part.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/find-my-part</a> · catalog <a href="https://www.moogparts.com/driv/partfinder" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/driv/partfinder</a><br>
+        <strong>Building (EDS):</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/find-my-part" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/find-my-part</a> → <code class="code-inline">find-my-part-results</code> / <code class="code-inline">find-my-part-num-results</code> → <code class="code-inline">part-details</code><br>
+        <strong>DA:</strong> <code class="code-inline">na/en-us/find-my-part.html</code>, <code class="code-inline">find-my-part/find-my-part-results</code>, <code class="code-inline">find-my-part-num-results</code>, <code class="code-inline">part-details</code></p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Catalog API via Worker</div>
+              <div class="check-note">Blocks call <code class="code-inline">moogparts-catalog-api…/catalog/*</code> (never the catalog origin directly). Shared params for US: <code class="code-inline">brand=moog</code>, <code class="code-inline">locale=en_US</code>, <code class="code-inline">country_code=US</code>. Worker adds CORS + ~24h edge cache.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Search entry (vehicle + part number)</div>
+              <div class="check-note"><code class="code-inline">find-my-part-us</code> appears on the dedicated Find My Part page and as a homepage embed. Light Duty / Medium-Heavy Duty vehicle cascades (year → make → model); part-number path submits to <code class="code-inline">find-my-part-num-results</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Render results dynamically</div>
+              <div class="check-note"><code class="code-inline">find-my-part-results-us</code> lists matching parts from the Worker response and builds locale-prefixed deep links to <code class="code-inline">/part-details?brand_code&amp;part_number</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Part detail page</div>
+              <div class="check-note"><code class="code-inline">part-details</code> fetches product + applications JSON (often via Worker <code class="code-inline">/drivparts/*</code> routes on the same catalog Worker), then renders gallery, specs, and applications.</div>
+            </div>
+          </li>
+        </ul>
+        <h3>Flow</h3>
+        <table class="spec-table">
+          <thead><tr><th>Step</th><th>Block / path</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td>1 · Search</td><td><code class="code-inline">find-my-part-us</code></td><td>Vehicle or part-number entry on homepage or <code class="code-inline">/find-my-part</code>; submit → results page.</td></tr>
+            <tr><td>2 · Results</td><td><code class="code-inline">find-my-part-results-us</code> / num-results</td><td>Dynamic listing; detail deep links; optional cross-sell band.</td></tr>
+            <tr><td>3 · Detail</td><td><code class="code-inline">part-details</code> + <code class="code-inline">cross-sell</code></td><td>Product + applications JSON; related products from Worker.</td></tr>
+          </tbody>
+        </table>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>EMEA Find My Part:</strong> From <a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/emea/en-eu/</a>, the “Find Your MOOG Part” CTA uses <code class="code-inline">find-my-part-eu</code> → <code class="code-inline">part-details-eu</code> under the <code class="code-inline">/emea/en-eu</code> locale prefix (same catalog Worker story, EU-specific blocks). Alternate US surfaces: <code class="code-inline">part-number-search-us</code>, <code class="code-inline">brand-based-search</code>.</span>
+        </div>
+      </section>
+
+      <!-- MP SCENARIO 4 -->
+      <section class="doc-section" id="mp-s4">
+        <h2>
+          <span class="section-icon icon-seafoam">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11z"/></svg>
+          </span>
+          Scenario 4 — Support
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Scenario 4 covers technician and DIY support content on EDS: the NA Support hub under <code class="code-inline">/na/en-us/technical</code>, and the parallel EMEA Technical Support landing at <code class="code-inline">/emea/en-eu/support</code>. These are authored marketing/support pages — not catalog-API flows.</p>
+        <p><strong>Live (production):</strong> Support on moogparts.com<br>
+        <strong>Building (EDS):</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/technical" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/na/en-us/technical</a> · <a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/support" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/emea/en-eu/support</a><br>
+        <strong>DA:</strong> <code class="code-inline">na/en-us/technical/</code>, <code class="code-inline">emea/en-eu/support</code></p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">NA Support hub</div>
+              <div class="check-note"><code class="code-inline">/na/en-us/technical</code> is the Support landing — entry points such as Garage Gurus, Quality Parts Matter, and related support tiles authored with standard marketing blocks (heroes, cards, columns).</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">EMEA Technical Support</div>
+              <div class="check-note"><a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/support" target="_blank" rel="noopener" style="color:var(--brand-blue);">…/emea/en-eu/support</a> — EU Technical Support landing (problem-solving solutions, 5-year warranty, Find My Part CTA, Problem Solver storytelling). Parallel market page under <code class="code-inline">emea/en-eu/support</code>, not a copy of the NA <code class="code-inline">/technical</code> layout.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Chrome + locale continuity</div>
+              <div class="check-note">Same header/footer fragments and locale prefix rules as Scenario 1 so Support pages stay inside the Moog shell when switching locales or returning to Parts / Find My Part.</div>
+            </div>
+          </li>
+        </ul>
+        <h3>Flow</h3>
+        <table class="spec-table">
+          <thead><tr><th>Step</th><th>Path</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td>1 · Entry</td><td>Mega-nav Support (or homepage CTAs)</td><td>Visitor leaves marketing homepage for support content.</td></tr>
+            <tr><td>2 · NA hub</td><td><code class="code-inline">/na/en-us/technical</code></td><td>Authored NA Support hub with support topic tiles.</td></tr>
+            <tr><td>3 · EMEA hub</td><td><code class="code-inline">/emea/en-eu/support</code></td><td>EU Technical Support landing (warranty, Find My Part, Problem Solver bands).</td></tr>
+          </tbody>
+        </table>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span>Contact (<code class="code-inline">contact</code> + <code class="code-inline">contact-proxy</code>) and <code class="code-inline">mailing-list</code> are authorable utilities that may appear on Support or Parts pages — not numbered Moog pilot scenarios.</span>
+        </div>
       </section>
 
       <div class="doc-footer">
