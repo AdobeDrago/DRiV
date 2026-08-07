@@ -11,6 +11,9 @@
  */
 
 /* eslint-env browser */
+
+import { isDrivpartsPath } from './drivparts-paths.js';
+
 function sampleRUM(checkpoint, data) {
   // eslint-disable-next-line max-len
   const timeShift = () => (window.performance ? window.performance.now() : Date.now() - window.hlx.rum.firstReadTime);
@@ -567,8 +570,7 @@ const DRIVPARTS_OVERRIDES = new Set([
  * @returns {string}
  */
 function getBlockBasePath(blockName) {
-  const onDrivparts = window.location.pathname === '/drivparts'
-    || window.location.pathname.startsWith('/drivparts/');
+  const onDrivparts = isDrivpartsPath();
   if (DRIVPARTS_BLOCKS.has(blockName) || (onDrivparts && DRIVPARTS_OVERRIDES.has(blockName))) {
     return `${window.hlx.codeBasePath}/blocks/drivparts/${blockName}`;
   }

@@ -3,18 +3,28 @@
  * API Worker URL + fetch, DAM image/logo resolution, and where-to-buy links.
  */
 
-import { sitePath } from './drivparts-paths.js';
+import { getLocaleConfig, sitePath } from './drivparts-paths.js';
 
 /* --- Catalog API Worker --- */
 
 export const CATALOG_API_BASE = 'https://moogparts-catalog-api.atul-code-auth0.workers.dev';
 
-/** Shared query params sent with every drivparts catalog-api request. */
+/**
+ * Shared query params sent with every drivparts catalog-api request.
+ * Locale and country follow the active URL locale folder.
+ * @returns {{ brand: string, locale: string, country_code: string }}
+ */
+export function getCatalogParams() {
+  const { code, country } = getLocaleConfig();
+  return { brand: 'corporate', locale: code, country_code: country };
+}
+
+/** Snapshot of default (en-us) params for callers that expect a static object. */
 export const CATALOG_PARAMS = { brand: 'corporate', locale: 'en_US', country_code: 'US' };
 
 /** Builds a catalog-api URL for a passthrough endpoint, merging shared brand/locale params. */
 export function buildCatalogUrl(endpoint, params = {}) {
-  const usp = new URLSearchParams({ ...CATALOG_PARAMS, ...params });
+  const usp = new URLSearchParams({ ...getCatalogParams(), ...params });
   return `${CATALOG_API_BASE}/drivparts/${endpoint}?${usp}`;
 }
 
@@ -66,11 +76,11 @@ export function brandRootWord(brandName) {
  * @param {string} brandName
  * @param {{ country?: string }} [options]
  */
-export function whereToBuyUrl(locType, brandName, { country = 'US' } = {}) {
+export function whereToBuyUrl(locType, brandName, { country } = {}) {
   const params = new URLSearchParams({
     dealerType: 'physical',
     locType,
-    country,
+    country: country || getLocaleConfig().country,
     partType: 'any',
     subBrand: brandRootWord(brandName) || 'all',
   });

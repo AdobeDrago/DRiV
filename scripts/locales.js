@@ -1,3 +1,5 @@
+import { getLocaleConfig } from './drivparts-paths.js';
+
 /** Locale options matching www.drivparts.com region selector */
 export const LOCALE_REGIONS = [
   {
@@ -22,8 +24,8 @@ export const LOCALE_REGIONS = [
     title: 'North America',
     className: 'locale-panel-region-na',
     locales: [
-      { label: 'Español (Mexico)', href: 'https://www.drivparts.com/es-mx/', code: 'es_MX' },
-      { label: 'English (United States)', href: 'https://www.drivparts.com/', code: 'en_US' },
+      { label: 'Español (Mexico)', href: '/drivparts/es-mx/', code: 'es_MX' },
+      { label: 'English (United States)', href: '/drivparts/en-us/', code: 'en_US' },
     ],
   },
   {
@@ -36,7 +38,14 @@ export const LOCALE_REGIONS = [
   },
 ];
 
-export const CURRENT_LOCALE = 'en_US';
+/**
+ * Active locale code from the URL path (`en_US`, `es_MX`, …).
+ * @param {string} [pathname]
+ * @returns {string}
+ */
+export function getCurrentLocaleCode(pathname = window.location.pathname) {
+  return getLocaleConfig(pathname).code;
+}
 
 /**
  * Builds the region / language selector panel.
@@ -54,6 +63,8 @@ export function buildLocalePanel({ id = 'locale-panel', modifier = '' } = {}) {
   const inner = document.createElement('div');
   inner.className = 'locale-panel-inner';
   panel.append(inner);
+
+  const currentCode = getCurrentLocaleCode();
 
   LOCALE_REGIONS.forEach((region) => {
     const col = document.createElement('div');
@@ -75,7 +86,7 @@ export function buildLocalePanel({ id = 'locale-panel', modifier = '' } = {}) {
       radio.name = `${id}-language-selector`;
       radio.className = 'locale-panel-radio';
       radio.value = locale.href;
-      radio.checked = locale.code === CURRENT_LOCALE;
+      radio.checked = locale.code === currentCode;
 
       const text = document.createElement('span');
       text.className = 'locale-panel-option-label';
