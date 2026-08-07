@@ -394,6 +394,13 @@ main .section[data-background] {
   }
 }
 
+/* Drops the default section margin (top and bottom) on the brands directory page — the list should
+   sit flush under the hero banner, and on mobile/tablet (where it's the last section in flow, see
+   the brand-nav reorder above) shouldn't leave a gap before the footer either. */
+main:has(.brand-nav.block) > .section.cards-container {
+  margin: 0;
+}
+
 /* Full-bleed results toolbar — beats section gutter at every breakpoint */
 main .section.part-finder-result-container {
   margin: 0;

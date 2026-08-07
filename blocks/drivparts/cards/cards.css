@@ -5,13 +5,6 @@
   background-color: var(--background-color, #fff);
 }
 
-/* Drops the default section margin (top and bottom) on the brands directory page — the list should
-   sit flush under the hero banner, and on mobile/tablet (where it's the last section in flow,
-   see brand-nav.css's reorder) shouldn't leave a gap before the footer either. */
-main:has(.brand-nav.block) > .section.cards-container {
-  margin: 0;
-}
-
 .cards > ul {
   list-style: none;
   display: block;
