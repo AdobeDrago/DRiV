@@ -1,50 +1,111 @@
-/* Block: drivparts/brand-nav
- * The brands directory left rail — a red "◀ BRANDS" header over a vertical
- * list of brand links. Matches the sub-navigation on drivparts.com/brands:
- * white panel, red 16px uppercase heading with a thin divider, and 14px
- * normal-weight grey links indented beneath it.
- */
+/* Block: drivparts/brand-nav — the brands directory left rail. */
 
 .brand-nav {
+  /* --brand-color-hover is a shared token also used for genuine :hover states
+     elsewhere (e.g. 404.css); here it's the block's base accent color, so
+     alias it to a block-local name for clarity. */
+  --brand-nav-accent-color: var(--brand-color-hover, #b5122d);
+
   padding: 0;
   background-color: transparent;
 }
 
-@media (width >= 900px) {
-  .brand-nav {
-    /* stays alongside the scrolling brand list on desktop */
-    position: sticky;
-    top: 24px;
-  }
+.section:has(.brand-nav.block) > .brand-nav-wrapper {
+  margin: 15px 0;
 }
 
-/* heading: red, uppercase, with a small left-pointing caret and a divider */
+.brand-nav-heading-row {
+  display: flex;
+  align-items: stretch;
+}
+
+.brand-nav-accent {
+  flex-shrink: 0;
+  width: 37px;
+  background-color: var(--background-color, #fff);
+}
+
 .brand-nav-heading {
   display: flex;
+  flex: 1;
   align-items: center;
   gap: 8px;
-  margin: 0 0 15px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #d9d9d9;
-  color: var(--brand-color-hover, #b5122d);
-  font-size: 16px;
+  padding: 16px 20px;
+  background-color: var(--brand-nav-accent-color);
+  color: var(--background-color, #fff);
+  font-family: inherit;
+  font-size: var(--body-font-size-s, 16px);
   font-weight: 700;
   text-transform: uppercase;
 }
 
-.brand-nav-back {
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-right: 7px solid var(--brand-color-hover, #b5122d);
+.brand-nav-heading-link:any-link {
+  flex: 1;
+  color: inherit;
+  text-decoration: none;
 }
 
-/* link list */
+.brand-nav-heading-link:hover,
+.brand-nav-heading-link:focus-visible {
+  text-decoration: none;
+}
+
+.brand-nav-back {
+  display: none;
+}
+
+.brand-nav-toggle {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.brand-nav-toggle-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+}
+
+.brand-nav-toggle-icon::before,
+.brand-nav-toggle-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: var(--background-color, #fff);
+  transform: translate(-50%, -50%);
+}
+
+.brand-nav-toggle-icon::before {
+  width: 100%;
+  height: 2px;
+}
+
+.brand-nav-toggle-icon::after {
+  width: 2px;
+  height: 100%;
+}
+
+.brand-nav.is-open .brand-nav-toggle-icon::after {
+  display: none;
+}
+
 .brand-nav-list {
+  display: none;
   list-style: none;
   margin: 0;
-  padding: 0 0 0 25px;
+  padding: 16px 0 8px 25px;
+}
+
+.brand-nav.is-open .brand-nav-list {
+  display: block;
 }
 
 .brand-nav-list li {
@@ -54,7 +115,7 @@
 .brand-nav-link:any-link {
   display: inline;
   color: var(--text-color, #3a3a3a);
-  font-size: 14px;
+  font-size: var(--body-font-size-xs, 14px);
   font-weight: 700;
   line-height: 16px;
   text-decoration: none;
@@ -62,56 +123,49 @@
 
 .brand-nav-link:hover,
 .brand-nav-link:focus-visible {
-  color: var(--brand-color-hover, #b5122d);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
-/* ============================================================
-   Brands page two-column layout.
-   The brands page is the only page carrying a brand-nav block, so
-   `main:has(.brand-nav)` scopes this to that page. Sidebar sits in the
-   left column across all rows; the hero and brand cards stack in the
-   right column — matching drivparts.com/brands.
-   ============================================================ */
-@media (width >= 900px) {
-  main:has(.brand-nav.block) {
-    display: grid;
-    grid-template-columns: minmax(220px, 25%) 1fr;
-    align-items: start;
-    max-width: var(--page-max-width, 1440px);
-    margin-inline: auto;
+/* Desktop two-column layout: brand-nav in a left rail, hero/cards on the right. */
+@media (width >= 1025px) {
+  .brand-nav {
+    position: sticky;
+    top: 24px;
   }
 
-  /* reset the stacked-section vertical rhythm inside the grid */
-  main:has(.brand-nav.block) > .section {
-    margin: 0;
+  .brand-nav-accent {
+    display: none;
   }
 
-  /* left column: the brand-nav section spans every row */
-  main:has(.brand-nav.block) > .section:has(.brand-nav) {
-    grid-column: 1;
-    grid-row: 1 / 999;
-    padding: 32px 24px 40px;
+  .brand-nav-heading {
+    flex: none;
+    margin: 0 0 15px;
+    border-bottom: 1px solid var(--border-color, #e6e6e6);
+    border-radius: 0;
+    padding: 0 0 12px;
+    background-color: transparent;
+    color: var(--brand-nav-accent-color);
   }
 
-  /* the generic `main > .section > div` rule adds wide page gutters
-     (intended for full-width sections) that collapse this narrow column
-     almost to nothing — drop them so the sidebar gets its full width */
-  main:has(.brand-nav.block) > .section:has(.brand-nav) > div {
-    max-width: none;
-    margin: 0;
-    padding: 0;
+  .brand-nav-back {
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 7px solid var(--brand-nav-accent-color);
   }
 
-  /* right column: hero, cards and everything else stack here */
-  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) {
-    grid-column: 2;
+  /* Hidden entirely at desktop, so it (and its aria-expanded state, which
+     the JS never resets here) drops out of the accessibility tree — the
+     list below is unconditionally visible instead. */
+  .brand-nav-toggle {
+    display: none;
   }
 
-  /* the section gutters are handled by the grid, so drop the inner
-     max-width/auto-margins that would otherwise re-centre each block */
-  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) > div {
-    max-width: none;
-    margin: 0;
+  .brand-nav-list,
+  .brand-nav.is-open .brand-nav-list {
+    display: block;
+    padding: 0 0 0 25px;
   }
 }

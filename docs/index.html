@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRiV — DrivParts &amp; MoogParts EDS Pilots</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Brand */
+    --brand-navy: #003b71;
+    --brand-blue: #0074ad;
+    --brand-blue-hover: #005a87;
+    --brand-text: #0d1c3d;
+    --brand-grey-text: #677083;
+    --brand-pale-blue: #f0f7fa;
+    --accent: var(--brand-blue);
+
+    --gray-50: #ffffff;
+    --gray-75: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #eaeaea;
+    --gray-300: #e1e1e1;
+    --gray-400: #cacaca;
+    --gray-500: #b3b3b3;
+    --gray-600: #8e8e8e;
+    --gray-700: #6e6e6e;
+    --gray-800: #4b4b4b;
+    --gray-900: #2c2c2c;
+
+    --font: 'Source Sans 3', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --mono: 'Source Code Pro', 'Fira Mono', 'Courier New', monospace;
+    --sidebar-width: 248px;
+    --content-max: 860px;
+    --header-h: 56px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── TOP NAV ── */
+  .topnav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    z-index: 100;
+    box-shadow: 0 1px 0 var(--gray-200);
+  }
+  .topnav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--brand-navy);
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  .topnav-logo .mark {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--brand-blue);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .topnav-divider { width: 1px; height: 20px; background: var(--gray-300); }
+  .topnav-title {
+    color: var(--gray-800);
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+  .topnav-badge {
+    margin-left: auto;
+    background: var(--brand-pale-blue);
+    color: var(--brand-blue);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; margin-top: var(--header-h); min-height: calc(100vh - var(--header-h)); }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    position: sticky;
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    overflow-y: auto;
+    border-right: 1px solid var(--gray-200);
+    background: var(--gray-75);
+    padding: 24px 0 40px;
+  }
+  .sidebar-section { margin-bottom: 8px; }
+  .sidebar-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray-600);
+    padding: 8px 20px 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 20px;
+    font-size: 13px;
+    color: var(--gray-800);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+  }
+  .sidebar-link:hover { background: var(--gray-200); color: var(--gray-900); }
+  .sidebar-link.active {
+    background: var(--brand-pale-blue);
+    color: var(--brand-blue);
+    border-left-color: var(--brand-blue);
+    font-weight: 700;
+  }
+  .sidebar-link .icon { width: 16px; height: 16px; opacity: 0.6; flex-shrink: 0; }
+  .sidebar-link.active .icon { opacity: 1; }
+
+  /* ── MAIN ── */
+  .main { flex: 1; min-width: 0; padding: 48px 56px 80px; }
+  .main-inner { max-width: var(--content-max); }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    scroll-margin-top: var(--header-h);
+    margin-bottom: 48px;
+  }
+  .page-hero-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--brand-blue);
+    margin-bottom: 8px;
+  }
+  .page-hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--brand-navy);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .page-hero-sub { font-size: 16px; color: var(--gray-700); max-width: 640px; line-height: 1.5; }
+
+  /* ── SECTIONS ── */
+  .doc-section { margin-bottom: 56px; scroll-margin-top: calc(var(--header-h) + 24px); }
+  .doc-section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--brand-navy);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .section-rule { height: 1px; background: var(--gray-200); margin: 12px 0 24px; }
+  .doc-section h3 { font-size: 14px; font-weight: 700; color: var(--gray-900); margin: 24px 0 8px; }
+  .doc-section p { font-size: 14px; color: var(--gray-800); margin-bottom: 12px; line-height: 1.65; }
+
+  /* ── SECTION ICON BADGE ── */
+  .section-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .icon-blue   { background: #e9f1fc; color: var(--brand-blue); }
+  .icon-navy   { background: #e6eef7; color: var(--brand-navy); }
+  .icon-green  { background: #eaf6f1; color: #268e6c; }
+  .icon-purple { background: #f3edfb; color: #7240ab; }
+  .icon-seafoam{ background: #e6f4f4; color: #16878c; }
+  .icon-orange { background: #fff4e5; color: #da7b11; }
+
+  /* ── URL CARDS ── */
+  .url-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .url-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .url-card:hover { border-color: var(--brand-blue); box-shadow: 0 0 0 1px var(--brand-blue); }
+  .url-card-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .url-card-label .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .dot-blue   { background: var(--brand-blue); }
+  .dot-navy   { background: var(--brand-navy); }
+  .dot-green  { background: #268e6c; }
+  .dot-orange { background: #da7b11; }
+  .url-card-title { font-size: 13px; font-weight: 700; color: var(--gray-900); }
+  .url-card-url { font-size: 12px; font-family: var(--mono); color: var(--brand-blue); word-break: break-all; }
+  .url-card-desc { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+
+  /* ── STEPS ── */
+  .steps { counter-reset: step; list-style: none; display: flex; flex-direction: column; gap: 0; position: relative; }
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 15px; top: 30px; bottom: 30px;
+    width: 1px;
+    background: var(--gray-300);
+  }
+  .step { display: flex; gap: 16px; padding-bottom: 24px; position: relative; }
+  .step:last-child { padding-bottom: 0; }
+  .step-num {
+    counter-increment: step;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--brand-blue);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step-num::after { content: counter(step); }
+  .step-body { padding-top: 5px; flex: 1; }
+  .step-title { font-size: 14px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
+  .step-body p { font-size: 13px; color: var(--gray-700); margin-bottom: 8px; }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: var(--gray-900);
+    color: #d4d4d4;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 8px 0 4px;
+    white-space: pre;
+  }
+  .code-block .cmt  { color: #6a9955; }
+  .code-block .str  { color: #ce9178; }
+  .code-block .kw   { color: #569cd6; }
+  .code-block .var  { color: #9cdcfe; }
+  .code-inline {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    color: var(--gray-900);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  /* ── NOTICES ── */
+  .notice {
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 13px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .notice-icon { flex-shrink: 0; margin-top: 1px; }
+  .notice.info     { background: #e9f1fc; color: #0d51b5; border-left: 3px solid var(--brand-blue); }
+  .notice.tip      { background: #eaf6f1; color: #1a6b50; border-left: 3px solid #268e6c; }
+  .notice.warning  { background: #fff4e5; color: #8a4b08; border-left: 3px solid #da7b11; }
+
+  /* ── SPEC TABLE ── */
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+  .spec-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gray-600);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--gray-200);
+    background: var(--gray-75);
+  }
+  .spec-table td { padding: 9px 12px; border-bottom: 1px solid var(--gray-200); color: var(--gray-800); vertical-align: top; }
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table td:first-child { font-weight: 700; color: var(--gray-900); }
+  .spec-table.blocks-matrix td:first-child {
+    font-weight: 700;
+    color: var(--gray-900);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .spec-table.blocks-matrix td:nth-child(2),
+  .spec-table.blocks-matrix td:nth-child(3) {
+    text-align: center;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .spec-table.blocks-matrix .mark-yes { color: #268e6c; }
+  .spec-table.blocks-matrix .mark-no { color: #c0392b; }
+  .spec-table.blocks-matrix td:last-child {
+    font-weight: 400;
+    color: var(--gray-800);
+    font-family: inherit;
+    font-size: 13px;
+  }
+
+
+  /* ── PROJECT SWITCHER ── */
+  .sidebar-project {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-800);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+  }
+  .sidebar-project:hover { background: var(--gray-200); color: var(--gray-900); }
+  .sidebar-project.active {
+    background: var(--brand-pale-blue);
+    color: var(--brand-blue);
+    border-left-color: var(--brand-blue);
+  }
+  .project-divider {
+    scroll-margin-top: calc(var(--header-h) + 24px);
+    margin: 56px 0 32px;
+    padding: 20px 0 0;
+    border-top: 2px solid var(--gray-200);
+  }
+  .project-divider:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+  .project-divider-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--brand-blue);
+    margin-bottom: 6px;
+  }
+  .project-divider h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--brand-navy);
+    margin-bottom: 8px;
+  }
+  .project-divider p {
+    font-size: 14px;
+    color: var(--gray-700);
+    max-width: 640px;
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+  /* ── STATUS BADGE / SIDEBAR PILL ── */
+  .nav-status {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 1px 6px;
+    border-radius: 8px;
+    text-transform: uppercase;
+  }
+  .ns-gap      { background: #fff4e5; color: #8a4b08; }
+  .ns-progress { background: #fff4e5; color: #8a4b08; }
+  .ns-planned  { background: var(--gray-200); color: var(--gray-600); }
+  .ns-done     { background: #eaf6f1; color: #1a6b50; }
+
+  .status-badge {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+  }
+  .sb-warn     { background: #fff4e5; color: #8a4b08; }
+  .sb-progress { background: #fff4e5; color: #8a4b08; }
+  .sb-planned  { background: var(--gray-100); color: var(--gray-600); }
+  .sb-ok,
+  .sb-done     { background: #eaf6f1; color: #1a6b50; }
+
+  .req-list { margin: 8px 0 0 18px; font-size: 13px; color: var(--gray-700); }
+  .req-list li { margin-bottom: 4px; }
+
+  /* ── PROGRESS CHECKLIST ── */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 4px 0; }
+  .check-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--gray-50);
+  }
+  .check-mark {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .check-mark svg { width: 12px; height: 12px; }
+  .cm-done    { background: #eaf6f1; color: #268e6c; }
+  .cm-partial { background: #fff4e5; color: #da7b11; }
+  .cm-todo    { background: var(--gray-100); color: var(--gray-500); }
+  .check-body { flex: 1; }
+  .check-title { font-weight: 700; font-size: 13px; color: var(--gray-900); }
+  .check-note  { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+
+  /* ── SCENARIO STUB ── */
+  .scenario-stub p { color: var(--gray-700); }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    border-top: 1px solid var(--gray-200);
+    margin-top: 40px;
+    padding-top: 20px;
+    font-size: 12px;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 24px 20px 60px; }
+    .page-hero h1 { font-size: 24px; }
+    .url-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="topnav-logo" href="#site-intro">
+    <span class="mark">DR</span>
+    DRiV
+  </a>
+  <div class="topnav-divider"></div>
+  <span class="topnav-title">DrivParts &amp; MoogParts — AEM → EDS Migration</span>
+  <span class="topnav-badge">Docs</span>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" aria-label="Page navigation">
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Projects</div>
+      <a class="sidebar-project" href="#drivparts">DrivParts</a>
+      <a class="sidebar-project" href="#moogparts">MoogParts</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">DrivParts</div>
+      <a class="sidebar-link" href="#overview">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
+        Overview
+      </a>
+      <a class="sidebar-link" href="#references">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
+        Key references
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Getting Started</div>
+      <a class="sidebar-link" href="#setup">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        Install &amp; run
+      </a>
+      <a class="sidebar-link" href="#linting">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5zm1.75-.25a.25.25 0 00-.25.25v.5h13v-.5a.25.25 0 00-.25-.25H1.75zM1.5 5.5v6.75c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V5.5h-13z"/></svg>
+        Linting &amp; CI
+      </a>
+      <a class="sidebar-link" href="#hybris-proxy">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.25a.75.75 0 000 1.5h5.25l-2.22 2.22a.75.75 0 001.06 1.06l3.5-3.5a.75.75 0 000-1.06l-3.5-3.5a.75.75 0 10-1.06 1.06l2.22 2.22H4.5z"/></svg>
+        Hybris proxy (local dev)
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Architecture</div>
+      <a class="sidebar-link" href="#block-routing">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
+        Block-loading routing
+      </a>
+      <a class="sidebar-link" href="#page-decoration">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+        Page decoration
+      </a>
+      <a class="sidebar-link" href="#drivparts-blocks">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11zm8.4 1.3l-.1 1.6a.2.2 0 00.32.17l.55-.42.47.36a.2.2 0 00.32-.17l-.13-2.03h.8v11.4H4.4V2.3h6.5z"/></svg>
+        EDS blocks
+      </a>
+      <a class="sidebar-link" href="#supporting-modules">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
+        Supporting modules
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Journeys</div>
+      <a class="sidebar-link" href="#s1-progress">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+        Journey 1 · Homepage
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+      <a class="sidebar-link" href="#s2-progress">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 2.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v10.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25V2.75zM3 4.5h6v1H3v-1zm0 2.5h6v1H3V7zm0 2.5h4v1H3v-1z"/></svg>
+        Journey 2 · Parts Finder
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+      <a class="sidebar-link" href="#s3-progress">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.25a.75.75 0 000 1.5h5.25l-2.22 2.22a.75.75 0 001.06 1.06l3.5-3.5a.75.75 0 000-1.06l-3.5-3.5a.75.75 0 10-1.06 1.06l2.22 2.22H4.5z"/></svg>
+        Journey 3 · Where to Buy
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+      <a class="sidebar-link" href="#s4-progress">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11zm1 3h9v1.5h-9V4zm0 3h9v1.5h-9V7zm0 3h6v1.5h-6V10z"/></svg>
+        Journey 4 · Hybris Storefront
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Cloudflare Workers <span class="nav-status ns-gap">2</span></div>
+      <a class="sidebar-link" href="#catalog-api">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a5 5 0 00-4.546 7.055A3.5 3.5 0 004.5 15h7a3.5 3.5 0 00.966-6.868A5 5 0 008 1z"/></svg>
+        catalog-api
+      </a>
+      <a class="sidebar-link" href="#eds-poc">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a5 5 0 00-4.546 7.055A3.5 3.5 0 004.5 15h7a3.5 3.5 0 00.966-6.868A5 5 0 008 1z"/></svg>
+        drivparts-eds-poc
+      </a>
+      <a class="sidebar-link" href="#deploying">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M6.5 15.4V13a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v2.4a5.5 5.5 0 002-1.1V9.5A5.5 5.5 0 003 9.5v4.8a5.5 5.5 0 003.5 1.1z"/></svg>
+        Deploying
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">MoogParts</div>
+      <a class="sidebar-link" href="#moogparts-overview">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
+        Overview
+      </a>
+      <a class="sidebar-link" href="#moogparts-references">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
+        Key references
+      </a>
+      <a class="sidebar-link" href="#moogparts-setup">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        Getting Started
+      </a>
+      <a class="sidebar-link" href="#moogparts-architecture">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2z"/></svg>
+        Architecture
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Journeys</div>
+      <a class="sidebar-link" href="#mp-s1">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+        Journey 1 · Homepage
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+      <a class="sidebar-link" href="#mp-s2">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 2.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v10.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25V2.75z"/></svg>
+        Journey 2 · Parts Catalog
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+      <a class="sidebar-link" href="#mp-s3">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0z"/></svg>
+        Journey 3 · Find My Part
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+      <a class="sidebar-link" href="#mp-s4">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11z"/></svg>
+        Journey 4 · Support
+        <span class="nav-status ns-done">Complete</span>
+      </a>
+    </div>
+
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="main-inner">
+
+      <!-- SITE INTRO -->
+      <div class="page-hero" id="site-intro">
+        <div class="page-hero-eyebrow">DRiV · EDS</div>
+        <h1>EDS Migration Docs</h1>
+        <p class="page-hero-sub">Documentation for the <strong>DrivParts</strong> and <strong>MoogParts</strong> Edge Delivery Services pilots — architecture, journeys, and supporting Cloudflare Workers. Pick a project below or in the sidebar.</p>
+        <div class="url-grid" style="margin-top:20px;">
+          <a class="url-card" href="#drivparts">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Project</span>
+            <span class="url-card-title">DrivParts</span>
+            <span class="url-card-url">www.drivparts.com → EDS</span>
+            <span class="url-card-desc">Landing, Parts Finder, Where to Buy, Hybris storefront — documentation complete for four pilot journeys.</span>
+          </a>
+          <a class="url-card" href="#moogparts">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Project</span>
+            <span class="url-card-title">MoogParts</span>
+            <span class="url-card-url">www.moogparts.com → EDS</span>
+            <span class="url-card-desc">Homepage, Parts catalog, Find My Part, and Support — journeys follow the Moog site IA in DA and on the EDS preview.</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ========== DRIVEPARTS ========== -->
+      <div class="project-divider" id="drivparts">
+        <div class="project-divider-eyebrow">Project</div>
+        <h2>DrivParts</h2>
+        <p>AEM → Edge Delivery Services migration pilot for DrivParts — marketing pages, catalog search, retailer lookup, and Hybris storefront embed.</p>
+      </div>
+
+      <!-- PAGE HERO -->
+      <div class="page-hero" id="overview">
+        <div class="page-hero-eyebrow">DrivParts · Pilot</div>
+        <h1>DrivParts EDS Pilot</h1>
+        <p class="page-hero-sub">A pilot validating DrivParts' migration to Adobe <strong>Edge Delivery Services (EDS)</strong>, and confirming EDS can power dynamic, backend-driven experiences — parts catalog search, retailer lookup, and an embedded Hybris storefront — not just static marketing content. Four reference journeys from the production DrivParts site drive the work. This guide tracks the architecture, engineering approach, and progress to date.</p>
+      </div>
+
+      <!-- PROJECT OVERVIEW -->
+      <section class="doc-section">
+        <h3>Purpose</h3>
+        <ul class="req-list">
+          <li>Validate migration of DrivParts marketing and commerce-adjacent pages to Edge Delivery Services.</li>
+          <li>Validate support for dynamic, backend-driven experiences (catalog APIs, Where to Buy, Hybris session).</li>
+        </ul>
+
+        <h3>Core engineering requirements</h3>
+        <ul class="req-list">
+          <li>Use the EDS block-based development model only (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>).</li>
+          <li>Integrate backend services: MOOG/DrivParts catalog APIs, Where to Buy servlet, Hybris storefront.</li>
+          <li>Support region and language switching via DrivParts header/footer locale pickers.</li>
+          <li>Route DrivParts-specific blocks through <code class="code-inline">blocks/drivparts/*</code> with a modular service layer (<code class="code-inline">catalog.js</code>, <code class="code-inline">storefront-session.js</code>) and Cloudflare Workers for CORS/proxy.</li>
+        </ul>
+
+        <h3>The four journeys</h3>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Journey</th><th>Validates</th><th>Status</th><th>Live URL</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 · DrivParts Landing / Brand Hub</td>
+              <td>EDS rendering · DrivParts chrome · fragments · marketing &amp; brand blocks</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/</a></td>
+            </tr>
+            <tr>
+              <td>2 · Parts Finder</td>
+              <td><code class="code-inline">catalog-api</code> · search → results → part details</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/</a></td>
+            </tr>
+            <tr>
+              <td>3 · Where to Buy</td>
+              <td>Retailer/installer lookup · search → results · map</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/where-to-buy</a></td>
+            </tr>
+            <tr>
+              <td>4 · Hybris Storefront</td>
+              <td>Same-origin proxy · cart / login · iframe embed</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Progress to date. Journey 1 — DrivParts site shell, marketing blocks, and brand pages (see <a href="#s1-progress" style="color:var(--brand-blue);">Journey 1</a>). Journey 2 — Parts Finder end to end through <code class="code-inline">catalog-api</code> (see <a href="#s2-progress" style="color:var(--brand-blue);">Journey 2</a>). Journey 3 — Where to Buy locator via <code class="code-inline">/wheretobuy</code> (see <a href="#s3-progress" style="color:var(--brand-blue);">Journey 3</a>). Journey 4 — Hybris storefront embed on the same origin as EDS via local proxy / <code class="code-inline">drivparts-eds-poc</code>, with cart, auth modes, and login-return recovery (see <a href="#s4-progress" style="color:var(--brand-blue);">Journey 4</a>).</p>
+
+        <h3>Repository</h3>
+        <table class="spec-table">
+          <tbody>
+            <tr><td>Effort</td><td>DrivParts → Edge Delivery Services migration pilot</td></tr>
+            <tr><td>GitHub repo</td><td><code class="code-inline">AdobeDrago/DRiV</code> · branch <code class="code-inline">main</code></td></tr>
+            <tr><td>Base</td><td><code class="code-inline">aem-boilerplate</code> block collection, DA-compatible</td></tr>
+            <tr><td>Dev model</td><td>EDS block-based only (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>)</td></tr>
+            <tr><td>Custom family</td><td><code class="code-inline">blocks/drivparts/*</code> — DrivParts blocks, routed via a custom block-loading path resolver</td></tr>
+            <tr><td>Backend services</td><td>Hybris storefront (<code class="code-inline">qa.drivparts.com</code>) · MOOG/DrivParts parts catalog · Cloudflare Workers</td></tr>
+            <tr><td>Reference site</td><td><a href="https://www.drivparts.com" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com</a></td></tr>
+            <tr><td>Testing</td><td>No automated test suite; CI runs lint only</td></tr>
+          </tbody>
+        </table>
+        <div class="notice info">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span>Pages under <code class="code-inline">/drivparts</code> render the DrivParts header/footer/fragment overrides and can embed the Hybris storefront iframe. Everywhere else on the site behaves like a standard EDS boilerplate page.</span>
+        </div>
+      </section>
+
+      <!-- KEY REFERENCES -->
+      <section class="doc-section" id="references">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
+          </span>
+          Key references
+        </h2>
+        <div class="section-rule"></div>
+
+        <h3>Repository</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://github.com/AdobeDrago/DRiV" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>GitHub</span>
+            <span class="url-card-title">AdobeDrago/DRiV</span>
+            <span class="url-card-url">https://github.com/AdobeDrago/DRiV</span>
+            <span class="url-card-desc">Source repo, <code class="code-inline">main</code> branch — <code class="code-inline">aem-boilerplate</code>-based, DA-compatible block collection.</span>
+          </a>
+        </div>
+
+        <h3>Project environments</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Author</span>
+            <span class="url-card-title">Document Authoring</span>
+            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts</span>
+            <span class="url-card-desc">DA source content for this project. No <code class="code-inline">fstab.yaml</code> in the repo — the DA mount is derived from the GitHub org/repo, per the DA-compatible boilerplate.</span>
+          </a>
+          <a class="url-card" href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Preview</span>
+            <span class="url-card-title">EDS preview</span>
+            <span class="url-card-url">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</span>
+            <span class="url-card-desc">Preview EDS site.</span>
+          </a>
+          <a class="url-card" href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-green"></span>Live</span>
+            <span class="url-card-title">EDS mock production</span>
+            <span class="url-card-url">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/</span>
+            <span class="url-card-desc">Combined front door (<code class="code-inline">drivparts-eds-poc</code> worker) — EDS pages and the Hybris storefront on one origin.</span>
+          </a>
+        </div>
+
+        <h3>Live pages — production (migration source)</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://www.drivparts.com/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Journey 1 — Landing</span>
+            <span class="url-card-title">DrivParts home</span>
+            <span class="url-card-url">https://www.drivparts.com/</span>
+            <span class="url-card-desc">Journey 1 reference landing — hero, promos, and site chrome.</span>
+          </a>
+          <a class="url-card" href="https://www.drivparts.com/brands/moog.html" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Journey 1 — Brand</span>
+            <span class="url-card-title">Brand detail (MOOG)</span>
+            <span class="url-card-url">https://www.drivparts.com/brands/moog.html</span>
+            <span class="url-card-desc">Styling reference for <code class="code-inline">brand-detail</code> (sidebar, browse parts, article body).</span>
+          </a>
+          <a class="url-card" href="https://www.drivparts.com/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Journey 2 — Parts Finder</span>
+            <span class="url-card-title">Parts Finder catalog</span>
+            <span class="url-card-url">https://www.drivparts.com/</span>
+            <span class="url-card-desc">Production catalog upstream — search cascades, results, and part detail APIs.</span>
+          </a>
+          <a class="url-card" href="https://www.drivparts.com/where-to-buy.html" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Journey 3 — Where to Buy</span>
+            <span class="url-card-title">Where to Buy</span>
+            <span class="url-card-url">https://www.drivparts.com/where-to-buy.html</span>
+            <span class="url-card-desc">Production retailer/installer locator — ZIP search, filters, and map.</span>
+          </a>
+          <a class="url-card" href="https://qa.drivparts.com/fmstorefront/federalmogul/en/USD/iframe?site=federalmogul" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Journey 4 — Hybris</span>
+            <span class="url-card-title">Storefront iframe (QA)</span>
+            <span class="url-card-url">https://qa.drivparts.com/fmstorefront/federalmogul/en/USD/iframe?site=federalmogul</span>
+            <span class="url-card-desc">Hybris panel embedded by <code class="code-inline">hybris-storefront</code> — same-origin proxy required.</span>
+          </a>
+        </div>
+
+        <h3>Authoring (DA) — where content is edited</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Author root</span>
+            <span class="url-card-title">DA — drivparts</span>
+            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts</span>
+            <span class="url-card-desc">Top of the authoring tree for the project.</span>
+          </a>
+          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Journey 1 · Landing</span>
+            <span class="url-card-title">DrivParts landing + brands</span>
+            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts · https://da.live/#/adobedrago/driv/drivparts/brands/{slug}</span>
+            <span class="url-card-desc">Landing page and brand-detail documents authored in DA.</span>
+          </a>
+          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Journey 2 · Parts Finder</span>
+            <span class="url-card-title">Results + part details shells</span>
+            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts/results · https://da.live/#/adobedrago/driv/drivparts/part-details</span>
+            <span class="url-card-desc">Page shells for <code class="code-inline">part-finder-result</code> and <code class="code-inline">part-details</code> blocks.</span>
+          </a>
+          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Journey 3 · Where to Buy</span>
+            <span class="url-card-title">Where to Buy page</span>
+            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts/where-to-buy</span>
+            <span class="url-card-desc">Page shell for <code class="code-inline">where-to-buy-search</code> / <code class="code-inline">where-to-buy-result</code>.</span>
+          </a>
+          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Journey 4 · Hybris</span>
+            <span class="url-card-title">Landing with storefront block</span>
+            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts/ (homepage shell)</span>
+            <span class="url-card-desc">Homepage section that authors <code class="code-inline">hybris-storefront</code> beside Parts Finder / promos.</span>
+          </a>
+        </div>
+
+        <h3>Migration map · live → building</h3>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Journey</th><th>Live (production)</th><th>Building (EDS)</th><th>Live URL (POC)</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 · Landing / Brand Hub</td>
+              <td><a href="https://www.drivparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/</a> · <a href="https://www.drivparts.com/brands/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/brands/</a></td>
+              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> <span class="nav-status ns-done">complete</span></td>
+              <td><a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/</a></td>
+            </tr>
+            <tr>
+              <td>2 · Parts Finder</td>
+              <td><a href="https://www.drivparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/</a></td>
+              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> <span class="nav-status ns-done">complete</span></td>
+              <td><a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/</a></td>
+            </tr>
+            <tr>
+              <td>3 · Where to Buy</td>
+              <td><a href="https://www.drivparts.com/where-to-buy.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/where-to-buy.html</a></td>
+              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/where-to-buy</a> <span class="nav-status ns-done">complete</span></td>
+              <td><a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/where-to-buy</a></td>
+            </tr>
+            <tr>
+              <td>4 · Hybris Storefront</td>
+              <td><a href="https://qa.drivparts.com" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://qa.drivparts.com</a></td>
+              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> + same-origin <code class="code-inline">/fmstorefront</code> <span class="nav-status ns-done">complete</span></td>
+              <td><a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="notice info">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span>Each pilot journey migrates a production DrivParts page to its EDS equivalent under <code class="code-inline">/drivparts</code>. Content is authored in DA; code lives in this repo. The POC host <code class="code-inline">drivparts-eds-poc</code> merges EDS pages and Hybris paths on one origin.</span>
+        </div>
+
+        
+      </section>
+
+      <!-- GETTING STARTED: SETUP -->
+      <section class="doc-section" id="setup">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Install &amp; run
+        </h2>
+        <div class="section-rule"></div>
+        <ol class="steps">
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Clone and install</div>
+              <div class="code-block">git clone https://github.com/AdobeDrago/DRiV.git
+cd DRiV
+npm install</div>
+              <p>Also runs Husky via the <code class="code-inline">prepare</code> script, installing the repo's pre-commit hook.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Run the AEM CLI</div>
+              <div class="code-block">sudo npm install -g @adobe/aem-cli
+aem up</div>
+              <p>Starts the standard EDS local dev server at <code class="code-inline">http://localhost:3000</code>, proxying content from the linked Document Authoring (<a href="https://da.live" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://da.live</a>) source.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- GETTING STARTED: LINTING -->
+      <section class="doc-section" id="linting">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5zm1.75-.25a.25.25 0 00-.25.25v.5h13v-.5a.25.25 0 00-.25-.25H1.75zM1.5 5.5v6.75c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V5.5h-13z"/></svg>
+          </span>
+          Linting &amp; CI
+        </h2>
+        <div class="section-rule"></div>
+        <div class="code-block">npm run lint       <span class="cmt"># runs lint:js + lint:css</span>
+npm run lint:js    <span class="cmt"># ESLint (airbnb-base)</span>
+npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)</span></div>
+        <div class="notice warning">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.56 1.22a.5.5 0 01.88 0l6.5 12.5A.5.5 0 0114.5 14.5h-13a.5.5 0 01-.44-.78l6.5-12.5zM8 5.5a.5.5 0 00-.5.5v3a.5.5 0 001 0V6a.5.5 0 00-.5-.5zM8 11.5a.75.75 0 100 1.5.75.75 0 000-1.5z"/></svg>
+          <span><code class="code-inline">.github/workflows/main.yaml</code> runs <code class="code-inline">npm run lint</code> on every push — it does not run a build, deploy, or test step. There is no automated test suite in this repo, and lint isn't enforced by a git hook.</span>
+        </div>
+      </section>
+
+      <!-- GETTING STARTED: HYBRIS PROXY -->
+      <section class="doc-section" id="hybris-proxy">
+        <h2>
+          <span class="section-icon icon-seafoam">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.25a.75.75 0 000 1.5h5.25l-2.22 2.22a.75.75 0 001.06 1.06l3.5-3.5a.75.75 0 000-1.06l-3.5-3.5a.75.75 0 10-1.06 1.06l2.22 2.22H4.5z"/></svg>
+          </span>
+          Hybris proxy for local dev
+        </h2>
+        <div class="section-rule"></div>
+        <p>Pages under <code class="code-inline">/drivparts</code> embed a Hybris storefront iframe. That storefront enforces CSP <code class="code-inline">frame-ancestors</code> and cookie rules that block a bare <code class="code-inline">localhost:3000</code> iframe, so local development uses <code class="code-inline">tools/fmstorefront-proxy.mjs</code> to put EDS and the Hybris paths behind one origin.</p>
+        <ol class="steps">
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Terminal 1 — AEM dev server on a secondary port</div>
+              <div class="code-block">aem up --port 3001 --no-open</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Terminal 2 — the storefront proxy, listening on :3000</div>
+              <div class="code-block">npm run proxy</div>
+              <p>Browse <code class="code-inline">http://localhost:3000/</code>. The proxy forwards <code class="code-inline">/fmstorefront</code>, <code class="code-inline">/medias</code>, <code class="code-inline">/fmwebservice</code>, and <code class="code-inline">/content/dam</code> to the Hybris QA origin (<code class="code-inline">STOREFRONT_ORIGIN</code>, default <code class="code-inline">qa.drivparts.com</code>) and everything else to the local AEM server on <code class="code-inline">:3001</code> (<code class="code-inline">AEM_ORIGIN</code>). It rewrites hostnames, strips <code class="code-inline">X-Frame-Options</code>/<code class="code-inline">frame-ancestors</code>, and normalizes <code class="code-inline">Set-Cookie</code> so the storefront session survives on localhost.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ARCHITECTURE: BLOCK ROUTING -->
+      <section class="doc-section" id="block-routing">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
+          </span>
+          Block-loading routing
+        </h2>
+        <div class="section-rule"></div>
+        <p><code class="code-inline">scripts/aem.js</code> is otherwise the standard EDS/Helix boilerplate. The one deviation from stock is in block resolution: a block's CSS/JS is normally loaded from <code class="code-inline">blocks/{name}/</code>, but three constructs reroute specific blocks to <code class="code-inline">blocks/drivparts/{name}/</code> instead.</p>
+        <div class="code-block"><span class="kw">const</span> <span class="var">DRIVPARTS_BLOCKS</span> = <span class="kw">new</span> Set([
+  <span class="str">'parts-finder'</span>, <span class="str">'part-finder-result'</span>, <span class="str">'part-details'</span>, <span class="str">'parts-list'</span>,
+  <span class="str">'where-to-buy-search'</span>, <span class="str">'where-to-buy-result'</span>, <span class="str">'hybris-storefront'</span>,
+  <span class="str">'columns-promo'</span>, <span class="str">'hero-banner'</span>, <span class="str">'brand-detail'</span>, <span class="str">'brand-nav'</span>,
+  <span class="str">'widget'</span>, <span class="str">'embed-signin'</span>,
+]); <span class="cmt">// always resolve under blocks/drivparts/</span>
+
+<span class="kw">const</span> <span class="var">DRIVPARTS_OVERRIDES</span> = <span class="kw">new</span> Set([
+  <span class="str">'header'</span>, <span class="str">'footer'</span>, <span class="str">'fragment'</span>,
+  <span class="str">'cards'</span>, <span class="str">'columns'</span>, <span class="str">'hero'</span>,
+]); <span class="cmt">// resolve under blocks/drivparts/ only on /drivparts pages</span></div>
+        <p><code class="code-inline">getBlockBasePath(blockName)</code> checks both sets and returns either <code class="code-inline">blocks/drivparts/{blockName}</code> or the normal <code class="code-inline">blocks/{blockName}</code>; <code class="code-inline">loadBlock()</code> uses it to build the CSS/JS URLs it loads.</p>
+      </section>
+
+      <!-- ARCHITECTURE: PAGE DECORATION -->
+      <section class="doc-section" id="page-decoration">
+        <h2>
+          <span class="section-icon icon-purple">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+          </span>
+          Page decoration (<code class="code-inline">scripts/scripts.js</code>)
+        </h2>
+        <div class="section-rule"></div>
+        <table class="spec-table">
+          <thead><tr><th>Behavior</th><th>What triggers it</th></tr></thead>
+          <tbody>
+            <tr><td>Trusted Types policy</td><td>Installed unconditionally where the browser supports it. Strips <code class="code-inline">srcdoc</code> from any <code class="code-inline">&lt;iframe&gt;</code> and removes <code class="code-inline">&lt;script&gt;</code> tags from content passed via <code class="code-inline">createContextualFragment</code> / <code class="code-inline">document.write</code> — needed so a CSP requiring Trusted Types can still allow the third-party Hybris markup.</td></tr>
+            <tr><td><code class="code-inline">buildWidgetAutoBlocks(main)</code></td><td>Any authored link whose <code class="code-inline">href</code> contains <code class="code-inline">/widgets/</code> is wrapped into a <code class="code-inline">widget</code> block automatically.</td></tr>
+            <tr><td>Fragment auto-blocking</td><td>On <code class="code-inline">/drivparts</code> pages: links whose <code class="code-inline">href</code> contains <code class="code-inline">/fragments/</code> are replaced with the fetched fragment's content via the DrivParts <code class="code-inline">fragment</code> block's <code class="code-inline">loadFragment()</code>. Runs instead of the stock hero auto-blocking on those pages.</td></tr>
+            <tr><td><code class="code-inline">drivpartsAccentButtons(main)</code></td><td>On <code class="code-inline">/drivparts</code> pages: a link authored as <code class="code-inline">***link text***</code> (bold + italic) becomes <code class="code-inline">.button.accent</code>.</td></tr>
+            <tr><td>Section background images</td><td>A <code class="code-inline">Background</code> key in a section's <code class="code-inline">section-metadata</code> block sets that section's CSS <code class="code-inline">background-image</code>.</td></tr>
+            <tr><td>Storefront login-return recovery</td><td>Checks <code class="code-inline">sessionStorage['fm-login-return']</code> on every load. If the user is stranded on a raw <code class="code-inline">/content/</code> or <code class="code-inline">/fmstorefront/</code> URL after a Hybris login redirect, bounces them back to the EDS page that started the login flow.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ARCHITECTURE: DRIVPARTS BLOCKS -->
+      <section class="doc-section" id="drivparts-blocks">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11zm8.4 1.3l-.1 1.6a.2.2 0 00.32.17l.55-.42.47.36a.2.2 0 00.32-.17l-.13-2.03h.8v11.4H4.4V2.3h6.5z"/></svg>
+          </span>
+          EDS blocks
+        </h2>
+        <div class="section-rule"></div>
+        <table class="spec-table blocks-matrix">
+          <thead>
+            <tr>
+              <th>Blocks</th>
+              <th>DrivParts</th>
+              <th>MoogParts</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>header</td><td><span class="mark-yes">✓</span></td><td><span class="mark-yes">✓</span></td><td>Site header chrome — nav and locale switcher; DrivParts adds cart popup / login state, MoogParts adds mega-menu.</td></tr>
+            <tr><td>footer</td><td><span class="mark-yes">✓</span></td><td><span class="mark-yes">✓</span></td><td>Site footer — locale switcher and links.</td></tr>
+            <tr><td>fragment</td><td><span class="mark-yes">✓</span></td><td><span class="mark-yes">✓</span></td><td>Fragment loading; locale-aware paths. DrivParts reuses <code class="code-inline">loadFragment()</code> for <code class="code-inline">/fragments/</code> auto-blocking.</td></tr>
+            <tr><td>widget</td><td><span class="mark-yes">✓</span></td><td><span class="mark-yes">✓</span></td><td>Generic wrapper that turns <code class="code-inline">/widgets/...</code> links into embedded widgets.</td></tr>
+            <tr><td>part-details</td><td><span class="mark-yes">✓</span></td><td><span class="mark-yes">✓</span></td><td>Single product/part detail page — descriptions, specs, images, brand info (catalog-backed).</td></tr>
+            <tr><td>parts-finder</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Vehicle/part search form (year, make, model, part type).</td></tr>
+            <tr><td>part-finder-result</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Renders the result list/grid from a Parts Finder search.</td></tr>
+            <tr><td>parts-list</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>User's saved/selected parts list; submits quantities to Hybris add-to-cart.</td></tr>
+            <tr><td>where-to-buy-search</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Search form for retailer/installer locations by brand/part.</td></tr>
+            <tr><td>where-to-buy-result</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Renders retailer/installer search results.</td></tr>
+            <tr><td>hybris-storefront</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Embeds/coordinates the Hybris storefront iframe (cart, account, login emulation).</td></tr>
+            <tr><td>columns-promo</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Promotional multi-column marketing block.</td></tr>
+            <tr><td>hero-banner</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>DrivParts-specific hero/banner, distinct from the stock <code class="code-inline">hero</code> block.</td></tr>
+            <tr><td>brand-detail</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Shared brand page layout (<code class="code-inline">/drivparts/brands/{slug}</code>) — logo, hero, body, Browse Parts. Journey 1.</td></tr>
+            <tr><td>brand-nav</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Brand navigation strip used on brand and related marketing pages. Journey 1.</td></tr>
+            <tr><td>hero / hero-overlay / image-banner</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>Homepage and campaign heroes.</td></tr>
+            <tr><td>cards / cards-category / cards-article / cards-*</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>Category tiles, Chassis System 101 articles, other card layouts.</td></tr>
+            <tr><td>columns / columns-split</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>Bulletin + Diagnostic Center bands and multi-column layouts.</td></tr>
+            <tr><td>find-my-part-us</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>US vehicle + part-number search (homepage embed and dedicated page).</td></tr>
+            <tr><td>find-my-part-results-us</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>Results listing; links to part-details.</td></tr>
+            <tr><td>part-details-eu</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>EU product detail via catalog product + applications APIs.</td></tr>
+            <tr><td>cross-sell</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>Related products on results/detail (part of Find My Part flow).</td></tr>
+            <tr><td>find-my-part-eu / part-number-search-us / brand-based-search</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>Additional catalog entry points (EU / alternate US).</td></tr>
+            <tr><td>contact / mailing-list</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>Authorable forms and newsletter CTA (utilities).</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ARCHITECTURE: SUPPORTING MODULES -->
+      <section class="doc-section" id="supporting-modules">
+        <h2>
+          <span class="section-icon icon-orange">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
+          </span>
+          Supporting modules (<code class="code-inline">scripts/</code>)
+        </h2>
+        <div class="section-rule"></div>
+        <table class="spec-table">
+          <thead><tr><th>Module</th><th>Exports / purpose</th></tr></thead>
+          <tbody>
+            <tr><td>drivparts-paths.js</td><td><code class="code-inline">DRIVPARTS_ROOT</code>, <code class="code-inline">isDrivpartsPath()</code>, <code class="code-inline">sitePath()</code> — single source of truth for DrivParts path detection, used by <code class="code-inline">scripts.js</code>, <code class="code-inline">aem.js</code>, and <code class="code-inline">catalog.js</code>.</td></tr>
+            <tr><td>catalog.js</td><td>Client for the <a href="#catalog-api" style="color:var(--brand-blue);">catalog-api</a> Worker: <code class="code-inline">buildCatalogUrl()</code>, <code class="code-inline">fetchJson()</code>, brand/DAM image helpers, <code class="code-inline">whereToBuyUrl()</code>. Used by Parts Finder, Part Details, Parts List, and Where to Buy.</td></tr>
+            <tr><td>locales.js</td><td>Region/language data and locale-picker DOM builders (<code class="code-inline">buildLocalePanel</code>/<code class="code-inline">bindLocalePanel</code>) used by the DrivParts header/footer.</td></tr>
+            <tr><td>placeholders.js</td><td>DrivParts-specific replacement for <code class="code-inline">fetchPlaceholders</code> — normalizes single-sheet and multi-sheet DA placeholder JSON, preserving camelCase keys.</td></tr>
+            <tr><td>storefront-session.js</td><td>Hybris endpoint map and session helpers — cart submission, login/emulation state probing, mini-cart fetching — used by the header and storefront/parts-list blocks.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SCENARIO 1 -->
+      <section class="doc-section" id="s1-progress">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Journey 1 — Drivparts Homepage
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Journey 1 is the foundational marketing experience: prove EDS can render DrivParts pages with the correct site chrome, fragments, and brand/marketing blocks — before Parts Finder, Where to Buy, or Hybris session work.</p>
+        <p><strong>Live (production):</strong> <a href="https://www.drivparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/</a> · <a href="https://www.drivparts.com/brands/moog.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/brands/moog.html</a><br>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> <span class="nav-status ns-done">complete</span><br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/</a></p>
+
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Load page using EDS rendering</div>
+              <div class="check-note">Pages under <code class="code-inline">/drivparts</code> render through the EDS pipeline with DrivParts block routing (<code class="code-inline">blocks/drivparts/*</code>) and path detection via <code class="code-inline">drivparts-paths.js</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">DrivParts header / footer / fragment overrides</div>
+              <div class="check-note"><code class="code-inline">header</code>, <code class="code-inline">footer</code>, and <code class="code-inline">fragment</code> resolve under <code class="code-inline">blocks/drivparts/</code> on <code class="code-inline">/drivparts</code> pages — nav, locale switcher, and fragment auto-blocking.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Marketing blocks for the landing page</div>
+              <div class="check-note"><code class="code-inline">hero-banner</code>, <code class="code-inline">columns-promo</code>, and DrivParts <code class="code-inline">cards</code> support the authored landing composition.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Brand detail pages matching production</div>
+              <div class="check-note"><code class="code-inline">brand-detail</code> + <code class="code-inline">brand-nav</code> implement the production brand layout (<code class="code-inline">/drivparts/brands/{slug}</code>). Visual parity and full brand content authoring still in progress.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">DA-authored landing + brand content published end-to-end</div>
+              <div class="check-note">Content lives in DA at <code class="code-inline">da.live/#/adobedrago/driv/drivparts</code>. Confirm landing and brand documents are authored, previewed, and reachable on the POC host.</div>
+            </div>
+          </li>
+        </ul>
+
+        <h3>Supporting work delivered</h3>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Block-loading routing for <code class="code-inline">blocks/drivparts/*</code></div>
+              <div class="check-note"><code class="code-inline">getBlockBasePath()</code> in <code class="code-inline">scripts/aem.js</code> — unique DrivParts names always nest; stock overrides only on <code class="code-inline">/drivparts</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">brand-detail</code> block</div>
+              <div class="check-note">Shared brand page layout from labeled authored rows — logo, hero, body, Browse Parts links. Source layout: <code class="code-inline">drivparts.com/brands/*.html</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Fragment auto-blocking &amp; accent buttons</div>
+              <div class="check-note">On <code class="code-inline">/drivparts</code>: <code class="code-inline">/fragments/</code> links become fragments; <code class="code-inline">***link***</code> becomes <code class="code-inline">.button.accent</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Locales &amp; placeholders</div>
+              <div class="check-note"><code class="code-inline">locales.js</code> and DrivParts <code class="code-inline">placeholders.js</code> feed header/footer locale UI and DA placeholder sheets.</div>
+            </div>
+          </li>
+        </ul>
+
+      </section>
+
+      <!-- SCENARIO 2 -->
+      <section class="doc-section" id="s2-progress">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 2.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v10.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25V2.75z"/></svg>
+          </span>
+          Journey 2 — Parts Finder
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Journey 2 validates dynamic, catalog-backed search on EDS: the Parts Finder widget drives vehicle/engine cascades through the <code class="code-inline">catalog-api</code> Worker, lands on a results page, and opens part detail pages — proving EDS can power backend-driven commerce UX, not just static marketing.</p>
+        <p><strong>Live (production):</strong> <a href="https://www.drivparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/</a> <br>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> → <code class="code-inline">/results</code> → <code class="code-inline">/part-details</code> <span class="nav-status ns-done">complete</span><br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/</a></p>
+
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Integrate the catalog API for search</div>
+              <div class="check-note">Browser calls go through <code class="code-inline">catalog.js</code> → <code class="code-inline">moogparts-catalog-api</code> Worker (<code class="code-inline">GET /drivparts/*</code> → <code class="code-inline">drivparts.com/driv/partfinder/*</code>), never directly to the catalog origin. Shared params: <code class="code-inline">brand=corporate</code>, <code class="code-inline">locale=en_US</code>, <code class="code-inline">country_code=US</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Parts Finder search form (Vehicle + Engine)</div>
+              <div class="check-note">The <code class="code-inline">parts-finder</code> block reproduces the production widget. Vehicle (YMM + equipment cascades) and Engine tabs are fully wired; Performance, VIN, and Specification tabs are shown disabled (labels match live site).</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Render results dynamically</div>
+              <div class="check-note"><code class="code-inline">part-finder-result</code> on <code class="code-inline">/drivparts/results</code> reads URL query params, fetches catalog results, renders the listing with a refine-search toolbar (reuses finder dropdown builders), and links each part to detail.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Open part detail from a selected result</div>
+              <div class="check-note"><code class="code-inline">part-details</code> on <code class="code-inline">/drivparts/part-details?part_number=…&amp;brand_code=…</code> loads product + applications via <code class="code-inline">api.catalog.product</code> / <code class="code-inline">api.catalog.applications</code> — gallery, specs, brand info, Where to Buy links.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Add to Parts List → Hybris cart handoff</div>
+              <div class="check-note"><code class="code-inline">parts-list</code> (lazy-loaded from part-details) persists selections in <code class="code-inline">localStorage</code> and can submit quantities to Hybris add-to-cart via <code class="code-inline">storefront-session.js</code>. Full cart UX belongs with Journey 4; the list UI is in place.</div>
+            </div>
+          </li>
+        </ul>
+
+        <h3>Flow</h3>
+        <table class="spec-table">
+          <thead><tr><th>Step</th><th>Path / block</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>1 · Search</td>
+              <td><code class="code-inline">parts-finder</code> on landing / widget</td>
+              <td>Cascading dropdowns fetch options from catalog-api; submit navigates to <code class="code-inline">/drivparts/results?…</code>.</td>
+            </tr>
+            <tr>
+              <td>2 · Results</td>
+              <td><code class="code-inline">part-finder-result</code> @ <code class="code-inline">/drivparts/results</code></td>
+              <td>Lists matching parts; refine toolbar; part number links to detail.</td>
+            </tr>
+            <tr>
+              <td>3 · Detail</td>
+              <td><code class="code-inline">part-details</code> @ <code class="code-inline">/drivparts/part-details</code></td>
+              <td>Product gallery, applications, Add to Parts List, Where to Buy deep links.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Blocks delivered</h3>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">parts-finder</code> — search entry</div>
+              <div class="check-note">Vehicle (Car &amp; Truck / Powersport YMM; equipment types via manufacturer cascade) and Engine tabs. Labels from <code class="code-inline">placeholders.json</code>. Submit builds same-origin <code class="code-inline">/results</code> URLs.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">part-finder-result</code> — results + refine</div>
+              <div class="check-note">Catalog listing, brand logos, part-number → detail links, compact refine-search toolbar reusing finder dropdowns.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">part-details</code> — product page</div>
+              <div class="check-note">Parallel product + applications fetch, image gallery with LCP preload, specs, Where to Buy links via <code class="code-inline">whereToBuyUrl()</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">parts-list</code> — saved parts modal</div>
+              <div class="check-note">Dynamically imported on first “Add To Parts List”; <code class="code-inline">localStorage</code>-backed list with cart submit helpers.</div>
+            </div>
+          </li>
+        </ul>
+
+        <h3>Supporting modules &amp; worker</h3>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">scripts/catalog.js</code></div>
+              <div class="check-note"><code class="code-inline">buildCatalogUrl()</code>, <code class="code-inline">fetchJson()</code>, DAM image/logo helpers, <code class="code-inline">whereToBuyUrl()</code>. Shared by finder, results, details, and Where to Buy.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">catalog-api</code> Worker</div>
+              <div class="check-note">CORS + 24h cache proxy. Journey 2 uses <code class="code-inline">GET /drivparts/*</code> (and optionally <code class="code-inline">/catalog/*</code>, <code class="code-inline">/cross-sell</code>). See <a href="#catalog-api" style="color:var(--brand-blue);">catalog-api</a>.</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SCENARIO 3 -->
+      <section class="doc-section" id="s3-progress">
+        <h2>
+          <span class="section-icon icon-seafoam">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0z"/></svg>
+          </span>
+          Journey 3 — Where to Buy
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Journey 3 validates retailer/installer location search on EDS: a ZIP entry point and a full results experience (filters, list, Google Map) backed by the production Where to Buy AEM servlet through the <code class="code-inline">catalog-api</code> Worker’s <code class="code-inline">/wheretobuy</code> route. Part-detail pages deep-link into this flow via <code class="code-inline">whereToBuyUrl()</code>.</p>
+        <p><strong>Live (production):</strong> <a href="https://www.drivparts.com/where-to-buy.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/where-to-buy.html</a><br>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/where-to-buy</a> <span class="nav-status ns-done">complete</span><br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/where-to-buy</a></p>
+
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Integrate the Where to Buy API</div>
+              <div class="check-note">Browser calls go to <code class="code-inline">moogparts-catalog-api…/wheretobuy</code>, which proxies the production AEM servlet at <code class="code-inline">drivparts.com/…/where_to_buy_search.search</code> with CORS + 24h cache.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">ZIP search entry</div>
+              <div class="check-note"><code class="code-inline">where-to-buy-search</code> — compact ZIP/postal form that GETs to <code class="code-inline">/drivparts/where-to-buy?zip=…</code>. CTA label is authorable from DA.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Render results dynamically</div>
+              <div class="check-note"><code class="code-inline">where-to-buy-result</code> — country / postal / brand search bar, location type + distance filters, result list (name, address, phone, website, directions), loading/empty/error states.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Map + deep links from part details</div>
+              <div class="check-note">Google Maps plot of dealers with custom zoom controls and info windows. Filter state lives in the URL hash (<code class="code-inline">dealerType</code>, <code class="code-inline">locType</code>, <code class="code-inline">subBrand</code>, <code class="code-inline">postal</code>, …) so <code class="code-inline">whereToBuyUrl()</code> from part-details can pre-select brand and location type.</div>
+            </div>
+          </li>
+        </ul>
+
+        <h3>Flow</h3>
+        <table class="spec-table">
+          <thead><tr><th>Step</th><th>Path / block</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>1 · Entry</td>
+              <td><code class="code-inline">where-to-buy-search</code> (landing / promo) or part-details WTB link</td>
+              <td>ZIP submit → <code class="code-inline">/drivparts/where-to-buy?zip=…</code>; or hash deep link with <code class="code-inline">locType</code> / <code class="code-inline">subBrand</code>.</td>
+            </tr>
+            <tr>
+              <td>2 · Search &amp; filters</td>
+              <td><code class="code-inline">where-to-buy-result</code> @ <code class="code-inline">/drivparts/where-to-buy</code></td>
+              <td>Country, postal, brand; filters for Parts Store / Repair Shop / both and distance (5–100 mi).</td>
+            </tr>
+            <tr>
+              <td>3 · Results</td>
+              <td>List + map</td>
+              <td><code class="code-inline">GET /wheretobuy?postal&amp;country&amp;locType&amp;distance&amp;brand</code> → dealer rows, map markers, directions links. Hash updated via <code class="code-inline">history.replaceState</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Blocks delivered</h3>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">where-to-buy-search</code> — ZIP entry</div>
+              <div class="check-note">Minimal search form; authorable CTA; posts to the Where to Buy page via GET <code class="code-inline">zip</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">where-to-buy-result</code> — locator UI</div>
+              <div class="check-note">Full search bar, faceted filters, result list, Google Map, prompt/loading/error/empty states. Country → brand options are hardcoded per market.</div>
+            </div>
+          </li>
+        </ul>
+
+        <h3>Supporting modules &amp; worker</h3>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">whereToBuyUrl()</code> in <code class="code-inline">catalog.js</code></div>
+              <div class="check-note">Builds <code class="code-inline">/drivparts/where-to-buy#dealerType=physical&amp;locType=…&amp;subBrand=…</code> from part-details (install vs store).</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">catalog-api</code> · <code class="code-inline">GET /wheretobuy</code></div>
+              <div class="check-note">Proxies the corporate Where to Buy AEM search servlet. Same Worker as Journey 2 — see <a href="#catalog-api" style="color:var(--brand-blue);">catalog-api</a>.</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SCENARIO 4 -->
+      <section class="doc-section" id="s4-progress">
+        <h2>
+          <span class="section-icon icon-orange">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11z"/></svg>
+          </span>
+          Journey 4 — Hybris Storefront
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Journey 4 validates embedding the Hybris commerce storefront beside EDS marketing and Parts Finder: same-origin iframe (CSP <code class="code-inline">frame-ancestors 'self'</code>), anonymous / CSR / emulating auth modes, header mini-cart, parts-list → add-to-cart, and login-return recovery when Hybris redirects off the EDS page.</p>
+        <p><strong>Live (production / QA):</strong> <a href="https://qa.drivparts.com" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://qa.drivparts.com</a> · iframe path <code class="code-inline">/fmstorefront/federalmogul/en/USD/iframe?site=federalmogul</code><br>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> <span class="nav-status ns-done">complete</span> — requires same-origin Hybris routes<br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts-eds-poc.atul-code-auth0.workers.dev/drivparts/</a></p>
+
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Same-origin Hybris proxy</div>
+              <div class="check-note">Local: <code class="code-inline">tools/fmstorefront-proxy.mjs</code> (<code class="code-inline">npm run proxy</code>). POC: <code class="code-inline">drivparts-eds-poc</code>. Production-oriented: <code class="code-inline">drivparts-hybris-proxy</code>. All rewrite Location / cookies / strip <code class="code-inline">frame-ancestors</code> so <code class="code-inline">/fmstorefront</code>, <code class="code-inline">/medias</code>, <code class="code-inline">/fmwebservice</code>, <code class="code-inline">/content/dam</code> share the EDS origin.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Embed storefront iframe on EDS pages</div>
+              <div class="check-note"><code class="code-inline">hybris-storefront</code> loads a same-origin <code class="code-inline">&lt;iframe&gt;</code> (default <code class="code-inline">STOREFRONT.iframe</code>). Probes reachability; shows a local-proxy hint if framing fails. Syncs layout for anonymous / CSR / emulating modes.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Auth modes + header session UI</div>
+              <div class="check-note">Anonymous (Get More + Sign In), CSR (Emulate Account), emulating (B2B Account Details). Header listens for <code class="code-inline">storefront:auth</code>, shows Welcome / cart / End Emulate, and binds mini-cart popup via <code class="code-inline">fetchMiniCartDetails()</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Parts list → Hybris add-to-cart</div>
+              <div class="check-note"><code class="code-inline">submitPartsListToCart()</code> in <code class="code-inline">storefront-session.js</code> POSTs the saved parts list to Hybris (full-page form submit, same as QA). Guests redirect to sign-in; authenticated / emulating sessions continue to cart.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Login-return recovery</div>
+              <div class="check-note">On login / emulate, <code class="code-inline">sessionStorage['fm-login-return']</code> stores the EDS URL. <code class="code-inline">scripts.js</code> bounces users stranded on raw <code class="code-inline">/content/</code> or <code class="code-inline">/fmstorefront/</code> paths back to that page. Iframe login form stays <code class="code-inline">target="_self"</code> so the parent isn’t replaced.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Production proxy binding</div>
+              <div class="check-note"><code class="code-inline">drivparts-hybris-proxy</code> and catalog/contact workers still deploy to <code class="code-inline">*.workers.dev</code>; custom domain routes are commented until the production zone is decided. POC <code class="code-inline">EDS_ORIGIN</code> may point at a feature branch — confirm before demos.</div>
+            </div>
+          </li>
+        </ul>
+
+        <h3>Auth / layout modes</h3>
+        <table class="spec-table">
+          <thead><tr><th>Mode</th><th><code class="code-inline">data-storefront-mode</code></th><th>Behavior</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Anonymous</td>
+              <td><code class="code-inline">anonymous</code></td>
+              <td>Get More + Sign In in the iframe; native Parts Finder sits beside the frame (Hybris left slot clipped).</td>
+            </tr>
+            <tr>
+              <td>CSR</td>
+              <td><code class="code-inline">csr</code></td>
+              <td>Emulate Account replaces Parts Finder + Get More + Sign In (full-width iframe).</td>
+            </tr>
+            <tr>
+              <td>Emulating</td>
+              <td><code class="code-inline">emulating</code></td>
+              <td>B2B Account Details / Quick Order; Parts Finder returns beside the frame. Header shows End Emulate.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Blocks &amp; modules delivered</h3>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">hybris-storefront</code></div>
+              <div class="check-note">Same-origin iframe embed, reachability probe, proxy hint, auth layout sync, login/emulate return binding, resize observer for framed height.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">DrivParts <code class="code-inline">header</code> storefront chrome</div>
+              <div class="check-note">Welcome / account / cart / sign-out / End Emulate; mini-cart hover popup; sets <code class="code-inline">fm-login-return</code> around logout and end-emulate.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title"><code class="code-inline">storefront-session.js</code></div>
+              <div class="check-note"><code class="code-inline">STOREFRONT</code> endpoint map (iframe, cart, miniCart, addToCart, carts, endEmulate, …), <code class="code-inline">getStorefrontDocMode()</code>, mini-cart fetch, <code class="code-inline">submitPartsListToCart()</code>.</div>
+            </div>
+          </li>
+        </ul>
+
+        <h3>Proxy stack</h3>
+        <table class="spec-table">
+          <thead><tr><th>Layer</th><th>When</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code class="code-inline">tools/fmstorefront-proxy.mjs</code></td>
+              <td>Local day-to-day</td>
+              <td><code class="code-inline">npm run proxy</code> — EDS on :3001, Hybris paths + cookie/CSP rewrite on :3000. See <a href="#hybris-proxy" style="color:var(--brand-blue);">Hybris proxy for local dev</a>.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">drivparts-eds-poc</code></td>
+              <td>Combined POC front door</td>
+              <td>EDS + Hybris on one <code class="code-inline">*.workers.dev</code> origin; cart-fragment AJAX short-circuit (204) to avoid <code class="code-inline">document.write</code> wipe. See <a href="#eds-poc" style="color:var(--brand-blue);">drivparts-eds-poc</a>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- WORKERS: CATALOG API -->
+      <section class="doc-section" id="catalog-api">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a5 5 0 00-4.546 7.055A3.5 3.5 0 004.5 15h7a3.5 3.5 0 00.966-6.868A5 5 0 008 1z"/></svg>
+          </span>
+          catalog-api
+          <code class="code-inline" style="font-weight:400;">moogparts-catalog-api</code>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Parts Finder / Part Details / Where to Buy CORS + caching proxy. Not yet bound to a custom domain — deploys to <code class="code-inline">*.workers.dev</code>.</p>
+        <table class="spec-table">
+          <thead><tr><th>Route</th><th>Upstream</th></tr></thead>
+          <tbody>
+            <tr><td>GET /catalog/*</td><td>https://www.moogparts.com/driv/partfinder/*</td></tr>
+            <tr><td>GET /drivparts/*</td><td>https://www.drivparts.com/driv/partfinder/*</td></tr>
+            <tr><td>GET /cross-sell</td><td>moogparts cross-sell AEM servlet</td></tr>
+            <tr><td>GET /wheretobuy</td><td>drivparts where-to-buy AEM servlet</td></tr>
+            <tr><td>POST /fmmp/*</td><td>https://www.moogparts.com/bin/fmmp/api/* — body forwarded as-is</td></tr>
+          </tbody>
+        </table>
+        <p>GET responses are cached in <code class="code-inline">caches.default</code> keyed by the full origin URL; the <code class="code-inline">POST /fmmp/*</code> cache key additionally appends a SHA-256 digest of the request body (<code class="code-inline">__ck</code> query param). Successful upstream responses get <code class="code-inline">Cache-Control: public, max-age=86400</code> and an <code class="code-inline">X-Cache: HIT/MISS</code> header. CORS is open. No secrets required.</p>
+      </section>
+
+      <!-- WORKERS: EDS POC -->
+      <section class="doc-section" id="eds-poc">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a5 5 0 00-4.546 7.055A3.5 3.5 0 004.5 15h7a3.5 3.5 0 00.966-6.868A5 5 0 008 1z"/></svg>
+          </span>
+          drivparts-eds-poc
+        </h2>
+        <div class="section-rule"></div>
+        <p>A combined "front door" that merges EDS pages and the Hybris storefront under one origin. Hybris paths (<code class="code-inline">/fmstorefront/</code>, <code class="code-inline">/medias/</code>, <code class="code-inline">/fmwebservice/</code>, <code class="code-inline">/content/dam/</code>, plus <code class="code-inline">_Incapsula_Resource</code>) go to <code class="code-inline">HYBRIS_ORIGIN</code> (<code class="code-inline">https://qa.drivparts.com</code>); everything else goes to <code class="code-inline">EDS_ORIGIN</code>. It handles extensive Location/cookie/CSP rewriting, short-circuits cart-fragment AJAX requests with a 204 to avoid a <code class="code-inline">document.write</code> DOM-wipe bug, and sets <code class="code-inline">cache-control: no-store</code> on Hybris responses.</p>
+        <div class="notice warning">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.56 1.22a.5.5 0 01.88 0l6.5 12.5A.5.5 0 0114.5 14.5h-13a.5.5 0 01-.44-.78l6.5-12.5zM8 5.5a.5.5 0 00-.5.5v3a.5.5 0 001 0V6a.5.5 0 00-.5-.5zM8 11.5a.75.75 0 100 1.5.75.75 0 000-1.5z"/></svg>
+          <span><strong>Current <code class="code-inline">EDS_ORIGIN</code> value: <code class="code-inline">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</code></strong> — a feature-branch preview URL, not production or <code class="code-inline">main</code>. Update it before using this worker beyond throwaway testing.</span>
+        </div>
+        <div class="notice warning">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.56 1.22a.5.5 0 01.88 0l6.5 12.5A.5.5 0 0114.5 14.5h-13a.5.5 0 01-.44-.78l6.5-12.5zM8 5.5a.5.5 0 00-.5.5v3a.5.5 0 001 0V6a.5.5 0 00-.5-.5zM8 11.5a.75.75 0 100 1.5.75.75 0 000-1.5z"/></svg>
+          <span>Its <code class="code-inline">wrangler.toml</code> sets <code class="code-inline">compatibility_date = "2026-07-28"</code>, while the other three workers use <code class="code-inline">2024-09-23</code>. Worth confirming this is intentional.</span>
+        </div>
+      </section>
+
+      <!-- WORKERS: DEPLOYING -->
+      <section class="doc-section" id="deploying">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M6.5 15.4V13a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v2.4a5.5 5.5 0 002-1.1V9.5A5.5 5.5 0 003 9.5v4.8a5.5 5.5 0 003.5 1.1z"/></svg>
+          </span>
+          Deploying
+        </h2>
+        <div class="section-rule"></div>
+        <p>From the repo root, once authenticated (<code class="code-inline">npx wrangler login</code>):</p>
+        <div class="code-block">npm run deploy:catalog-api
+npm run deploy:eds-poc</div>
+        <p>Each script is a thin wrapper around <code class="code-inline">wrangler deploy -c workers/&lt;name&gt;/wrangler.toml</code>. Local storefront development uses the proxy in <a href="#hybris-proxy" style="color:var(--brand-blue);">Hybris proxy for local dev</a> instead of these workers.</p>
+      </section>
+
+
+      <!-- ========== MOOGPARTS ========== -->
+      <div class="project-divider" id="moogparts">
+        <div class="project-divider-eyebrow">Project</div>
+        <h2>MoogParts</h2>
+        <p>AEM → Edge Delivery Services migration pilot for MoogParts (<a href="https://www.moogparts.com" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.moogparts.com</a>). Source: <code class="code-inline">codeandtheory/moogparts-prototype</code>. Journeys follow the Moog site IA in <a href="https://da.live/#/codeandtheory/moogparts-prototype" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://da.live/#/codeandtheory/moogparts-prototype</a> and the <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/</a> — not the DrivParts pilot flow.</p>
+      </div>
+
+      <section class="doc-section" id="moogparts-overview">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
+          </span>
+          Overview
+        </h2>
+        <div class="section-rule"></div>
+        <p>A pilot validating MoogParts' migration from AEM Managed Services to Edge Delivery Services. Moog is a single-brand chassis site: homepage marketing bands, a Parts taxonomy (Steering / Suspension / Driveline / Wheel End), Find My Part catalog search, and Support content — plus locale trees for NA and EMEA.</p>
+
+        <h3>Purpose</h3>
+        <ul class="req-list">
+          <li>Migrate MoogParts marketing, Parts catalog, and Support content to EDS with DA authoring under market/locale paths (<code class="code-inline">/na/en-us</code>, <code class="code-inline">/emea/en-eu</code>, …).</li>
+          <li>Replace the legacy AngularJS Find My Part SPA with EDS blocks + Cloudflare catalog proxy.</li>
+          <li>Preserve Moog's primary journeys from the live site mega-nav: Parts, Support, Technologies, Find My Part.</li>
+        </ul>
+
+        <h3>Core engineering requirements</h3>
+        <ul class="req-list">
+          <li>EDS block-based model only (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>).</li>
+          <li>Catalog / cross-sell / FMMP via <code class="code-inline">moogparts-catalog-api</code>; contact submit via <code class="code-inline">moogparts-contact-proxy</code>.</li>
+          <li>Locale path prefixes via <code class="code-inline">getLocalePrefix()</code> (flat <code class="code-inline">/en-us</code> or nested <code class="code-inline">/na/en-us</code>, <code class="code-inline">/emea/en-eu</code>).</li>
+        </ul>
+
+        <h3>The four journeys</h3>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Journey</th><th>Validates</th><th>Status</th><th>Preview</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 · Homepage &amp; chrome</td>
+              <td>Mega-nav · heroes · campaign bands · category cards · embedded Find My Part</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/</a></td>
+            </tr>
+            <tr>
+              <td>2 · Parts catalog</td>
+              <td>L1 → L2 → L3 taxonomy (Steering, Suspension, Driveline, Wheel End)</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts</a></td>
+            </tr>
+            <tr>
+              <td>3 · Find My Part</td>
+              <td>Vehicle + part-number search → results → part details (+ cross-sell)</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/find-my-part" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/find-my-part</a></td>
+            </tr>
+            <tr>
+              <td>4 · Support</td>
+              <td>NA technical hub · EMEA support landing</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/technical" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/technical</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Progress to date. Journey 1 — homepage composition and mega-nav chrome. Journey 2 — Parts L1–L3 content tree. Journey 3 — Find My Part US end to end through <code class="code-inline">moogparts-catalog-api</code> (cross-sell is part of this flow, not a separate journey). Journey 4 — Support hubs (NA <code class="code-inline">/technical</code>, EMEA <code class="code-inline">/support</code>). Contact and mailing-list remain authorable utilities (see Architecture).</p>
+
+        <h3>Repository</h3>
+        <table class="spec-table">
+          <tbody>
+            <tr><td>Effort</td><td>MoogParts → Edge Delivery Services migration pilot</td></tr>
+            <tr><td>GitHub repo</td><td><code class="code-inline">codeandtheory/moogparts-prototype</code></td></tr>
+            <tr><td>DA content</td><td><a href="https://da.live/#/codeandtheory/moogparts-prototype" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://da.live/#/codeandtheory/moogparts-prototype</a> — <code class="code-inline">na/</code>, <code class="code-inline">emea/</code>, <code class="code-inline">library/</code></td></tr>
+            <tr><td>Base</td><td><code class="code-inline">aem-boilerplate</code>, DA-compatible</td></tr>
+            <tr><td>Dev model</td><td>EDS block-based only (+ optional <code class="code-inline">widgets/</code> auto-blocks)</td></tr>
+            <tr><td>Backend services</td><td>MOOG catalog / cross-sell / FMMP · contact submit via Cloudflare Workers</td></tr>
+            <tr><td>Reference site</td><td><a href="https://www.moogparts.com" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.moogparts.com</a></td></tr>
+            <tr><td>Assessment</td><td><code class="code-inline">moogparts-eds-migration-assessment.md</code> in the prototype repo</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="doc-section" id="moogparts-references">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
+          </span>
+          Key references
+        </h2>
+        <div class="section-rule"></div>
+
+        <h3>Repository</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://github.com/codeandtheory/moogparts-prototype" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>GitHub</span>
+            <span class="url-card-title">codeandtheory/moogparts-prototype</span>
+            <span class="url-card-url">https://github.com/codeandtheory/moogparts-prototype</span>
+            <span class="url-card-desc">MoogParts EDS prototype — blocks, widgets, workers.</span>
+          </a>
+        </div>
+
+        <h3>Project environments</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://da.live/#/codeandtheory/moogparts-prototype" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Author</span>
+            <span class="url-card-title">Document Authoring</span>
+            <span class="url-card-url">https://da.live/#/codeandtheory/moogparts-prototype</span>
+            <span class="url-card-desc">Content tree: <code class="code-inline">na/en-us</code>, <code class="code-inline">na/es-mx</code>, <code class="code-inline">emea/*</code>, library, blocks.</span>
+          </a>
+          <a class="url-card" href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Preview</span>
+            <span class="url-card-title">EDS live preview (NA en-US)</span>
+            <span class="url-card-url">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/</span>
+            <span class="url-card-desc">Primary flow reference for homepage and mega-nav journeys.</span>
+          </a>
+          <a class="url-card" href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Preview</span>
+            <span class="url-card-title">EDS live preview (EMEA en-EU)</span>
+            <span class="url-card-url">https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/</span>
+            <span class="url-card-desc">Parallel EU market homepage — products, Find My Part EU, support, newsletter.</span>
+          </a>
+          <a class="url-card" href="https://main--moogparts-prototype--codeandtheory.aem.page/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Preview</span>
+            <span class="url-card-title">EDS preview (aem.page)</span>
+            <span class="url-card-url">https://main--moogparts-prototype--codeandtheory.aem.page/</span>
+            <span class="url-card-desc">Branch preview against main.</span>
+          </a>
+          <a class="url-card" href="https://www.moogparts.com/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-green"></span>Production</span>
+            <span class="url-card-title">moogparts.com</span>
+            <span class="url-card-url">https://www.moogparts.com/</span>
+            <span class="url-card-desc">Migration source — AEM MS production.</span>
+          </a>
+        </div>
+
+      </section>
+
+      <section class="doc-section" id="moogparts-setup">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Getting Started
+        </h2>
+        <div class="section-rule"></div>
+        <ol class="steps">
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Clone and install</div>
+              <div class="code-block">git clone https://github.com/codeandtheory/moogparts-prototype.git
+cd moogparts-prototype
+npm install</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Run the AEM CLI</div>
+              <div class="code-block">aem up</div>
+              <p>Local EDS server at <code class="code-inline">http://localhost:3000</code>, content from DA (<code class="code-inline">codeandtheory/moogparts-prototype</code>). Start at <code class="code-inline">/na/en-us/</code>.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Lint</div>
+              <div class="code-block">npm run lint</div>
+              <p>CI runs lint on every push. Run after JS/CSS changes (including <code class="code-inline">workers/*/index.js</code>).</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="doc-section" id="moogparts-architecture">
+        <h2>
+          <span class="section-icon icon-purple">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2z"/></svg>
+          </span>
+          Architecture
+        </h2>
+        <div class="section-rule"></div>
+        <p>Stock EDS/Helix decoration in <code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>. Blocks live flat under <code class="code-inline">blocks/</code> (no nested brand family). Content is organized by market/locale in DA — not by DrivParts brand hubs.</p>
+
+        <h3>Content &amp; locale tree</h3>
+        <table class="spec-table">
+          <thead><tr><th>Path</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><code class="code-inline">na/en-us/</code></td><td>Primary US English site (homepage, parts, find-my-part, technical, where-to-buy).</td></tr>
+            <tr><td><code class="code-inline">na/es-mx/</code></td><td>Mexico Spanish.</td></tr>
+            <tr><td><code class="code-inline">emea/en-eu</code>, <code class="code-inline">fr-fr</code>, <code class="code-inline">es-es</code></td><td>EMEA locales. Preview: <a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/</a> — EU homepage, <code class="code-inline">products</code>, <code class="code-inline">support</code>, <code class="code-inline">catalogue</code>, Find My Part EU / <code class="code-inline">part-details-eu</code>.</td></tr>
+            <tr><td><code class="code-inline">library/</code>, <code class="code-inline">blocks/</code></td><td>Shared DA library and block samples.</td></tr>
+          </tbody>
+        </table>
+        <p><code class="code-inline">getLocalePrefix()</code> scopes nav/footer fragments and Find My Part detail links under the active prefix.</p>
+
+        <h3>Mega-nav (IA)</h3>
+        <p>Authored in <code class="code-inline">na/en-us/nav</code>: <strong>Parts</strong> (Steering / Suspension / Driveline / Wheel End → product lines) · <strong>Support</strong> (bulletins, Diagnostic Center) · <strong>Technologies</strong> · <strong>Installation Guide Search</strong> · <strong>Find My Part</strong> CTA · utility links (Chassis System 101, Light Commercial Vehicle, locale picker).</p>
+        <p><strong>EMEA</strong> (<code class="code-inline">emea/en-eu</code>) is a parallel market IA, not a copy of NA: Problem Solver hero + video, Find My Part CTA, 5-year warranty, product families (Steering / Suspension / Wheel End Bearings), technical-support bands (QR / tips / Garage Gurus / 3D schematics), and newsletter signup. Content lives under <code class="code-inline">emea/en-eu/</code> (<code class="code-inline">products</code>, <code class="code-inline">support</code>, <code class="code-inline">catalogue</code>, <code class="code-inline">part-details</code>, …).</p>
+
+        <h3>Key blocks</h3>
+        <table class="spec-table">
+          <thead><tr><th>Block</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>header / footer / fragment</td><td>Site chrome; locale-aware fragment paths; mega-menu.</td></tr>
+            <tr><td>hero / hero-overlay / image-banner</td><td>Homepage and campaign heroes.</td></tr>
+            <tr><td>cards / cards-category / cards-article / cards-*</td><td>Category tiles, Chassis System 101 articles, other card layouts.</td></tr>
+            <tr><td>columns / columns-split</td><td>Bulletin + Diagnostic Center bands and multi-column layouts.</td></tr>
+            <tr><td>find-my-part-us</td><td>US vehicle + part-number search (homepage embed and dedicated page).</td></tr>
+            <tr><td>find-my-part-results-us</td><td>Results listing; links to part-details.</td></tr>
+            <tr><td>part-details / part-details-eu</td><td>Product detail via catalog product + applications APIs.</td></tr>
+            <tr><td>cross-sell</td><td>Related products on results/detail (part of Find My Part flow).</td></tr>
+            <tr><td>find-my-part-eu / part-number-search-us / brand-based-search</td><td>Additional catalog entry points (EU / alternate US).</td></tr>
+            <tr><td>contact / mailing-list</td><td>Authorable forms and newsletter CTA (utilities).</td></tr>
+            <tr><td>widget</td><td>Loads <code class="code-inline">/widgets/{path}/{name}</code> HTML/CSS/JS from authored links.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Cloudflare Workers</h3>
+        <table class="spec-table">
+          <thead><tr><th>Worker</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><code class="code-inline">moogparts-catalog-api</code></td><td><code class="code-inline">/catalog/*</code>, <code class="code-inline">/drivparts/*</code>, <code class="code-inline">/cross-sell</code>, <code class="code-inline">POST /fmmp/*</code> — CORS + 24h cache.</td></tr>
+            <tr><td><code class="code-inline">moogparts-contact-proxy</code></td><td><code class="code-inline">/submit</code> — form submit proxy with secret (contact utility).</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- MP SCENARIO 1 -->
+      <section class="doc-section" id="mp-s1">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Journey 1 — Homepage &amp; site chrome
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Journey 1 proves the Moog single-brand marketing shell on EDS: mega-nav, footer, locale switching, and the authored homepage composition that routes visitors into Parts, Find My Part, Support, and Technologies. Unlike DrivParts, there is no multi-brand hub — the NA homepage is the primary entry for every other Moog journey.</p>
+        <p><strong>Live (production):</strong> <a href="https://www.moogparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.moogparts.com/</a><br>
+        <strong>Building (EDS):</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/</a> <span class="nav-status ns-done">complete</span><br>
+        <strong>DA:</strong> <code class="code-inline">na/en-us/index</code>, <code class="code-inline">na/en-us/nav</code>, <code class="code-inline">na/en-us/footer</code></p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">EDS page render + DA authoring</div>
+              <div class="check-note">Homepage and chrome documents publish from DA (<code class="code-inline">codeandtheory/moogparts-prototype</code>) through the standard Helix decoration pipeline (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>).</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Mega-nav + footer fragments</div>
+              <div class="check-note">Locale-aware <code class="code-inline">header</code> / <code class="code-inline">footer</code> load <code class="code-inline">nav</code> and <code class="code-inline">footer</code> under the active prefix via <code class="code-inline">getLocalePrefix()</code>. Mega-menu: Parts (Steering / Suspension / Driveline / Wheel End → product lines), Support, Technologies, Installation Guide Search, Find My Part CTA, plus locale picker and utility links.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Homepage marketing bands</div>
+              <div class="check-note"><code class="code-inline">hero-overlay</code> (Problem Solver Technologies → Technologies) → embedded <code class="code-inline">find-my-part-us</code> (vehicle + part number) → Excellence Never Quits campaign hero → <code class="code-inline">columns-split</code> content bands → <code class="code-inline">cards-article</code> editorial tiles → <code class="code-inline">cards-category</code> (Steering / Suspension / Driveline / Wheel End) → <code class="code-inline">image-banner</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Deep links into other journeys</div>
+              <div class="check-note">Category cards open Journey 2 (<code class="code-inline">/parts/…</code>). Find My Part embed and CTA open Journey 3. Support mega-nav opens Journey 4. Locale picker can switch into EMEA (see tip below).</div>
+            </div>
+          </li>
+        </ul>
+        <h3>Homepage composition (NA)</h3>
+        <table class="spec-table">
+          <thead><tr><th>Band</th><th>Block</th><th>Leads to</th></tr></thead>
+          <tbody>
+            <tr><td>Hero</td><td><code class="code-inline">hero-overlay</code></td><td><code class="code-inline">/na/en-us/technologies</code></td></tr>
+            <tr><td>Find My Part</td><td><code class="code-inline">find-my-part-us</code></td><td>Results / part-number results (Journey 3)</td></tr>
+            <tr><td>Campaign</td><td><code class="code-inline">hero-overlay</code></td><td>Excellence Never Quits campaign page</td></tr>
+            <tr><td>Content split</td><td><code class="code-inline">columns-split</code></td><td>Support / technical content</td></tr>
+            <tr><td>Editorial cards</td><td><code class="code-inline">cards-article</code></td><td>Support-related articles</td></tr>
+            <tr><td>Product families</td><td><code class="code-inline">cards-category</code></td><td><code class="code-inline">/parts/steering|suspension|driveline|wheel-end</code> (Journey 2)</td></tr>
+          </tbody>
+        </table>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>EMEA parallel landing:</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/</a> is the EU marketing homepage (Problem Solver hero + video, 5-year warranty, product CTAs, technical-support bands, newsletter) — not the NA band layout above. DA: <code class="code-inline">emea/en-eu/index</code>, <code class="code-inline">nav</code>, <code class="code-inline">footer</code>.</span>
+        </div>
+      </section>
+
+      <!-- MP SCENARIO 2 -->
+      <section class="doc-section" id="mp-s2">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 2.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v10.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25V2.75z"/></svg>
+          </span>
+          Journey 2 — Parts catalog
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Journey 2 validates Moog’s authored product taxonomy on EDS: a Parts hub, four category families, and product-line pages. This is marketing content from DA — not live catalog-API listings (those belong to Find My Part). There are no DrivParts-style brand detail pages; the taxonomy is Steering, Suspension, Driveline, and Wheel End under <code class="code-inline">na/en-us/parts/</code>.</p>
+        <p><strong>Live (production):</strong> Parts mega-menu on <a href="https://www.moogparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.moogparts.com/</a><br>
+        <strong>Building (EDS):</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts</a> → <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts/suspension" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts/suspension</a> → <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts/suspension/ball-joints" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/parts/suspension/ball-joints</a><br>
+        <strong>DA:</strong> <code class="code-inline">na/en-us/parts.html</code> → <code class="code-inline">parts/suspension</code> → <code class="code-inline">parts/suspension/ball-joints</code></p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">L1 Parts hub</div>
+              <div class="check-note"><code class="code-inline">/na/en-us/parts</code> introduces the four product families with CTAs into each category. The hub can also surface Where to Buy and mailing-list bands as utilities (not separate pilot journeys).</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">L2 category pages</div>
+              <div class="check-note">Steering, Suspension, Driveline, and Wheel End pages list product lines that match the mega-nav (canonical example: Suspension → Ball Joints). Authored with marketing blocks such as heroes, <code class="code-inline">cards-category</code>, and columns.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">L3 product-line pages</div>
+              <div class="check-note">Leaf pages under each category (canonical example: <code class="code-inline">/parts/suspension/ball-joints</code>) describe a product line with authored imagery and copy — still DA content, not dynamic catalog search results.</div>
+            </div>
+          </li>
+        </ul>
+        <h3>Flow</h3>
+        <table class="spec-table">
+          <thead><tr><th>Step</th><th>Path</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td>1 · Hub</td><td><code class="code-inline">/na/en-us/parts</code></td><td>Four category CTAs (+ optional WTB / mailing-list bands).</td></tr>
+            <tr><td>2 · Category</td><td><code class="code-inline">/parts/suspension</code></td><td>Suspension product-line grid from page content / mega-nav.</td></tr>
+            <tr><td>3 · Product line</td><td><code class="code-inline">/parts/suspension/ball-joints</code></td><td>Authored Ball Joints marketing page.</td></tr>
+          </tbody>
+        </table>
+        <h3>Category map (NA)</h3>
+        <table class="spec-table">
+          <thead><tr><th>Family</th><th>Example product lines</th></tr></thead>
+          <tbody>
+            <tr><td>Steering</td><td>Center Drag Links, Idler Arms, Pitman Arms, Steering Stabilizers, Complete Pre-Assembled Steering Linkage, Tie Rod Ends</td></tr>
+            <tr><td>Suspension</td><td>Solid Sway Bar Kits, Alignment Parts, Bushings, Coil Springs, Control Arms, Sway Bar Links, Ball Joints</td></tr>
+            <tr><td>Driveline</td><td>PTO/AG, Universal Joints, Couplers, Constant Velocity Axles</td></tr>
+            <tr><td>Wheel End</td><td>Complete Knuckle Assembly, Hub Assemblies</td></tr>
+          </tbody>
+        </table>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>EMEA products:</strong> EU uses a parallel <code class="code-inline">emea/en-eu/products</code> tree (Steering / Suspension / Wheel End Bearings on the <a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/</a>) — same idea as this journey, different IA and labels.</span>
+        </div>
+      </section>
+
+      <!-- MP SCENARIO 3 -->
+      <section class="doc-section" id="mp-s3">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0z"/></svg>
+          </span>
+          Journey 3 — Find My Part
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Journey 3 replaces the legacy AngularJS Find My Part SPA with EDS blocks backed by <code class="code-inline">moogparts-catalog-api</code>. Visitors search by vehicle (year → make → model cascades) or by part number, land on a results page, open part details, and may see related products. <strong>Cross-sell is a step in this flow</strong> (results/detail), not a standalone pilot journey.</p>
+        <p><strong>Live (production):</strong> <a href="https://www.moogparts.com/find-my-part.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.moogparts.com/find-my-part.html</a><br>
+        <strong>Building (EDS):</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/find-my-part" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/find-my-part</a> → <code class="code-inline">find-my-part-results</code> / <code class="code-inline">find-my-part-num-results</code> → <code class="code-inline">part-details</code><br>
+        <strong>DA:</strong> <code class="code-inline">na/en-us/find-my-part.html</code>, <code class="code-inline">find-my-part/find-my-part-results</code>, <code class="code-inline">find-my-part-num-results</code>, <code class="code-inline">part-details</code></p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Catalog API via Worker</div>
+              <div class="check-note">Blocks call <code class="code-inline">moogparts-catalog-api…/catalog/*</code> (never the catalog origin directly). Shared params for US: <code class="code-inline">brand=moog</code>, <code class="code-inline">locale=en_US</code>, <code class="code-inline">country_code=US</code>. Worker adds CORS + ~24h edge cache.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Search entry (vehicle + part number)</div>
+              <div class="check-note"><code class="code-inline">find-my-part-us</code> appears on the dedicated Find My Part page and as a homepage embed. Light Duty / Medium-Heavy Duty vehicle cascades (year → make → model); part-number path submits to <code class="code-inline">find-my-part-num-results</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Render results dynamically</div>
+              <div class="check-note"><code class="code-inline">find-my-part-results-us</code> lists matching parts from the Worker response and builds locale-prefixed deep links to <code class="code-inline">/part-details?brand_code&amp;part_number</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Part detail page</div>
+              <div class="check-note"><code class="code-inline">part-details</code> fetches product + applications JSON (often via Worker <code class="code-inline">/drivparts/*</code> routes on the same catalog Worker), then renders gallery, specs, and applications.</div>
+            </div>
+          </li>
+        </ul>
+        <h3>Flow</h3>
+        <table class="spec-table">
+          <thead><tr><th>Step</th><th>Block / path</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td>1 · Search</td><td><code class="code-inline">find-my-part-us</code></td><td>Vehicle or part-number entry on homepage or <code class="code-inline">/find-my-part</code>; submit → results page.</td></tr>
+            <tr><td>2 · Results</td><td><code class="code-inline">find-my-part-results-us</code> / num-results</td><td>Dynamic listing; detail deep links; optional cross-sell band.</td></tr>
+            <tr><td>3 · Detail</td><td><code class="code-inline">part-details</code> + <code class="code-inline">cross-sell</code></td><td>Product + applications JSON; related products from Worker.</td></tr>
+          </tbody>
+        </table>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>EMEA Find My Part:</strong> From <a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/</a>, the “Find Your MOOG Part” CTA uses <code class="code-inline">find-my-part-eu</code> → <code class="code-inline">part-details-eu</code> under the <code class="code-inline">/emea/en-eu</code> locale prefix (same catalog Worker story, EU-specific blocks). Alternate US surfaces: <code class="code-inline">part-number-search-us</code>, <code class="code-inline">brand-based-search</code>.</span>
+        </div>
+      </section>
+
+      <!-- MP SCENARIO 4 -->
+      <section class="doc-section" id="mp-s4">
+        <h2>
+          <span class="section-icon icon-seafoam">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11z"/></svg>
+          </span>
+          Journey 4 — Support
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Journey 4 covers technician and DIY support content on EDS: the NA Support hub under <code class="code-inline">/na/en-us/technical</code>, and the parallel EMEA Technical Support landing at <code class="code-inline">/emea/en-eu/support</code>. These are authored marketing/support pages — not catalog-API flows.</p>
+        <p><strong>Live (production):</strong> Support on moogparts.com<br>
+        <strong>Building (EDS):</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/technical" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/technical</a> · <a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/support" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/support</a><br>
+        <strong>DA:</strong> <code class="code-inline">na/en-us/technical/</code>, <code class="code-inline">emea/en-eu/support</code></p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">NA Support hub</div>
+              <div class="check-note"><code class="code-inline">/na/en-us/technical</code> is the Support landing — entry points such as Garage Gurus, Quality Parts Matter, and related support tiles authored with standard marketing blocks (heroes, cards, columns).</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">EMEA Technical Support</div>
+              <div class="check-note"><a href="https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/support" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/emea/en-eu/support</a> — EU Technical Support landing (problem-solving solutions, 5-year warranty, Find My Part CTA, Problem Solver storytelling). Parallel market page under <code class="code-inline">emea/en-eu/support</code>, not a copy of the NA <code class="code-inline">/technical</code> layout.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Chrome + locale continuity</div>
+              <div class="check-note">Same header/footer fragments and locale prefix rules as Journey 1 so Support pages stay inside the Moog shell when switching locales or returning to Parts / Find My Part.</div>
+            </div>
+          </li>
+        </ul>
+        <h3>Flow</h3>
+        <table class="spec-table">
+          <thead><tr><th>Step</th><th>Path</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td>1 · Entry</td><td>Mega-nav Support (or homepage CTAs)</td><td>Visitor leaves marketing homepage for support content.</td></tr>
+            <tr><td>2 · NA hub</td><td><code class="code-inline">/na/en-us/technical</code></td><td>Authored NA Support hub with support topic tiles.</td></tr>
+            <tr><td>3 · EMEA hub</td><td><code class="code-inline">/emea/en-eu/support</code></td><td>EU Technical Support landing (warranty, Find My Part, Problem Solver bands).</td></tr>
+          </tbody>
+        </table>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span>Contact (<code class="code-inline">contact</code> + <code class="code-inline">contact-proxy</code>) and <code class="code-inline">mailing-list</code> are authorable utilities that may appear on Support or Parts pages — not numbered Moog pilot journeys.</span>
+        </div>
+      </section>
+
+      <div class="doc-footer">
+        <span>DRiV · DrivParts &amp; MoogParts EDS Pilots — AEM → Edge Delivery Services · docs/</span>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+(() => {
+  const links = document.querySelectorAll('.sidebar-link[href^="#"], .sidebar-project[href^="#"]');
+  const sections = new Map();
+  links.forEach((link) => {
+    const target = document.getElementById(link.getAttribute('href').slice(1));
+    if (target) sections.set(target, link);
+  });
+
+  const setActive = (link) => {
+    links.forEach((l) => l.classList.toggle('active', l === link));
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries.filter((entry) => entry.isIntersecting);
+    if (!visible.length) return;
+    visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    setActive(sections.get(visible[0].target));
+  }, { rootMargin: '-64px 0px -70% 0px', threshold: 0 });
+
+  sections.forEach((_, target) => observer.observe(target));
+})();
+</script>
+</body>
+</html>
