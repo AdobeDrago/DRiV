@@ -53,7 +53,10 @@ function tagCardBodyContent(ul) {
     const isLastCard = index === items.length - 1;
     [...body.querySelectorAll(':scope > p')].forEach((p) => {
       const a = p.querySelector('a');
-      if (!a) {
+      // Only a CTA when the link is the paragraph's entire content (allowing for
+      // decorateButtons' strong/em wrapping) — not an inline link inside prose.
+      const isCta = a && p.textContent.trim() === a.textContent.trim();
+      if (!isCta) {
         p.classList.add('cards-card-description');
         return;
       }
