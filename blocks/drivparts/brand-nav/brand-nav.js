@@ -62,6 +62,9 @@ function buildHeadingRow(block, headingText, listId) {
   toggle.setAttribute('aria-label', `Toggle ${headingText} list`);
   toggle.append(icon);
 
+  // At >=1024px the toggle is display:none (see brand-nav.css) and the list
+  // is always visible, so this state only reflects reality below that
+  // breakpoint — that's fine since a hidden button is out of the a11y tree.
   toggle.addEventListener('click', () => {
     const isOpen = block.classList.toggle('is-open');
     toggle.setAttribute('aria-expanded', String(isOpen));

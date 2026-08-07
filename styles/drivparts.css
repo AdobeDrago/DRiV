@@ -339,6 +339,61 @@ main .section[data-background] {
   background-size: 28px;
 }
 
+/* Brand-nav is authored after the hero/cards sections, so below desktop it
+   would render at the bottom of the page — move it to the top instead.
+   Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+@media (width < 1024px) {
+  main:has(.brand-nav.block) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  main:has(.brand-nav.block) > .section:has(.brand-nav) {
+    order: -1;
+  }
+}
+
+/* Brand-nav desktop two-column layout: brand-nav in a left rail, hero/cards
+   on the right. */
+@media (width >= 1024px) {
+  main:has(.brand-nav.block) {
+    display: grid;
+    grid-template-columns: minmax(220px, 25%) 1fr;
+    align-items: start;
+    max-width: var(--page-max-width, 1440px);
+    margin-inline: auto;
+  }
+
+  main:has(.brand-nav.block) > .section {
+    margin: 0;
+  }
+
+  /* Left padding (96px) is tuned so "BRANDS" lines up with "DIGITAL
+     CATALOGS" in the header at the page's 1440px designed max-width. */
+  main:has(.brand-nav.block) > .section:has(.brand-nav) {
+    grid-column: 1;
+    grid-row: 1 / 999;
+    padding: 32px 24px 40px 96px;
+  }
+
+  /* Drops the generic `main > .section > div` page gutters, which would
+     otherwise collapse this narrow column almost to nothing. */
+  main:has(.brand-nav.block) > .section:has(.brand-nav) > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) {
+    grid-column: 2;
+  }
+
+  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) > div {
+    max-width: none;
+    margin: 0;
+  }
+}
+
 /* Full-bleed results toolbar — beats section gutter at every breakpoint */
 main .section.part-finder-result-container {
   margin: 0;

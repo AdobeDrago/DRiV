@@ -1,26 +1,17 @@
 /* Block: drivparts/brand-nav — the brands directory left rail. */
 
 .brand-nav {
+  /* --brand-color-hover is a shared token also used for genuine :hover states
+     elsewhere (e.g. 404.css); here it's the block's base accent color, so
+     alias it to a block-local name for clarity. */
+  --brand-nav-accent-color: var(--brand-color-hover, #b5122d);
+
   padding: 0;
   background-color: transparent;
 }
 
 .section:has(.brand-nav.block) > .brand-nav-wrapper {
   margin: 15px 0;
-}
-
-/* Brand-nav is authored after the hero/cards sections, so below desktop it
-   would render at the bottom of the page — move it to the top instead.
-   Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
-@media (width < 1024px) {
-  main:has(.brand-nav.block) {
-    display: flex;
-    flex-direction: column;
-  }
-
-  main:has(.brand-nav.block) > .section:has(.brand-nav) {
-    order: -1;
-  }
 }
 
 .brand-nav-heading-row {
@@ -40,7 +31,7 @@
   align-items: center;
   gap: 8px;
   padding: 16px 20px;
-  background-color: var(--brand-color-hover, #b5122d);
+  background-color: var(--brand-nav-accent-color);
   color: var(--background-color, #fff);
   font-family: inherit;
   font-size: var(--body-font-size-s, 16px);
@@ -154,7 +145,7 @@
     border-radius: 0;
     padding: 0 0 12px;
     background-color: transparent;
-    color: var(--brand-color-hover, #b5122d);
+    color: var(--brand-nav-accent-color);
   }
 
   .brand-nav-back {
@@ -163,9 +154,12 @@
     height: 0;
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
-    border-right: 7px solid var(--brand-color-hover, #b5122d);
+    border-right: 7px solid var(--brand-nav-accent-color);
   }
 
+  /* Hidden entirely at desktop, so it (and its aria-expanded state, which
+     the JS never resets here) drops out of the accessibility tree — the
+     list below is unconditionally visible instead. */
   .brand-nav-toggle {
     display: none;
   }
@@ -174,42 +168,5 @@
   .brand-nav.is-open .brand-nav-list {
     display: block;
     padding: 0 0 0 25px;
-  }
-
-  main:has(.brand-nav.block) {
-    display: grid;
-    grid-template-columns: minmax(220px, 25%) 1fr;
-    align-items: start;
-    max-width: var(--page-max-width, 1440px);
-    margin-inline: auto;
-  }
-
-  main:has(.brand-nav.block) > .section {
-    margin: 0;
-  }
-
-  /* Left padding (96px) is tuned so "BRANDS" lines up with "DIGITAL
-     CATALOGS" in the header at the page's 1440px designed max-width. */
-  main:has(.brand-nav.block) > .section:has(.brand-nav) {
-    grid-column: 1;
-    grid-row: 1 / 999;
-    padding: 32px 24px 40px 96px;
-  }
-
-  /* Drops the generic `main > .section > div` page gutters, which would
-     otherwise collapse this narrow column almost to nothing. */
-  main:has(.brand-nav.block) > .section:has(.brand-nav) > div {
-    max-width: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) {
-    grid-column: 2;
-  }
-
-  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) > div {
-    max-width: none;
-    margin: 0;
   }
 }
