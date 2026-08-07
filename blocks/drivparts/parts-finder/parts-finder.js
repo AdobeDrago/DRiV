@@ -1129,12 +1129,16 @@ export default async function decorate(block) {
     // triggering the default tab's first data load; without this, build()'s
     // own auto-init would fire the same catalog-api request a second time.
     const controller = tab.build(panel, uid, lookupLabel, { defer: true });
-    return { id: tab.id, button, panel, controller };
+    return {
+      id: tab.id, button, panel, controller,
+    };
   });
 
   function activateTab(activeButton, { focus = false } = {}) {
     closeAllDropdowns();
-    tabs.forEach(({ id, button, panel, controller }) => {
+    tabs.forEach(({
+      id, button, panel, controller,
+    }) => {
       const isActive = button === activeButton;
       button.setAttribute('aria-selected', String(isActive));
       button.tabIndex = isActive ? 0 : -1;

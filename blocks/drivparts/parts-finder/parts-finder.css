@@ -52,10 +52,6 @@
   flex: 1 1 100%;
 }
 
-.parts-finder .parts-finder-tab-dropdown .parts-finder-dropdown-value {
-  text-transform: uppercase;
-}
-
 .parts-finder .parts-finder-tab {
   flex: 0 0 auto;
   border: 0;
@@ -196,6 +192,10 @@
 
 .parts-finder .parts-finder-dropdown-value[hidden] {
   display: none;
+}
+
+.parts-finder .parts-finder-tab-dropdown .parts-finder-dropdown-value {
+  text-transform: uppercase;
 }
 
 .parts-finder .parts-finder-dropdown-search {
