@@ -21,7 +21,7 @@ main .section.hero-banner-container > .hero-banner-wrapper {
   margin: 0 0 10px;
 }
 
-/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >=1025px. */
 @media (width >= 768px) {
   .hero-banner {
     padding: 24px 20px;
@@ -179,7 +179,7 @@ main .section.hero-banner-container > .hero-banner-wrapper:has(.hero-banner.bran
   line-height: 1.5;
 }
 
-@media (width >= 1024px) {
+@media (width >= 1025px) {
   .hero-banner {
     padding: 28px 20px;
     margin: 0 122px 10px;
