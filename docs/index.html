@@ -471,6 +471,83 @@
   .check-title { font-weight: 700; font-size: 13px; color: var(--gray-900); }
   .check-note  { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
 
+  /* ── LIGHTHOUSE COMPARISON ── */
+  .lh-compare { display: flex; flex-direction: column; gap: 24px; margin: 16px 0; }
+  .lh-compare-page {
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--gray-50);
+    overflow: hidden;
+  }
+  .lh-compare-page-title {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+  .lh-compare-page-title span {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: var(--mono);
+    color: var(--gray-600);
+    margin-left: 8px;
+  }
+  .lh-compare-cols {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  .lh-compare-side {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .lh-compare-side + .lh-compare-side {
+    border-top: 1px solid var(--gray-200);
+  }
+  .lh-compare-side-header {
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--gray-200);
+    background: #fff;
+  }
+  .lh-compare-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #000;
+  }
+  .lh-scores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-left: auto;
+  }
+  .lh-score {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+  .lh-score-good { background: #eaf6f1; color: #1a6b50; }
+  .lh-score-ok   { background: #fff4e5; color: #8a4b08; }
+  .lh-score-bad  { background: #fdecea; color: #a1281c; }
+  .lh-compare-side img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   /* ── SCENARIO STUB ── */
   .scenario-stub p { color: var(--gray-700); }
 
@@ -564,6 +641,10 @@
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
         Supporting modules
       </a>
+      <a class="sidebar-link" href="#drivparts-lighthouse-compare">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.25a.75.75 0 01.75.75v2.69l1.78 1.78a.75.75 0 11-1.06 1.06l-2-2A.75.75 0 017.25 8.5v-3a.75.75 0 01.75-.75z"/></svg>
+        Lighthouse comparison
+      </a>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Journeys</div>
@@ -621,6 +702,10 @@
       <a class="sidebar-link" href="#moogparts-architecture">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2z"/></svg>
         Architecture
+      </a>
+      <a class="sidebar-link" href="#moogparts-lighthouse-compare">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.25a.75.75 0 01.75.75v2.69l1.78 1.78a.75.75 0 11-1.06 1.06l-2-2A.75.75 0 017.25 8.5v-3a.75.75 0 01.75-.75z"/></svg>
+        Lighthouse comparison
       </a>
     </div>
     <div class="sidebar-section">
@@ -1098,6 +1183,110 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <tr><td>storefront-session.js</td><td>Hybris endpoint map and session helpers — cart submission, login/emulation state probing, mini-cart fetching — used by the header and storefront/parts-list blocks.</td></tr>
           </tbody>
         </table>
+      </section>
+
+      <!-- LIGHTHOUSE COMPARISON: DRIVPARTS LIVE VS EDS -->
+      <section class="doc-section" id="drivparts-lighthouse-compare">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.25a.75.75 0 01.75.75v2.69l1.78 1.78a.75.75 0 11-1.06 1.06l-2-2A.75.75 0 017.25 8.5v-3a.75.75 0 01.75-.75z"/></svg>
+          </span>
+          Lighthouse comparison — Live vs EDS
+        </h2>
+        <div class="section-rule"></div>
+        <p>Chrome Lighthouse audits for production <code class="code-inline">www.drivparts.com</code> (Live) versus the EDS preview <code class="code-inline">code-and-theory--driv--adobedrago.aem.page/drivparts</code>.</p>
+
+        <div class="lh-compare">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Homepage <span>/ · /drivparts/</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 64</span>
+                    <span class="lh-score lh-score-ok">A11y 71</span>
+                    <span class="lh-score lh-score-ok">BP 50</span>
+                    <span class="lh-score lh-score-bad">Agentic 0/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-live-homepage.png" alt="Lighthouse audit for live drivparts.com homepage">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 97</span>
+                    <span class="lh-score lh-score-good">BP 92</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-eds-homepage.png" alt="Lighthouse audit for EDS DrivParts homepage">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Parts Finder results <span>/results.html · /drivparts/results</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 78</span>
+                    <span class="lh-score lh-score-ok">A11y 76</span>
+                    <span class="lh-score lh-score-ok">BP 50</span>
+                    <span class="lh-score lh-score-bad">Agentic 0/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-live-results.png" alt="Lighthouse audit for live drivparts.com results page">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 96</span>
+                    <span class="lh-score lh-score-ok">BP 88</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-eds-results.png" alt="Lighthouse audit for EDS DrivParts results page">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Where to Buy <span>/where-to-buy.html · /drivparts/where-to-buy</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 81</span>
+                    <span class="lh-score lh-score-ok">A11y 83</span>
+                    <span class="lh-score lh-score-ok">BP 50</span>
+                    <span class="lh-score lh-score-bad">Agentic 0/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-live-whereToBuy.png" alt="Lighthouse audit for live drivparts.com Where to Buy">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 99</span>
+                    <span class="lh-score lh-score-good">A11y 97</span>
+                    <span class="lh-score lh-score-ok">BP 73</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-eds-whereToBuy.png" alt="Lighthouse audit for EDS DrivParts Where to Buy">
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- SCENARIO 1 -->
@@ -1827,6 +2016,110 @@ npm install</div>
             <tr><td><code class="code-inline">moogparts-contact-proxy</code></td><td><code class="code-inline">/submit</code> — form submit proxy with secret (contact utility).</td></tr>
           </tbody>
         </table>
+      </section>
+
+      <!-- LIGHTHOUSE COMPARISON: MOOGPARTS LIVE VS EDS -->
+      <section class="doc-section" id="moogparts-lighthouse-compare">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.25a.75.75 0 01.75.75v2.69l1.78 1.78a.75.75 0 11-1.06 1.06l-2-2A.75.75 0 017.25 8.5v-3a.75.75 0 01.75-.75z"/></svg>
+          </span>
+          Lighthouse comparison — Live vs EDS
+        </h2>
+        <div class="section-rule"></div>
+        <p>Chrome Lighthouse audits for production <code class="code-inline">www.moogparts.com</code> (Live) versus the EDS preview <code class="code-inline">main--moogparts-prototype--codeandtheory.aem.live</code>.</p>
+
+        <div class="lh-compare">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Homepage <span>/ · /na/en-us/</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-bad">Perf 22</span>
+                    <span class="lh-score lh-score-ok">A11y 76</span>
+                    <span class="lh-score lh-score-ok">BP 54</span>
+                    <span class="lh-score lh-score-bad">Agentic 0/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-live-homepage.png" alt="Lighthouse audit for live moogparts.com homepage">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 96</span>
+                    <span class="lh-score lh-score-good">BP 96</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-eds-homepage.png" alt="Lighthouse audit for EDS MoogParts homepage">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Parts catalog <span>/parts.html · /na/en-us/parts</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 50</span>
+                    <span class="lh-score lh-score-ok">A11y 88</span>
+                    <span class="lh-score lh-score-ok">BP 54</span>
+                    <span class="lh-score lh-score-ok">Agentic 1/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-live-parts.png" alt="Lighthouse audit for live moogparts.com Parts page">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 98</span>
+                    <span class="lh-score lh-score-good">BP 96</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-eds-parts.png" alt="Lighthouse audit for EDS MoogParts Parts page">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Find My Part <span>/find-my-part.html · /na/en-us/find-my-part</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 62</span>
+                    <span class="lh-score lh-score-ok">A11y 79</span>
+                    <span class="lh-score lh-score-ok">BP 54</span>
+                    <span class="lh-score lh-score-ok">Agentic 1/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-live-findmypart.png" alt="Lighthouse audit for live moogparts.com Find My Part">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 99</span>
+                    <span class="lh-score lh-score-good">A11y 100</span>
+                    <span class="lh-score lh-score-good">BP 96</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-eds-findmypart.png" alt="Lighthouse audit for EDS MoogParts Find My Part">
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- MP SCENARIO 1 -->
