@@ -1,9 +1,9 @@
 import { decorateIcons, getMetadata } from '../../../scripts/aem.js';
 import {
-  CURRENT_LOCALE,
   LOCALE_REGIONS,
   bindLocalePanel,
   buildLocalePanel,
+  getCurrentLocaleCode,
 } from '../../../scripts/locales.js';
 import {
   STOREFRONT,
@@ -823,7 +823,7 @@ function buildMobileDrawer({
       radio.type = 'radio';
       radio.name = 'nav-mobile-language-selector';
       radio.value = locale.href;
-      radio.checked = locale.code === CURRENT_LOCALE;
+      radio.checked = locale.code === getCurrentLocaleCode();
 
       const text = document.createElement('span');
       text.textContent = locale.label;
