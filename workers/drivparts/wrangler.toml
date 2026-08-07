@@ -1,0 +1,8 @@
+name = "drivparts"
+main = "index.js"
+compatibility_date = "2026-07-28"
+account_id = "21efb214803a94508b91d4a0df4b15c8"
+workers_dev = true
+
+[observability]
+enabled = true
