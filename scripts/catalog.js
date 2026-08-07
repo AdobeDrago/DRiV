@@ -7,7 +7,7 @@ import { getLocaleConfig, sitePath } from './drivparts-paths.js';
 
 /* --- Catalog API Worker --- */
 
-export const CATALOG_API_BASE = 'https://moogparts-catalog-api.atul-code-auth0.workers.dev';
+export const CATALOG_API_BASE = 'https://moogparts-catalog-api.code-and-theory-adobe.workers.dev';
 
 /**
  * Shared query params sent with every drivparts catalog-api request.
