@@ -123,8 +123,7 @@
 
 .brand-nav-link:hover,
 .brand-nav-link:focus-visible {
-  color: var(--brand-color-hover, #b5122d);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 /* Desktop two-column layout: brand-nav in a left rail, hero/cards on the right. */
