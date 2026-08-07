@@ -90,7 +90,6 @@ main .section.brand-detail-container > .brand-detail-wrapper {
 
 .brand-detail-site-link:hover,
 .brand-detail-site-link:focus-visible {
-  color: var(--link-hover-color);
   text-decoration: underline;
 }
 
@@ -145,7 +144,6 @@ main .section.brand-detail-container > .brand-detail-wrapper {
 
 .brand-detail-browse-list a:hover,
 .brand-detail-browse-list a:focus-visible {
-  color: var(--link-hover-color);
   text-decoration: underline;
 }
 
