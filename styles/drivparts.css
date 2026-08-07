@@ -339,23 +339,21 @@ main .section[data-background] {
   background-size: 28px;
 }
 
-/* Brand-nav is authored after the hero/cards sections, so below desktop it
-   would render at the bottom of the page — move it to the top instead.
-   Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
-@media (width < 1024px) {
-  main:has(.brand-nav.block) {
-    display: flex;
-    flex-direction: column;
-  }
+/* Brand-nav is authored after the hero/cards sections, so on mobile/tablet
+   move it to the top. Base = mobile-first; desktop upgrades to a 2-col grid.
+   Breakpoints: mobile <768px, tablet 768-1024px, desktop >=1025px. */
+main:has(.brand-nav.block) {
+  display: flex;
+  flex-direction: column;
+}
 
-  main:has(.brand-nav.block) > .section:has(.brand-nav) {
-    order: -1;
-  }
+main:has(.brand-nav.block) > .section:has(.brand-nav) {
+  order: -1;
 }
 
 /* Brand-nav desktop two-column layout: brand-nav in a left rail, hero/cards
    on the right. */
-@media (width >= 1024px) {
+@media (width >= 1025px) {
   main:has(.brand-nav.block) {
     display: grid;
     grid-template-columns: minmax(220px, 25%) 1fr;
@@ -371,6 +369,7 @@ main .section[data-background] {
   /* Left padding (96px) is tuned so "BRANDS" lines up with "DIGITAL
      CATALOGS" in the header at the page's 1440px designed max-width. */
   main:has(.brand-nav.block) > .section:has(.brand-nav) {
+    order: initial;
     grid-column: 1;
     grid-row: 1 / 999;
     padding: 32px 24px 40px 96px;

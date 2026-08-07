@@ -302,7 +302,7 @@ main .section.brand-detail-container > .brand-detail-wrapper {
   display: inline;
 }
 
-/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >=1025px. */
 @media (width >= 768px) {
   .brand-detail-hero {
     height: 420px;
@@ -317,7 +317,7 @@ main .section.brand-detail-container > .brand-detail-wrapper {
   }
 }
 
-@media (width >= 1024px) {
+@media (width >= 1025px) {
   .brand-detail-layout {
     flex-direction: row;
     align-items: stretch;
