@@ -1,6 +1,6 @@
 # DriveParts Cloudflare Workers
 
-Workers migrated from the DriveParts EDS repo. Wrangler `name` / `account_id` values are unchanged so existing `*.workers.dev` deployments keep working. Block URLs still point at `moogparts-catalog-api.atul-code-auth0.workers.dev`.
+Workers migrated from the DriveParts EDS repo. Wrangler `name` / `account_id` values are unchanged so existing `*.workers.dev` deployments keep working. Block URLs still point at `https://moogparts-catalog-api.code-and-theory-adobe.workers.dev`.
 
 ## Workers
 
