@@ -1176,10 +1176,10 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
         <table class="spec-table">
           <thead><tr><th>Module</th><th>Exports / purpose</th></tr></thead>
           <tbody>
-            <tr><td>drivparts-paths.js</td><td><code class="code-inline">DRIVPARTS_ROOT</code>, <code class="code-inline">isDrivpartsPath()</code>, <code class="code-inline">sitePath()</code> — single source of truth for DrivParts path detection, used by <code class="code-inline">scripts.js</code>, <code class="code-inline">aem.js</code>, and <code class="code-inline">catalog.js</code>.</td></tr>
-            <tr><td>catalog.js</td><td>Client for the <a href="#catalog-api" style="color:var(--brand-blue);">catalog-api</a> Worker: <code class="code-inline">buildCatalogUrl()</code>, <code class="code-inline">fetchJson()</code>, brand/DAM image helpers, <code class="code-inline">whereToBuyUrl()</code>. Used by Parts Finder, Part Details, Parts List, and Where to Buy.</td></tr>
-            <tr><td>locales.js</td><td>Region/language data and locale-picker DOM builders (<code class="code-inline">buildLocalePanel</code>/<code class="code-inline">bindLocalePanel</code>) used by the DrivParts header/footer.</td></tr>
-            <tr><td>placeholders.js</td><td>DrivParts-specific replacement for <code class="code-inline">fetchPlaceholders</code> — normalizes single-sheet and multi-sheet DA placeholder JSON, preserving camelCase keys.</td></tr>
+            <tr><td>drivparts-paths.js</td><td><code class="code-inline">DRIVPARTS_ROOT</code>, <code class="code-inline">LOCALE_CONFIG</code> (<code class="code-inline">en-us</code> → <code class="code-inline">en_US</code>/<code class="code-inline">US</code>, <code class="code-inline">es-mx</code> → <code class="code-inline">es_MX</code>/<code class="code-inline">MX</code>), <code class="code-inline">getLocaleSlug()</code>, <code class="code-inline">getLocaleConfig()</code>, <code class="code-inline">getLocalePrefix()</code>, <code class="code-inline">isDrivpartsPath()</code>, <code class="code-inline">sitePath()</code> — locale-aware path helpers used by <code class="code-inline">scripts.js</code>, <code class="code-inline">aem.js</code>, <code class="code-inline">catalog.js</code>, header/footer, and finder/WTB blocks.</td></tr>
+            <tr><td>catalog.js</td><td>Client for the <a href="#catalog-api" style="color:var(--brand-blue);">catalog-api</a> Worker: <code class="code-inline">getCatalogParams()</code> (locale/country from the URL), <code class="code-inline">buildCatalogUrl()</code>, <code class="code-inline">fetchJson()</code>, brand/DAM image helpers, <code class="code-inline">whereToBuyUrl()</code>. Used by Parts Finder, Part Details, Parts List, and Where to Buy.</td></tr>
+            <tr><td>locales.js</td><td>Region/language data and locale-picker DOM builders (<code class="code-inline">buildLocalePanel</code>/<code class="code-inline">bindLocalePanel</code>). NA options navigate to <code class="code-inline">/drivparts/en-us/</code> and <code class="code-inline">/drivparts/es-mx/</code>.</td></tr>
+            <tr><td>placeholders.js</td><td>DrivParts-specific replacement for <code class="code-inline">fetchPlaceholders</code> — under DriveParts, sheets resolve from the active locale prefix (<code class="code-inline">/drivparts/en-us</code>, <code class="code-inline">/drivparts/es-mx</code>); normalizes single-sheet and multi-sheet DA JSON, preserving camelCase keys.</td></tr>
             <tr><td>storefront-session.js</td><td>Hybris endpoint map and session helpers — cart submission, login/emulation state probing, mini-cart fetching — used by the header and storefront/parts-list blocks.</td></tr>
           </tbody>
         </table>
@@ -1299,10 +1299,10 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
           <span class="status-badge sb-done">Complete</span>
         </h2>
         <div class="section-rule"></div>
-        <p>Journey 1 is the foundational marketing experience: prove EDS can render DrivParts pages with the correct site chrome, fragments, and brand/marketing blocks — before Parts Finder, Where to Buy, or Hybris session work.</p>
+        <p>Journey 1 is the foundational marketing experience: prove EDS can render DrivParts pages with the correct site chrome, fragments, locale switching, and brand/marketing blocks — before Parts Finder, Where to Buy, or Hybris session work.</p>
         <p><strong>Live (production):</strong> <a href="https://www.drivparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/</a> · <a href="https://www.drivparts.com/brands/moog.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/brands/moog.html</a><br>
-        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> <span class="nav-status ns-done">complete</span><br>
-        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></p>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/</a> · <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/es-mx/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/es-mx/</a> <span class="nav-status ns-done">complete</span><br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></p>
 
         <ul class="checklist">
           <li class="check-item">
@@ -1330,17 +1330,43 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Brand detail pages matching production</div>
-              <div class="check-note"><code class="code-inline">brand-detail</code> + <code class="code-inline">brand-nav</code> implement the production brand layout (<code class="code-inline">/drivparts/brands/{slug}</code>). Visual parity and full brand content authoring still in progress.</div>
+              <div class="check-note"><code class="code-inline">brand-detail</code> + <code class="code-inline">brand-nav</code> implement the production brand layout (<code class="code-inline">/drivparts/{locale}/brands/{slug}</code>). Visual parity and full brand content authoring still in progress.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Locales — <code class="code-inline">en-us</code> and <code class="code-inline">es-mx</code></div>
+              <div class="check-note">Content and chrome live under locale folders. Header/footer locale picker switches between US English and Mexico Spanish; <code class="code-inline">sitePath()</code> keeps nav, fragments, brands, results, and Where to Buy under the active prefix. Bare <code class="code-inline">/drivparts/*</code> redirects to <code class="code-inline">/drivparts/en-us/*</code> via <code class="code-inline">redirects.json</code>.</div>
             </div>
           </li>
           <li class="check-item">
             <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
             <div class="check-body">
               <div class="check-title">DA-authored landing + brand content published end-to-end</div>
-              <div class="check-note">Content lives in DA at <code class="code-inline">da.live/#/adobedrago/driv/drivparts</code>. Confirm landing and brand documents are authored, previewed, and reachable on the POC host.</div>
+              <div class="check-note">Content lives in DA under locale trees at <code class="code-inline">da.live/#/adobedrago/driv/drivparts/en-us</code> and <code class="code-inline">…/es-mx</code>. Confirm landing and brand documents are authored, previewed, and reachable on the POC host.</div>
             </div>
           </li>
         </ul>
+
+        <h3>Locales</h3>
+        <p>DrivParts pages are authored and served under a locale segment. Each locale has its own content tree (homepage, nav, footer, brands, placeholders) and drives catalog / Where to Buy country codes for later journeys.</p>
+        <table class="spec-table">
+          <thead><tr><th>Locale folder</th><th>Catalog params</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code class="code-inline">/drivparts/en-us/</code></td>
+              <td><code class="code-inline">locale=en_US</code>, <code class="code-inline">country_code=US</code></td>
+              <td>Default US English site. Bare <code class="code-inline">/drivparts</code> redirects here.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">/drivparts/es-mx/</code></td>
+              <td><code class="code-inline">locale=es_MX</code>, <code class="code-inline">country_code=MX</code></td>
+              <td>Mexico Spanish site — parallel homepage, chrome, and placeholders; catalog and WTB use MX.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><code class="code-inline">LOCALE_CONFIG</code> in <code class="code-inline">drivparts-paths.js</code> maps folder slugs to API codes. <code class="code-inline">getLocalePrefix()</code> / <code class="code-inline">sitePath()</code> scope header nav, footer, fragments, brand links, and finder/WTB URLs. Placeholders load from the locale folder. The NA locale picker in <code class="code-inline">locales.js</code> navigates between <code class="code-inline">/drivparts/en-us/</code> and <code class="code-inline">/drivparts/es-mx/</code>.</p>
 
         <h3>Supporting work delivered</h3>
         <ul class="checklist">
@@ -1368,8 +1394,8 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
-              <div class="check-title">Locales &amp; placeholders</div>
-              <div class="check-note"><code class="code-inline">locales.js</code> and DrivParts <code class="code-inline">placeholders.js</code> feed header/footer locale UI and DA placeholder sheets.</div>
+              <div class="check-title">Locale path helpers &amp; placeholders</div>
+              <div class="check-note"><code class="code-inline">drivparts-paths.js</code> (<code class="code-inline">getLocaleConfig</code>, <code class="code-inline">getLocalePrefix</code>, <code class="code-inline">sitePath</code>), <code class="code-inline">locales.js</code> picker panels, and locale-scoped <code class="code-inline">placeholders.js</code> feed chrome and copy for each market.</div>
             </div>
           </li>
         </ul>
@@ -1388,15 +1414,16 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
         <div class="section-rule"></div>
         <p>Journey 2 validates dynamic, catalog-backed search on EDS: the Parts Finder widget drives vehicle/engine cascades through the <code class="code-inline">catalog-api</code> Worker, lands on a results page, and opens part detail pages — proving EDS can power backend-driven commerce UX, not just static marketing.</p>
         <p><strong>Live (production):</strong> <a href="https://www.drivparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/</a> <br>
-        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> → <code class="code-inline">/results</code> → <code class="code-inline">/part-details</code> <span class="nav-status ns-done">complete</span><br>
-        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></p>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/</a> → <code class="code-inline">/results</code> → <code class="code-inline">/part-details</code> <span class="nav-status ns-done">complete</span><br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">ht
+          tps://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></p>
 
         <ul class="checklist">
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Integrate the catalog API for search</div>
-              <div class="check-note">Browser calls go through <code class="code-inline">catalog.js</code> → <code class="code-inline">moogparts-catalog-api</code> Worker (<code class="code-inline">GET /drivparts/*</code> → <code class="code-inline">drivparts.com/driv/partfinder/*</code>), never directly to the catalog origin. Shared params: <code class="code-inline">brand=corporate</code>, <code class="code-inline">locale=en_US</code>, <code class="code-inline">country_code=US</code>.</div>
+              <div class="check-note">Browser calls go through <code class="code-inline">catalog.js</code> → <code class="code-inline">moogparts-catalog-api</code> Worker (<code class="code-inline">GET /drivparts/*</code> → <code class="code-inline">drivparts.com/driv/partfinder/*</code>), never directly to the catalog origin. Shared params come from <code class="code-inline">getCatalogParams()</code>: <code class="code-inline">brand=corporate</code> plus locale/country from the URL — <code class="code-inline">en-us</code> → <code class="code-inline">en_US</code>/<code class="code-inline">US</code>, <code class="code-inline">es-mx</code> → <code class="code-inline">es_MX</code>/<code class="code-inline">MX</code> (see <a href="#s1-progress" style="color:var(--brand-blue);">Journey 1 · Locales</a>).</div>
             </div>
           </li>
           <li class="check-item">
@@ -1410,14 +1437,14 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Render results dynamically</div>
-              <div class="check-note"><code class="code-inline">part-finder-result</code> on <code class="code-inline">/drivparts/results</code> reads URL query params, fetches catalog results, renders the listing with a refine-search toolbar (reuses finder dropdown builders), and links each part to detail.</div>
+              <div class="check-note"><code class="code-inline">part-finder-result</code> on <code class="code-inline">/drivparts/{locale}/results</code> reads URL query params, fetches catalog results, renders the listing with a refine-search toolbar (reuses finder dropdown builders), and links each part to detail.</div>
             </div>
           </li>
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Open part detail from a selected result</div>
-              <div class="check-note"><code class="code-inline">part-details</code> on <code class="code-inline">/drivparts/part-details?part_number=…&amp;brand_code=…</code> loads product + applications via <code class="code-inline">api.catalog.product</code> / <code class="code-inline">api.catalog.applications</code> — gallery, specs, brand info, Where to Buy links.</div>
+              <div class="check-note"><code class="code-inline">part-details</code> on <code class="code-inline">/drivparts/{locale}/part-details?part_number=…&amp;brand_code=…</code> loads product + applications via <code class="code-inline">api.catalog.product</code> / <code class="code-inline">api.catalog.applications</code> — gallery, specs, brand info, Where to Buy links.</div>
             </div>
           </li>
           <li class="check-item">
@@ -1436,16 +1463,16 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <tr>
               <td>1 · Search</td>
               <td><code class="code-inline">parts-finder</code> on landing / widget</td>
-              <td>Cascading dropdowns fetch options from catalog-api; submit navigates to <code class="code-inline">/drivparts/results?…</code>.</td>
+              <td>Cascading dropdowns fetch options from catalog-api; submit navigates to <code class="code-inline">/drivparts/{locale}/results?…</code>.</td>
             </tr>
             <tr>
               <td>2 · Results</td>
-              <td><code class="code-inline">part-finder-result</code> @ <code class="code-inline">/drivparts/results</code></td>
+              <td><code class="code-inline">part-finder-result</code> @ <code class="code-inline">/drivparts/{locale}/results</code></td>
               <td>Lists matching parts; refine toolbar; part number links to detail.</td>
             </tr>
             <tr>
               <td>3 · Detail</td>
-              <td><code class="code-inline">part-details</code> @ <code class="code-inline">/drivparts/part-details</code></td>
+              <td><code class="code-inline">part-details</code> @ <code class="code-inline">/drivparts/{locale}/part-details</code></td>
               <td>Product gallery, applications, Add to Parts List, Where to Buy deep links.</td>
             </tr>
           </tbody>
@@ -1514,22 +1541,22 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
         <div class="section-rule"></div>
         <p>Journey 3 validates retailer/installer location search on EDS: a ZIP entry point and a full results experience (filters, list, Google Map) backed by the production Where to Buy AEM servlet through the <code class="code-inline">catalog-api</code> Worker’s <code class="code-inline">/wheretobuy</code> route. Part-detail pages deep-link into this flow via <code class="code-inline">whereToBuyUrl()</code>.</p>
         <p><strong>Live (production):</strong> <a href="https://www.drivparts.com/where-to-buy.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/where-to-buy.html</a><br>
-        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/where-to-buy</a> <span class="nav-status ns-done">complete</span><br>
-        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/where-to-buy</a></p>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/where-to-buy</a> <span class="nav-status ns-done">complete</span><br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/where-to-buy</a></p>
 
         <ul class="checklist">
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Integrate the Where to Buy API</div>
-              <div class="check-note">Browser calls go to <code class="code-inline">moogparts-catalog-api…/wheretobuy</code>, which proxies the production AEM servlet at <code class="code-inline">drivparts.com/…/where_to_buy_search.search</code> with CORS + 24h cache.</div>
+              <div class="check-note">Browser calls go to <code class="code-inline">moogparts-catalog-api…/wheretobuy</code>, which proxies the production AEM servlet at <code class="code-inline">drivparts.com/…/where_to_buy_search.search</code> with CORS + 24h cache. Default <code class="code-inline">country</code> follows the active locale (<code class="code-inline">US</code> on <code class="code-inline">en-us</code>, <code class="code-inline">MX</code> on <code class="code-inline">es-mx</code>) via <code class="code-inline">whereToBuyUrl()</code> / <code class="code-inline">getLocaleConfig()</code>.</div>
             </div>
           </li>
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">ZIP search entry</div>
-              <div class="check-note"><code class="code-inline">where-to-buy-search</code> — compact ZIP/postal form that GETs to <code class="code-inline">/drivparts/where-to-buy?zip=…</code>. CTA label is authorable from DA.</div>
+              <div class="check-note"><code class="code-inline">where-to-buy-search</code> — compact ZIP/postal form that GETs to <code class="code-inline">/drivparts/{locale}/where-to-buy?zip=…</code>. CTA label is authorable from DA.</div>
             </div>
           </li>
           <li class="check-item">
@@ -1555,12 +1582,12 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <tr>
               <td>1 · Entry</td>
               <td><code class="code-inline">where-to-buy-search</code> (landing / promo) or part-details WTB link</td>
-              <td>ZIP submit → <code class="code-inline">/drivparts/where-to-buy?zip=…</code>; or hash deep link with <code class="code-inline">locType</code> / <code class="code-inline">subBrand</code>.</td>
+              <td>ZIP submit → <code class="code-inline">/drivparts/{locale}/where-to-buy?zip=…</code>; or hash deep link with <code class="code-inline">locType</code> / <code class="code-inline">subBrand</code> / <code class="code-inline">country</code>.</td>
             </tr>
             <tr>
               <td>2 · Search &amp; filters</td>
-              <td><code class="code-inline">where-to-buy-result</code> @ <code class="code-inline">/drivparts/where-to-buy</code></td>
-              <td>Country, postal, brand; filters for Parts Store / Repair Shop / both and distance (5–100 mi).</td>
+              <td><code class="code-inline">where-to-buy-result</code> @ <code class="code-inline">/drivparts/{locale}/where-to-buy</code></td>
+              <td>Country (defaults from locale), postal, brand; filters for Parts Store / Repair Shop / both and distance (5–100 mi).</td>
             </tr>
             <tr>
               <td>3 · Results</td>
@@ -1656,13 +1683,6 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <div class="check-body">
               <div class="check-title">Login-return recovery</div>
               <div class="check-note">On login / emulate, <code class="code-inline">sessionStorage['fm-login-return']</code> stores the EDS URL. <code class="code-inline">scripts.js</code> bounces users stranded on raw <code class="code-inline">/content/</code> or <code class="code-inline">/fmstorefront/</code> paths back to that page. Iframe login form stays <code class="code-inline">target="_self"</code> so the parent isn’t replaced.</div>
-            </div>
-          </li>
-          <li class="check-item">
-            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
-            <div class="check-body">
-              <div class="check-title">Production proxy binding</div>
-              <div class="check-note">Both <code class="code-inline">drivparts</code> and <code class="code-inline">moogparts-catalog-api</code> still deploy to <code class="code-inline">*.workers.dev</code>; the <code class="code-inline">api.moogparts.com</code> route in <code class="code-inline">catalog-api/wrangler.toml</code> stays commented until the production zone is decided. <code class="code-inline">EDS_ORIGIN</code> may point at a feature branch — confirm before demos.</div>
             </div>
           </li>
         </ul>
