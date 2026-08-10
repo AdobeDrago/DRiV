@@ -22,9 +22,24 @@ export function getCatalogParams() {
 /** Snapshot of default (en-us) params for callers that expect a static object. */
 export const CATALOG_PARAMS = { brand: 'corporate', locale: 'en_US', country_code: 'US' };
 
+// Origin 400s on whitespace in a part number ("BS 40725") but matches the squashed form.
+// Only the wire value is squashed — displayed values and hrefs keep the space.
+const WHITESPACE_SENSITIVE_PARAMS = new Set(['part_number', 'part']);
+
+function normalizeCatalogParams(params) {
+  return Object.fromEntries(
+    Object.entries(params).map(([key, value]) => [
+      key,
+      WHITESPACE_SENSITIVE_PARAMS.has(key) && typeof value === 'string'
+        ? value.replace(/\s+/g, '')
+        : value,
+    ]),
+  );
+}
+
 /** Builds a catalog-api URL for a passthrough endpoint, merging shared brand/locale params. */
 export function buildCatalogUrl(endpoint, params = {}) {
-  const usp = new URLSearchParams({ ...getCatalogParams(), ...params });
+  const usp = new URLSearchParams({ ...getCatalogParams(), ...normalizeCatalogParams(params) });
   return `${CATALOG_API_BASE}/drivparts/${endpoint}?${usp}`;
 }
 
