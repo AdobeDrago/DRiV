@@ -1,11 +1,8 @@
-/* Block: drivparts/cards
- * The DRiV brands directory (brands.html). Full-width stacked rows: brand
- * logo on the left, description plus a "Learn More" text link on the right,
- * on a white background with a subtle divider between entries.
- */
+/* Block: drivparts/cards — the brands directory list (logo + description/CTA rows). */
 
-.cards-wrapper {
-  background-color: #fff;
+.section.cards-container > .cards-wrapper {
+  margin: 0;
+  background-color: var(--background-color, #fff);
 }
 
 .cards > ul {
@@ -19,26 +16,26 @@
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
-  gap: 24px;
-  padding: 32px 0;
+  gap: 32px;
+  padding: 32px 54px;
 }
 
-.cards > ul > li + li {
-  border-top: 1px solid var(--border-color, #e6e6e6);
-}
-
-@media (width >= 700px) {
-  .cards > ul > li {
-    grid-template-columns: 280px 1fr;
-    gap: 48px;
-    padding: 40px 0;
-  }
-}
-
-/* logo cell */
 .cards .cards-card-image {
   line-height: 0;
-  text-align: center;
+  text-align: left;
+}
+
+/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >=1025px. */
+@media (width >= 768px) {
+  .cards > ul > li {
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+    padding: 40px 54px;
+  }
+
+  .cards .cards-card-image {
+    text-align: center;
+  }
 }
 
 .cards .cards-card-image img {
@@ -49,7 +46,6 @@
   object-fit: contain;
 }
 
-/* copy cell */
 .cards .cards-card-body {
   display: block;
 }
@@ -57,8 +53,9 @@
 .cards .cards-card-description {
   margin: 0 0 16px;
   color: var(--text-color);
-  font-size: var(--body-font-size-s);
+  font-size: var(--body-font-size-xs, 14px);
   line-height: 1.5;
+  text-align: justify;
 }
 
 .cards .cards-card-cta {
@@ -77,6 +74,26 @@
 
 .cards .cards-card-link:hover,
 .cards .cards-card-link:focus-visible {
-  color: var(--brand-color, #c41230);
   text-decoration: underline;
+}
+
+/* Last card only: reuses the site's global .button style, with a small icon appended. */
+.cards .cards-card-cta-button .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 24px;
+}
+
+/* Three-dot cluster (two stacked + one at mid-right) — matches the source's icomoon glyph. */
+.cards-card-cta-icon {
+  position: relative;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: currentcolor;
+  box-shadow:
+    -8px -5px 0 currentcolor,
+    -8px 5px 0 currentcolor;
 }

@@ -22,7 +22,7 @@ const HYBRIS_ORIGIN = 'https://qa.drivparts.com';
  * sign-in must land here — not on the raw /fmstorefront/.../iframe document,
  * which Hybris renders without the EDS header/footer.
  */
-const EDS_HOME = '/drivparts/';
+const EDS_HOME = '/drivparts/en-us/';
 
 const HYBRIS_PATHS = [
   '/fmstorefront/',
@@ -161,7 +161,7 @@ function getSignInRedirect(referer, publicOrigin) {
 function rewriteLocation(value, publicOrigin, referer) {
   const location = rewriteStorefrontUrls(value, publicOrigin);
   const iframeReferer = getIframeReferer(referer, publicOrigin);
-  // Header sign-in → back to the framing EDS page (?redirect=), else /drivparts/.
+  // Header sign-in → back to the framing EDS page (?redirect=), else /drivparts/en-us/.
   // Login from inside the iframe keeps priority via iframeReferer below.
   const signInTarget = `${publicOrigin}${getSignInRedirect(referer, publicOrigin) || EDS_HOME}`;
 

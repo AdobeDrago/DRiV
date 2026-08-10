@@ -1,4 +1,5 @@
 import { toCamelCase } from './aem.js';
+import { getLocalePrefix, isDrivpartsPath } from './drivparts-paths.js';
 
 /**
  * Normalizes placeholder sheet JSON into row objects.
@@ -35,10 +36,15 @@ function placeholderKey(name) {
 
 /**
  * Folder that owns placeholders for the current page.
- * `/` → root `/placeholders.json`
- * `/test/en` → `/test/en/placeholders.json`
+ * Under DriveParts: locale folder (`/drivparts/en-us`).
+ * Elsewhere: path folder, or `default` at site root.
+ * @param {string} [pathname]
+ * @returns {string}
  */
 export function getPlaceholdersPrefix(pathname = window.location.pathname) {
+  if (isDrivpartsPath(pathname)) {
+    return getLocalePrefix(pathname);
+  }
   const path = pathname.replace(/\/$/, '') || '/';
   if (path === '/') return 'default';
   return path;
@@ -50,7 +56,6 @@ export function getPlaceholdersPrefix(pathname = window.location.pathname) {
  * @param {string} [prefix='default'] Location prefix; `default` = site root
  * @returns {Promise<Record<string, string>>}
  */
-// eslint-disable-next-line import/prefer-default-export
 export async function fetchPlaceholders(prefix = 'default') {
   window.placeholders = window.placeholders || {};
   if (!window.placeholders[prefix]) {

@@ -339,6 +339,67 @@ main .section[data-background] {
   background-size: 28px;
 }
 
+/* Brand-nav is authored after the hero/cards sections, so on mobile/tablet
+   move it to the top. Base = mobile-first; desktop upgrades to a 2-col grid.
+   Breakpoints: mobile <768px, tablet 768-1024px, desktop >=1025px. */
+main:has(.brand-nav.block) {
+  display: flex;
+  flex-direction: column;
+}
+
+main:has(.brand-nav.block) > .section:has(.brand-nav) {
+  order: -1;
+}
+
+/* Brand-nav desktop two-column layout: brand-nav in a left rail, hero/cards
+   on the right. */
+@media (width >= 1025px) {
+  main:has(.brand-nav.block) {
+    display: grid;
+    grid-template-columns: minmax(220px, 25%) 1fr;
+    align-items: start;
+    max-width: var(--page-max-width, 1440px);
+    margin-inline: auto;
+  }
+
+  main:has(.brand-nav.block) > .section {
+    margin: 0;
+  }
+
+  /* Left padding (96px) is tuned so "BRANDS" lines up with "DIGITAL
+     CATALOGS" in the header at the page's 1440px designed max-width. */
+  main:has(.brand-nav.block) > .section:has(.brand-nav) {
+    order: initial;
+    grid-column: 1;
+    grid-row: 1 / 999;
+    padding: 32px 24px 40px 96px;
+  }
+
+  /* Drops the generic `main > .section > div` page gutters, which would
+     otherwise collapse this narrow column almost to nothing. */
+  main:has(.brand-nav.block) > .section:has(.brand-nav) > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) {
+    grid-column: 2;
+  }
+
+  main:has(.brand-nav.block) > .section:not(:has(.brand-nav)) > div {
+    max-width: none;
+    margin: 0;
+  }
+}
+
+/* Drops the default section margin (top and bottom) on the brands directory page — the list should
+   sit flush under the hero banner, and on mobile/tablet (where it's the last section in flow, see
+   the brand-nav reorder above) shouldn't leave a gap before the footer either. */
+main:has(.brand-nav.block) > .section.cards-container {
+  margin: 0;
+}
+
 /* Full-bleed results toolbar — beats section gutter at every breakpoint */
 main .section.part-finder-result-container {
   margin: 0;

@@ -1077,7 +1077,14 @@ export default async function decorate(block) {
   tabList.className = 'parts-finder-tabs';
   tabList.setAttribute('role', 'tablist');
   tabList.setAttribute('aria-label', heading);
-  header.append(title, tabList);
+  // Below desktop the tablist is replaced by this dropdown (CSS shows only one of
+  // the two per breakpoint) — a full tab row doesn't fit narrower viewports. Reuses
+  // createDropdown (the same component the catalog fields below use) rather than a
+  // native <select> so the open menu matches their styling instead of falling back
+  // to the OS's own popup chrome.
+  const tabDropdown = createDropdown({ id: `${uid}-tab-select`, label: heading });
+  tabDropdown.root.classList.add('parts-finder-tab-dropdown');
+  header.append(title, tabList, tabDropdown.root);
   block.append(header);
 
   tabDefs.forEach((tab) => {
@@ -1087,6 +1094,7 @@ export default async function decorate(block) {
     button.className = 'parts-finder-tab';
     button.setAttribute('role', 'tab');
     button.textContent = tab.label;
+
     if (tab.disabled) {
       button.classList.add('is-disabled');
       button.disabled = true;
@@ -1107,6 +1115,13 @@ export default async function decorate(block) {
     tabList.append(button);
   });
 
+  tabDropdown.setOptions(
+    tabDefs.map((tab) => ({ value: tab.id, label: tab.label, disabled: !!tab.disabled })),
+    '',
+  );
+  tabDropdown.setValue('vehicle');
+  tabDropdown.setDisabled(false);
+
   const tabs = tabDefs.filter((tab) => !tab.disabled).map((tab) => {
     const button = block.querySelector(`#${uid}-tab-${tab.id}`);
     const panel = block.querySelector(`#${uid}-panel-${tab.id}`);
@@ -1114,23 +1129,35 @@ export default async function decorate(block) {
     // triggering the default tab's first data load; without this, build()'s
     // own auto-init would fire the same catalog-api request a second time.
     const controller = tab.build(panel, uid, lookupLabel, { defer: true });
-    return { button, panel, controller };
+    return {
+      id: tab.id, button, panel, controller,
+    };
   });
 
   function activateTab(activeButton, { focus = false } = {}) {
     closeAllDropdowns();
-    tabs.forEach(({ button, panel, controller }) => {
+    tabs.forEach(({
+      id, button, panel, controller,
+    }) => {
       const isActive = button === activeButton;
       button.setAttribute('aria-selected', String(isActive));
       button.tabIndex = isActive ? 0 : -1;
       panel.hidden = !isActive;
-      if (isActive) controller.activate();
+      if (isActive) {
+        tabDropdown.setValue(id);
+        controller.activate();
+      }
     });
     if (focus) activeButton.focus();
   }
 
   tabs.forEach(({ button }) => {
     button.addEventListener('click', () => activateTab(button));
+  });
+
+  tabDropdown.onChange(() => {
+    const match = tabs.find(({ id }) => id === tabDropdown.value);
+    if (match) activateTab(match.button);
   });
 
   tabList.addEventListener('keydown', (event) => {
