@@ -471,6 +471,83 @@
   .check-title { font-weight: 700; font-size: 13px; color: var(--gray-900); }
   .check-note  { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
 
+  /* ── LIGHTHOUSE COMPARISON ── */
+  .lh-compare { display: flex; flex-direction: column; gap: 24px; margin: 16px 0; }
+  .lh-compare-page {
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--gray-50);
+    overflow: hidden;
+  }
+  .lh-compare-page-title {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+  .lh-compare-page-title span {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: var(--mono);
+    color: var(--gray-600);
+    margin-left: 8px;
+  }
+  .lh-compare-cols {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  .lh-compare-side {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .lh-compare-side + .lh-compare-side {
+    border-top: 1px solid var(--gray-200);
+  }
+  .lh-compare-side-header {
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--gray-200);
+    background: #fff;
+  }
+  .lh-compare-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #000;
+  }
+  .lh-scores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-left: auto;
+  }
+  .lh-score {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+  .lh-score-good { background: #eaf6f1; color: #1a6b50; }
+  .lh-score-ok   { background: #fff4e5; color: #8a4b08; }
+  .lh-score-bad  { background: #fdecea; color: #a1281c; }
+  .lh-compare-side img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   /* ── SCENARIO STUB ── */
   .scenario-stub p { color: var(--gray-700); }
 
@@ -564,6 +641,10 @@
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
         Supporting modules
       </a>
+      <a class="sidebar-link" href="#drivparts-lighthouse-compare">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.25a.75.75 0 01.75.75v2.69l1.78 1.78a.75.75 0 11-1.06 1.06l-2-2A.75.75 0 017.25 8.5v-3a.75.75 0 01.75-.75z"/></svg>
+        Lighthouse comparison
+      </a>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Journeys</div>
@@ -621,6 +702,10 @@
       <a class="sidebar-link" href="#moogparts-architecture">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2z"/></svg>
         Architecture
+      </a>
+      <a class="sidebar-link" href="#moogparts-lighthouse-compare">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.25a.75.75 0 01.75.75v2.69l1.78 1.78a.75.75 0 11-1.06 1.06l-2-2A.75.75 0 017.25 8.5v-3a.75.75 0 01.75-.75z"/></svg>
+        Lighthouse comparison
       </a>
     </div>
     <div class="sidebar-section">
@@ -712,27 +797,27 @@
           <tbody>
             <tr>
               <td>1 · DrivParts Landing / Brand Hub</td>
-              <td>EDS rendering · DrivParts chrome · fragments · marketing &amp; brand blocks</td>
+              <td>EDS rendering · locales · DrivParts chrome · fragments · marketing &amp; brand blocks</td>
               <td><span class="nav-status ns-done">Complete</span></td>
-              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></td>
+              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></td>
             </tr>
             <tr>
               <td>2 · Parts Finder</td>
               <td><code class="code-inline">catalog-api</code> · search → results → part details</td>
               <td><span class="nav-status ns-done">Complete</span></td>
-              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></td>
+              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></td>
             </tr>
             <tr>
               <td>3 · Where to Buy</td>
               <td>Retailer/installer lookup · search → results · map</td>
               <td><span class="nav-status ns-done">Complete</span></td>
-              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/where-to-buy</a></td>
+              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/where-to-buy</a></td>
             </tr>
             <tr>
               <td>4 · Hybris Storefront</td>
               <td>Same-origin proxy · cart / login · iframe embed</td>
               <td><span class="nav-status ns-done">Complete</span></td>
-              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></td>
+              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></td>
             </tr>
           </tbody>
         </table>
@@ -753,7 +838,7 @@
         </table>
         <div class="notice info">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span>Pages under <code class="code-inline">/drivparts</code> render the DrivParts header/footer/fragment overrides and can embed the Hybris storefront iframe. Everywhere else on the site behaves like a standard EDS boilerplate page.</span>
+          <span>Pages under <code class="code-inline">/drivparts/{locale}/</code> (<code class="code-inline">en-us</code>, <code class="code-inline">es-mx</code>) render the DrivParts header/footer/fragment overrides and can embed the Hybris storefront iframe. Bare <code class="code-inline">/drivparts</code> redirects to <code class="code-inline">/drivparts/en-us</code>. Everywhere else on the site behaves like a standard EDS boilerplate page.</span>
         </div>
       </section>
 
@@ -779,23 +864,23 @@
 
         <h3>Project environments</h3>
         <div class="url-grid">
-          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts/en-us" target="_blank" rel="noopener">
             <span class="url-card-label"><span class="dot dot-blue"></span>Author</span>
             <span class="url-card-title">Document Authoring</span>
-            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts</span>
-            <span class="url-card-desc">DA source content for this project. No <code class="code-inline">fstab.yaml</code> in the repo — the DA mount is derived from the GitHub org/repo, per the DA-compatible boilerplate.</span>
+            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts/en-us</span>
+            <span class="url-card-desc">DA locale trees under <code class="code-inline">drivparts/en-us</code> and <code class="code-inline">drivparts/es-mx</code>. No <code class="code-inline">fstab.yaml</code> in the repo — the DA mount is derived from the GitHub org/repo.</span>
           </a>
-          <a class="url-card" href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener">
+          <a class="url-card" href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/" target="_blank" rel="noopener">
             <span class="url-card-label"><span class="dot dot-navy"></span>Preview</span>
-            <span class="url-card-title">EDS preview</span>
-            <span class="url-card-url">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</span>
-            <span class="url-card-desc">Preview EDS site.</span>
+            <span class="url-card-title">EDS preview (en-US)</span>
+            <span class="url-card-url">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/</span>
+            <span class="url-card-desc">Preview EDS site for the default locale. Also <code class="code-inline">/drivparts/es-mx/</code>.</span>
           </a>
-          <a class="url-card" href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener">
+          <a class="url-card" href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener">
             <span class="url-card-label"><span class="dot dot-green"></span>Live</span>
-            <span class="url-card-title">EDS mock production</span>
-            <span class="url-card-url">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</span>
-            <span class="url-card-desc">Combined front door (<code class="code-inline">drivparts</code> worker) — EDS pages and the Hybris storefront on one origin.</span>
+            <span class="url-card-title">EDS mock production (en-US)</span>
+            <span class="url-card-url">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</span>
+            <span class="url-card-desc">Combined front door (<code class="code-inline">drivparts</code> worker) — locale-prefixed EDS pages and the Hybris storefront on one origin.</span>
           </a>
         </div>
 
@@ -835,35 +920,35 @@
 
         <h3>Authoring (DA) — where content is edited</h3>
         <div class="url-grid">
-          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+          <a class="url-card" href="https://da.live/edit#/adobedrago/driv/drivparts/en-us" target="_blank" rel="noopener">
             <span class="url-card-label"><span class="dot dot-blue"></span>Author root</span>
-            <span class="url-card-title">DA — drivparts</span>
-            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts</span>
-            <span class="url-card-desc">Top of the authoring tree for the project.</span>
+            <span class="url-card-title">DA — drivparts locales</span>
+            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts/en-us · …/es-mx</span>
+            <span class="url-card-desc">Content lives under locale folders (<code class="code-inline">en-us</code>, <code class="code-inline">es-mx</code>). Bare <code class="code-inline">/drivparts</code> redirects to <code class="code-inline">/drivparts/en-us</code>.</span>
           </a>
-          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts/en-us" target="_blank" rel="noopener">
             <span class="url-card-label"><span class="dot dot-blue"></span>Journey 1 · Landing</span>
             <span class="url-card-title">DrivParts landing + brands</span>
-            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts · https://da.live/#/adobedrago/driv/drivparts/brands/{slug}</span>
-            <span class="url-card-desc">Landing page and brand-detail documents authored in DA.</span>
+            <span class="url-card-url">…/drivparts/en-us · …/drivparts/en-us/brands/{slug}</span>
+            <span class="url-card-desc">Locale landing and brand-detail documents (same tree under <code class="code-inline">es-mx</code>).</span>
           </a>
-          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+          <a class="url-card" href="https://da.live/edit#/adobedrago/driv/drivparts/en-us/results" target="_blank" rel="noopener">
             <span class="url-card-label"><span class="dot dot-blue"></span>Journey 2 · Parts Finder</span>
             <span class="url-card-title">Results + part details shells</span>
-            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts/results · https://da.live/#/adobedrago/driv/drivparts/part-details</span>
+            <span class="url-card-url">…/drivparts/en-us/results · …/drivparts/en-us/part-details</span>
             <span class="url-card-desc">Page shells for <code class="code-inline">part-finder-result</code> and <code class="code-inline">part-details</code> blocks.</span>
           </a>
-          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+          <a class="url-card" href="https://da.live/edit#/adobedrago/driv/drivparts/en-us/where-to-buy" target="_blank" rel="noopener">
             <span class="url-card-label"><span class="dot dot-blue"></span>Journey 3 · Where to Buy</span>
             <span class="url-card-title">Where to Buy page</span>
-            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts/where-to-buy</span>
+            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts/en-us/where-to-buy</span>
             <span class="url-card-desc">Page shell for <code class="code-inline">where-to-buy-search</code> / <code class="code-inline">where-to-buy-result</code>.</span>
           </a>
-          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts" target="_blank" rel="noopener">
+          <a class="url-card" href="https://da.live/#/adobedrago/driv/drivparts/en-us" target="_blank" rel="noopener">
             <span class="url-card-label"><span class="dot dot-blue"></span>Journey 4 · Hybris</span>
             <span class="url-card-title">Landing with storefront block</span>
-            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts/ (homepage shell)</span>
-            <span class="url-card-desc">Homepage section that authors <code class="code-inline">hybris-storefront</code> beside Parts Finder / promos.</span>
+            <span class="url-card-url">https://da.live/#/adobedrago/driv/drivparts/en-us/ (homepage shell)</span>
+            <span class="url-card-desc">Locale homepage section that authors <code class="code-inline">hybris-storefront</code> beside Parts Finder / promos.</span>
           </a>
         </div>
 
@@ -876,32 +961,32 @@
             <tr>
               <td>1 · Landing / Brand Hub</td>
               <td><a href="https://www.drivparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/</a> · <a href="https://www.drivparts.com/brands/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/brands/</a></td>
-              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> <span class="nav-status ns-done">complete</span></td>
-              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></td>
+              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/</a> <span class="nav-status ns-done">complete</span></td>
+              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></td>
             </tr>
             <tr>
               <td>2 · Parts Finder</td>
               <td><a href="https://www.drivparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/</a></td>
-              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> <span class="nav-status ns-done">complete</span></td>
-              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></td>
+              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/</a> → <code class="code-inline">results</code> → <code class="code-inline">part-details</code> <span class="nav-status ns-done">complete</span></td>
+              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></td>
             </tr>
             <tr>
               <td>3 · Where to Buy</td>
               <td><a href="https://www.drivparts.com/where-to-buy.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/where-to-buy.html</a></td>
-              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/where-to-buy</a> <span class="nav-status ns-done">complete</span></td>
-              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/where-to-buy</a></td>
+              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/where-to-buy</a> <span class="nav-status ns-done">complete</span></td>
+              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/where-to-buy</a></td>
             </tr>
             <tr>
               <td>4 · Hybris Storefront</td>
               <td><a href="https://qa.drivparts.com" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://qa.drivparts.com</a></td>
-              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> + same-origin <code class="code-inline">/fmstorefront</code> <span class="nav-status ns-done">complete</span></td>
-              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></td>
+              <td><a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/</a> + same-origin <code class="code-inline">/fmstorefront</code> <span class="nav-status ns-done">complete</span></td>
+              <td><a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></td>
             </tr>
           </tbody>
         </table>
         <div class="notice info">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span>Each pilot journey migrates a production DrivParts page to its EDS equivalent under <code class="code-inline">/drivparts</code>. Content is authored in DA; code lives in this repo. The POC host <code class="code-inline">drivparts</code> merges EDS pages and Hybris paths on one origin.</span>
+          <span>Each pilot journey migrates a production DrivParts page to its EDS equivalent under <code class="code-inline">/drivparts/{locale}/</code> (<code class="code-inline">en-us</code> default, <code class="code-inline">es-mx</code> for Mexico). Content is authored in DA locale folders; code lives in this repo. The POC host <code class="code-inline">drivparts</code> merges EDS pages and Hybris paths on one origin.</span>
         </div>
 
         
@@ -1064,7 +1149,7 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <tr><td>hybris-storefront</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Embeds/coordinates the Hybris storefront iframe (cart, account, login emulation).</td></tr>
             <tr><td>columns-promo</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Promotional multi-column marketing block.</td></tr>
             <tr><td>hero-banner</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>DrivParts-specific hero/banner, distinct from the stock <code class="code-inline">hero</code> block.</td></tr>
-            <tr><td>brand-detail</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Shared brand page layout (<code class="code-inline">/drivparts/brands/{slug}</code>) — logo, hero, body, Browse Parts. Journey 1.</td></tr>
+            <tr><td>brand-detail</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Shared brand page layout (<code class="code-inline">/drivparts/{locale}/brands/{slug}</code>) — logo, hero, body, Browse Parts. Journey 1.</td></tr>
             <tr><td>brand-nav</td><td><span class="mark-yes">✓</span></td><td><span class="mark-no">✗</span></td><td>Brand navigation strip used on brand and related marketing pages. Journey 1.</td></tr>
             <tr><td>hero / hero-overlay / image-banner</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>Homepage and campaign heroes.</td></tr>
             <tr><td>cards / cards-category / cards-article / cards-*</td><td><span class="mark-no">✗</span></td><td><span class="mark-yes">✓</span></td><td>Category tiles, Chassis System 101 articles, other card layouts.</td></tr>
@@ -1091,13 +1176,117 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
         <table class="spec-table">
           <thead><tr><th>Module</th><th>Exports / purpose</th></tr></thead>
           <tbody>
-            <tr><td>drivparts-paths.js</td><td><code class="code-inline">DRIVPARTS_ROOT</code>, <code class="code-inline">isDrivpartsPath()</code>, <code class="code-inline">sitePath()</code> — single source of truth for DrivParts path detection, used by <code class="code-inline">scripts.js</code>, <code class="code-inline">aem.js</code>, and <code class="code-inline">catalog.js</code>.</td></tr>
-            <tr><td>catalog.js</td><td>Client for the <a href="#catalog-api" style="color:var(--brand-blue);">catalog-api</a> Worker: <code class="code-inline">buildCatalogUrl()</code>, <code class="code-inline">fetchJson()</code>, brand/DAM image helpers, <code class="code-inline">whereToBuyUrl()</code>. Used by Parts Finder, Part Details, Parts List, and Where to Buy.</td></tr>
-            <tr><td>locales.js</td><td>Region/language data and locale-picker DOM builders (<code class="code-inline">buildLocalePanel</code>/<code class="code-inline">bindLocalePanel</code>) used by the DrivParts header/footer.</td></tr>
-            <tr><td>placeholders.js</td><td>DrivParts-specific replacement for <code class="code-inline">fetchPlaceholders</code> — normalizes single-sheet and multi-sheet DA placeholder JSON, preserving camelCase keys.</td></tr>
+            <tr><td>drivparts-paths.js</td><td><code class="code-inline">DRIVPARTS_ROOT</code>, <code class="code-inline">LOCALE_CONFIG</code> (<code class="code-inline">en-us</code> → <code class="code-inline">en_US</code>/<code class="code-inline">US</code>, <code class="code-inline">es-mx</code> → <code class="code-inline">es_MX</code>/<code class="code-inline">MX</code>), <code class="code-inline">getLocaleSlug()</code>, <code class="code-inline">getLocaleConfig()</code>, <code class="code-inline">getLocalePrefix()</code>, <code class="code-inline">isDrivpartsPath()</code>, <code class="code-inline">sitePath()</code> — locale-aware path helpers used by <code class="code-inline">scripts.js</code>, <code class="code-inline">aem.js</code>, <code class="code-inline">catalog.js</code>, header/footer, and finder/WTB blocks.</td></tr>
+            <tr><td>catalog.js</td><td>Client for the <a href="#catalog-api" style="color:var(--brand-blue);">catalog-api</a> Worker: <code class="code-inline">getCatalogParams()</code> (locale/country from the URL), <code class="code-inline">buildCatalogUrl()</code>, <code class="code-inline">fetchJson()</code>, brand/DAM image helpers, <code class="code-inline">whereToBuyUrl()</code>. Used by Parts Finder, Part Details, Parts List, and Where to Buy.</td></tr>
+            <tr><td>locales.js</td><td>Region/language data and locale-picker DOM builders (<code class="code-inline">buildLocalePanel</code>/<code class="code-inline">bindLocalePanel</code>). NA options navigate to <code class="code-inline">/drivparts/en-us/</code> and <code class="code-inline">/drivparts/es-mx/</code>.</td></tr>
+            <tr><td>placeholders.js</td><td>DrivParts-specific replacement for <code class="code-inline">fetchPlaceholders</code> — under DriveParts, sheets resolve from the active locale prefix (<code class="code-inline">/drivparts/en-us</code>, <code class="code-inline">/drivparts/es-mx</code>); normalizes single-sheet and multi-sheet DA JSON, preserving camelCase keys.</td></tr>
             <tr><td>storefront-session.js</td><td>Hybris endpoint map and session helpers — cart submission, login/emulation state probing, mini-cart fetching — used by the header and storefront/parts-list blocks.</td></tr>
           </tbody>
         </table>
+      </section>
+
+      <!-- LIGHTHOUSE COMPARISON: DRIVPARTS LIVE VS EDS -->
+      <section class="doc-section" id="drivparts-lighthouse-compare">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.25a.75.75 0 01.75.75v2.69l1.78 1.78a.75.75 0 11-1.06 1.06l-2-2A.75.75 0 017.25 8.5v-3a.75.75 0 01.75-.75z"/></svg>
+          </span>
+          Lighthouse comparison — Live vs EDS
+        </h2>
+        <div class="section-rule"></div>
+        <p>Chrome Lighthouse audits for production <code class="code-inline">www.drivparts.com</code> (Live) versus the EDS preview <code class="code-inline">code-and-theory--driv--adobedrago.aem.page/drivparts/en-us</code>.</p>
+
+        <div class="lh-compare">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Homepage <span>/ · /drivparts/en-us/</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 64</span>
+                    <span class="lh-score lh-score-ok">A11y 71</span>
+                    <span class="lh-score lh-score-ok">BP 50</span>
+                    <span class="lh-score lh-score-bad">Agentic 0/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-live-homepage.png" alt="Lighthouse audit for live drivparts.com homepage">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 97</span>
+                    <span class="lh-score lh-score-good">BP 92</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-eds-homepage.png" alt="Lighthouse audit for EDS DrivParts homepage">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Parts Finder results <span>/results.html · /drivparts/en-us/results</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 78</span>
+                    <span class="lh-score lh-score-ok">A11y 76</span>
+                    <span class="lh-score lh-score-ok">BP 50</span>
+                    <span class="lh-score lh-score-bad">Agentic 0/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-live-results.png" alt="Lighthouse audit for live drivparts.com results page">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 96</span>
+                    <span class="lh-score lh-score-good">BP 92</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-eds-results.png" alt="Lighthouse audit for EDS DrivParts results page">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Where to Buy <span>/where-to-buy.html · /drivparts/en-us/where-to-buy</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 81</span>
+                    <span class="lh-score lh-score-ok">A11y 83</span>
+                    <span class="lh-score lh-score-ok">BP 50</span>
+                    <span class="lh-score lh-score-bad">Agentic 0/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-live-whereToBuy.png" alt="Lighthouse audit for live drivparts.com Where to Buy">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 98</span>
+                    <span class="lh-score lh-score-good">A11y 97</span>
+                    <span class="lh-score lh-score-good">BP 92</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/driv-eds-whereToBuy.png" alt="Lighthouse audit for EDS DrivParts Where to Buy">
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- SCENARIO 1 -->
@@ -1110,10 +1299,10 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
           <span class="status-badge sb-done">Complete</span>
         </h2>
         <div class="section-rule"></div>
-        <p>Journey 1 is the foundational marketing experience: prove EDS can render DrivParts pages with the correct site chrome, fragments, and brand/marketing blocks — before Parts Finder, Where to Buy, or Hybris session work.</p>
+        <p>Journey 1 is the foundational marketing experience: prove EDS can render DrivParts pages with the correct site chrome, fragments, locale switching, and brand/marketing blocks — before Parts Finder, Where to Buy, or Hybris session work.</p>
         <p><strong>Live (production):</strong> <a href="https://www.drivparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/</a> · <a href="https://www.drivparts.com/brands/moog.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/brands/moog.html</a><br>
-        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> <span class="nav-status ns-done">complete</span><br>
-        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></p>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/</a> · <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/es-mx/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/es-mx/</a> <span class="nav-status ns-done">complete</span><br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></p>
 
         <ul class="checklist">
           <li class="check-item">
@@ -1141,17 +1330,43 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Brand detail pages matching production</div>
-              <div class="check-note"><code class="code-inline">brand-detail</code> + <code class="code-inline">brand-nav</code> implement the production brand layout (<code class="code-inline">/drivparts/brands/{slug}</code>). Visual parity and full brand content authoring still in progress.</div>
+              <div class="check-note"><code class="code-inline">brand-detail</code> + <code class="code-inline">brand-nav</code> implement the production brand layout (<code class="code-inline">/drivparts/{locale}/brands/{slug}</code>). Visual parity and full brand content authoring still in progress.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Locales — <code class="code-inline">en-us</code> and <code class="code-inline">es-mx</code></div>
+              <div class="check-note">Content and chrome live under locale folders. Header/footer locale picker switches between US English and Mexico Spanish; <code class="code-inline">sitePath()</code> keeps nav, fragments, brands, results, and Where to Buy under the active prefix. Bare <code class="code-inline">/drivparts/*</code> redirects to <code class="code-inline">/drivparts/en-us/*</code> via <code class="code-inline">redirects.json</code>.</div>
             </div>
           </li>
           <li class="check-item">
             <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
             <div class="check-body">
               <div class="check-title">DA-authored landing + brand content published end-to-end</div>
-              <div class="check-note">Content lives in DA at <code class="code-inline">da.live/#/adobedrago/driv/drivparts</code>. Confirm landing and brand documents are authored, previewed, and reachable on the POC host.</div>
+              <div class="check-note">Content lives in DA under locale trees at <code class="code-inline">da.live/#/adobedrago/driv/drivparts/en-us</code> and <code class="code-inline">…/es-mx</code>. Confirm landing and brand documents are authored, previewed, and reachable on the POC host.</div>
             </div>
           </li>
         </ul>
+
+        <h3>Locales</h3>
+        <p>DrivParts pages are authored and served under a locale segment. Each locale has its own content tree (homepage, nav, footer, brands, placeholders) and drives catalog / Where to Buy country codes for later journeys.</p>
+        <table class="spec-table">
+          <thead><tr><th>Locale folder</th><th>Catalog params</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code class="code-inline">/drivparts/en-us/</code></td>
+              <td><code class="code-inline">locale=en_US</code>, <code class="code-inline">country_code=US</code></td>
+              <td>Default US English site. Bare <code class="code-inline">/drivparts</code> redirects here.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">/drivparts/es-mx/</code></td>
+              <td><code class="code-inline">locale=es_MX</code>, <code class="code-inline">country_code=MX</code></td>
+              <td>Mexico Spanish site — parallel homepage, chrome, and placeholders; catalog and WTB use MX.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><code class="code-inline">LOCALE_CONFIG</code> in <code class="code-inline">drivparts-paths.js</code> maps folder slugs to API codes. <code class="code-inline">getLocalePrefix()</code> / <code class="code-inline">sitePath()</code> scope header nav, footer, fragments, brand links, and finder/WTB URLs. Placeholders load from the locale folder. The NA locale picker in <code class="code-inline">locales.js</code> navigates between <code class="code-inline">/drivparts/en-us/</code> and <code class="code-inline">/drivparts/es-mx/</code>.</p>
 
         <h3>Supporting work delivered</h3>
         <ul class="checklist">
@@ -1179,8 +1394,8 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
-              <div class="check-title">Locales &amp; placeholders</div>
-              <div class="check-note"><code class="code-inline">locales.js</code> and DrivParts <code class="code-inline">placeholders.js</code> feed header/footer locale UI and DA placeholder sheets.</div>
+              <div class="check-title">Locale path helpers &amp; placeholders</div>
+              <div class="check-note"><code class="code-inline">drivparts-paths.js</code> (<code class="code-inline">getLocaleConfig</code>, <code class="code-inline">getLocalePrefix</code>, <code class="code-inline">sitePath</code>), <code class="code-inline">locales.js</code> picker panels, and locale-scoped <code class="code-inline">placeholders.js</code> feed chrome and copy for each market.</div>
             </div>
           </li>
         </ul>
@@ -1199,15 +1414,15 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
         <div class="section-rule"></div>
         <p>Journey 2 validates dynamic, catalog-backed search on EDS: the Parts Finder widget drives vehicle/engine cascades through the <code class="code-inline">catalog-api</code> Worker, lands on a results page, and opens part detail pages — proving EDS can power backend-driven commerce UX, not just static marketing.</p>
         <p><strong>Live (production):</strong> <a href="https://www.drivparts.com/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/</a> <br>
-        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> → <code class="code-inline">/results</code> → <code class="code-inline">/part-details</code> <span class="nav-status ns-done">complete</span><br>
-        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></p>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/</a> → <code class="code-inline">/drivparts/en-us/results</code> → <code class="code-inline">/drivparts/en-us/part-details</code> <span class="nav-status ns-done">complete</span><br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></p>
 
         <ul class="checklist">
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Integrate the catalog API for search</div>
-              <div class="check-note">Browser calls go through <code class="code-inline">catalog.js</code> → <code class="code-inline">moogparts-catalog-api</code> Worker (<code class="code-inline">GET /drivparts/*</code> → <code class="code-inline">drivparts.com/driv/partfinder/*</code>), never directly to the catalog origin. Shared params: <code class="code-inline">brand=corporate</code>, <code class="code-inline">locale=en_US</code>, <code class="code-inline">country_code=US</code>.</div>
+              <div class="check-note">Browser calls go through <code class="code-inline">catalog.js</code> → <code class="code-inline">moogparts-catalog-api</code> Worker (<code class="code-inline">GET /drivparts/*</code> → <code class="code-inline">drivparts.com/driv/partfinder/*</code>), never directly to the catalog origin. Shared params come from <code class="code-inline">getCatalogParams()</code>: <code class="code-inline">brand=corporate</code> plus locale/country from the URL — <code class="code-inline">en-us</code> → <code class="code-inline">en_US</code>/<code class="code-inline">US</code>, <code class="code-inline">es-mx</code> → <code class="code-inline">es_MX</code>/<code class="code-inline">MX</code> (see <a href="#s1-progress" style="color:var(--brand-blue);">Journey 1 · Locales</a>).</div>
             </div>
           </li>
           <li class="check-item">
@@ -1221,14 +1436,14 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Render results dynamically</div>
-              <div class="check-note"><code class="code-inline">part-finder-result</code> on <code class="code-inline">/drivparts/results</code> reads URL query params, fetches catalog results, renders the listing with a refine-search toolbar (reuses finder dropdown builders), and links each part to detail.</div>
+              <div class="check-note"><code class="code-inline">part-finder-result</code> on <code class="code-inline">/drivparts/{locale}/results</code> reads URL query params, fetches catalog results, renders the listing with a refine-search toolbar (reuses finder dropdown builders), and links each part to detail.</div>
             </div>
           </li>
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Open part detail from a selected result</div>
-              <div class="check-note"><code class="code-inline">part-details</code> on <code class="code-inline">/drivparts/part-details?part_number=…&amp;brand_code=…</code> loads product + applications via <code class="code-inline">api.catalog.product</code> / <code class="code-inline">api.catalog.applications</code> — gallery, specs, brand info, Where to Buy links.</div>
+              <div class="check-note"><code class="code-inline">part-details</code> on <code class="code-inline">/drivparts/{locale}/part-details?part_number=…&amp;brand_code=…</code> loads product + applications via <code class="code-inline">api.catalog.product</code> / <code class="code-inline">api.catalog.applications</code> — gallery, specs, brand info, Where to Buy links.</div>
             </div>
           </li>
           <li class="check-item">
@@ -1247,16 +1462,16 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <tr>
               <td>1 · Search</td>
               <td><code class="code-inline">parts-finder</code> on landing / widget</td>
-              <td>Cascading dropdowns fetch options from catalog-api; submit navigates to <code class="code-inline">/drivparts/results?…</code>.</td>
+              <td>Cascading dropdowns fetch options from catalog-api; submit navigates to <code class="code-inline">/drivparts/{locale}/results?…</code>.</td>
             </tr>
             <tr>
               <td>2 · Results</td>
-              <td><code class="code-inline">part-finder-result</code> @ <code class="code-inline">/drivparts/results</code></td>
+              <td><code class="code-inline">part-finder-result</code> @ <code class="code-inline">/drivparts/{locale}/results</code></td>
               <td>Lists matching parts; refine toolbar; part number links to detail.</td>
             </tr>
             <tr>
               <td>3 · Detail</td>
-              <td><code class="code-inline">part-details</code> @ <code class="code-inline">/drivparts/part-details</code></td>
+              <td><code class="code-inline">part-details</code> @ <code class="code-inline">/drivparts/{locale}/part-details</code></td>
               <td>Product gallery, applications, Add to Parts List, Where to Buy deep links.</td>
             </tr>
           </tbody>
@@ -1325,22 +1540,22 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
         <div class="section-rule"></div>
         <p>Journey 3 validates retailer/installer location search on EDS: a ZIP entry point and a full results experience (filters, list, Google Map) backed by the production Where to Buy AEM servlet through the <code class="code-inline">catalog-api</code> Worker’s <code class="code-inline">/wheretobuy</code> route. Part-detail pages deep-link into this flow via <code class="code-inline">whereToBuyUrl()</code>.</p>
         <p><strong>Live (production):</strong> <a href="https://www.drivparts.com/where-to-buy.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.drivparts.com/where-to-buy.html</a><br>
-        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/where-to-buy</a> <span class="nav-status ns-done">complete</span><br>
-        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/where-to-buy</a></p>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/where-to-buy</a> <span class="nav-status ns-done">complete</span><br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/where-to-buy" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/where-to-buy</a></p>
 
         <ul class="checklist">
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Integrate the Where to Buy API</div>
-              <div class="check-note">Browser calls go to <code class="code-inline">moogparts-catalog-api…/wheretobuy</code>, which proxies the production AEM servlet at <code class="code-inline">drivparts.com/…/where_to_buy_search.search</code> with CORS + 24h cache.</div>
+              <div class="check-note">Browser calls go to <code class="code-inline">moogparts-catalog-api…/wheretobuy</code>, which proxies the production AEM servlet at <code class="code-inline">drivparts.com/…/where_to_buy_search.search</code> with CORS + 24h cache. Default <code class="code-inline">country</code> follows the active locale (<code class="code-inline">US</code> on <code class="code-inline">en-us</code>, <code class="code-inline">MX</code> on <code class="code-inline">es-mx</code>) via <code class="code-inline">whereToBuyUrl()</code> / <code class="code-inline">getLocaleConfig()</code>.</div>
             </div>
           </li>
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">ZIP search entry</div>
-              <div class="check-note"><code class="code-inline">where-to-buy-search</code> — compact ZIP/postal form that GETs to <code class="code-inline">/drivparts/where-to-buy?zip=…</code>. CTA label is authorable from DA.</div>
+              <div class="check-note"><code class="code-inline">where-to-buy-search</code> — compact ZIP/postal form that GETs to <code class="code-inline">/drivparts/{locale}/where-to-buy?zip=…</code>. CTA label is authorable from DA.</div>
             </div>
           </li>
           <li class="check-item">
@@ -1366,12 +1581,12 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <tr>
               <td>1 · Entry</td>
               <td><code class="code-inline">where-to-buy-search</code> (landing / promo) or part-details WTB link</td>
-              <td>ZIP submit → <code class="code-inline">/drivparts/where-to-buy?zip=…</code>; or hash deep link with <code class="code-inline">locType</code> / <code class="code-inline">subBrand</code>.</td>
+              <td>ZIP submit → <code class="code-inline">/drivparts/{locale}/where-to-buy?zip=…</code>; or hash deep link with <code class="code-inline">locType</code> / <code class="code-inline">subBrand</code> / <code class="code-inline">country</code>.</td>
             </tr>
             <tr>
               <td>2 · Search &amp; filters</td>
-              <td><code class="code-inline">where-to-buy-result</code> @ <code class="code-inline">/drivparts/where-to-buy</code></td>
-              <td>Country, postal, brand; filters for Parts Store / Repair Shop / both and distance (5–100 mi).</td>
+              <td><code class="code-inline">where-to-buy-result</code> @ <code class="code-inline">/drivparts/{locale}/where-to-buy</code></td>
+              <td>Country (defaults from locale), postal, brand; filters for Parts Store / Repair Shop / both and distance (5–100 mi).</td>
             </tr>
             <tr>
               <td>3 · Results</td>
@@ -1405,7 +1620,7 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title"><code class="code-inline">whereToBuyUrl()</code> in <code class="code-inline">catalog.js</code></div>
-              <div class="check-note">Builds <code class="code-inline">/drivparts/where-to-buy#dealerType=physical&amp;locType=…&amp;subBrand=…</code> from part-details (install vs store).</div>
+              <div class="check-note">Builds <code class="code-inline">/drivparts/{locale}/where-to-buy#dealerType=physical&amp;locType=…&amp;subBrand=…</code> from part-details (install vs store).</div>
             </div>
           </li>
           <li class="check-item">
@@ -1430,8 +1645,8 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
         <div class="section-rule"></div>
         <p>Journey 4 validates embedding the Hybris commerce storefront beside EDS marketing and Parts Finder: same-origin iframe (CSP <code class="code-inline">frame-ancestors 'self'</code>), anonymous / CSR / emulating auth modes, header mini-cart, parts-list → add-to-cart, and login-return recovery when Hybris redirects off the EDS page.</p>
         <p><strong>Live (production / QA):</strong> <a href="https://qa.drivparts.com" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://qa.drivparts.com</a> · iframe path <code class="code-inline">/fmstorefront/federalmogul/en/USD/iframe?site=federalmogul</code><br>
-        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/</a> <span class="nav-status ns-done">complete</span> — requires same-origin Hybris routes<br>
-        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/</a></p>
+        <strong>Building (EDS):</strong> <a href="https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://code-and-theory--driv--adobedrago.aem.page/drivparts/en-us/</a> <span class="nav-status ns-done">complete</span> — requires same-origin Hybris routes<br>
+        <strong>Live URL (POC):</strong> <a href="https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://drivparts.code-and-theory-adobe.workers.dev/drivparts/en-us/</a></p>
 
         <ul class="checklist">
           <li class="check-item">
@@ -1467,13 +1682,6 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <div class="check-body">
               <div class="check-title">Login-return recovery</div>
               <div class="check-note">On login / emulate, <code class="code-inline">sessionStorage['fm-login-return']</code> stores the EDS URL. <code class="code-inline">scripts.js</code> bounces users stranded on raw <code class="code-inline">/content/</code> or <code class="code-inline">/fmstorefront/</code> paths back to that page. Iframe login form stays <code class="code-inline">target="_self"</code> so the parent isn’t replaced.</div>
-            </div>
-          </li>
-          <li class="check-item">
-            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
-            <div class="check-body">
-              <div class="check-title">Production proxy binding</div>
-              <div class="check-note">Both <code class="code-inline">drivparts</code> and <code class="code-inline">moogparts-catalog-api</code> still deploy to <code class="code-inline">*.workers.dev</code>; the <code class="code-inline">api.moogparts.com</code> route in <code class="code-inline">catalog-api/wrangler.toml</code> stays commented until the production zone is decided. <code class="code-inline">EDS_ORIGIN</code> may point at a feature branch — confirm before demos.</div>
             </div>
           </li>
         </ul>
@@ -1827,6 +2035,110 @@ npm install</div>
             <tr><td><code class="code-inline">moogparts-contact-proxy</code></td><td><code class="code-inline">/submit</code> — form submit proxy with secret (contact utility).</td></tr>
           </tbody>
         </table>
+      </section>
+
+      <!-- LIGHTHOUSE COMPARISON: MOOGPARTS LIVE VS EDS -->
+      <section class="doc-section" id="moogparts-lighthouse-compare">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.25a.75.75 0 01.75.75v2.69l1.78 1.78a.75.75 0 11-1.06 1.06l-2-2A.75.75 0 017.25 8.5v-3a.75.75 0 01.75-.75z"/></svg>
+          </span>
+          Lighthouse comparison — Live vs EDS
+        </h2>
+        <div class="section-rule"></div>
+        <p>Chrome Lighthouse audits for production <code class="code-inline">www.moogparts.com</code> (Live) versus the EDS preview <code class="code-inline">main--moogparts-prototype--codeandtheory.aem.live</code>.</p>
+
+        <div class="lh-compare">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Homepage <span>/ · /na/en-us/</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-bad">Perf 22</span>
+                    <span class="lh-score lh-score-ok">A11y 76</span>
+                    <span class="lh-score lh-score-ok">BP 54</span>
+                    <span class="lh-score lh-score-bad">Agentic 0/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-live-homepage.png" alt="Lighthouse audit for live moogparts.com homepage">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 96</span>
+                    <span class="lh-score lh-score-good">BP 96</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-eds-homepage.png" alt="Lighthouse audit for EDS MoogParts homepage">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Parts catalog <span>/parts.html · /na/en-us/parts</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 50</span>
+                    <span class="lh-score lh-score-ok">A11y 88</span>
+                    <span class="lh-score lh-score-ok">BP 54</span>
+                    <span class="lh-score lh-score-ok">Agentic 1/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-live-parts.png" alt="Lighthouse audit for live moogparts.com Parts page">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 98</span>
+                    <span class="lh-score lh-score-good">BP 96</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-eds-parts.png" alt="Lighthouse audit for EDS MoogParts Parts page">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Find My Part <span>/find-my-part.html · /na/en-us/find-my-part</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 62</span>
+                    <span class="lh-score lh-score-ok">A11y 79</span>
+                    <span class="lh-score lh-score-ok">BP 54</span>
+                    <span class="lh-score lh-score-ok">Agentic 1/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-live-findmypart.png" alt="Lighthouse audit for live moogparts.com Find My Part">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 99</span>
+                    <span class="lh-score lh-score-good">A11y 100</span>
+                    <span class="lh-score lh-score-good">BP 96</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/moog-eds-findmypart.png" alt="Lighthouse audit for EDS MoogParts Find My Part">
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- MP SCENARIO 1 -->
