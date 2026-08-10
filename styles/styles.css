@@ -272,6 +272,12 @@ main > .section {
   margin: 40px 0;
 }
 
+/* An authored trailing empty section still gets the margin above, showing as
+   a blank gray gap before the footer — hide it since it has nothing to show. */
+main > .section:empty {
+  display: none;
+}
+
 main > .section > div {
   max-width: 1200px;
   margin: auto;

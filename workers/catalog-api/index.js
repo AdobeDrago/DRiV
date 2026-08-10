@@ -4,7 +4,7 @@ const DRIVEPARTS_CATALOG_ORIGIN = 'https://www.drivparts.com/driv/partfinder';
 const CROSS_SELL_ORIGIN = 'https://www.moogparts.com/content/loc-na/loc-us/fmmp-moog/en_US/find-my-part/find-my-part-results/jcr:content/main-par/cross_sell.by-tags';
 const MOOGPARTS_FMMP_ORIGIN = 'https://www.moogparts.com/bin/fmmp/api';
 const WHERE_TO_BUY_ORIGIN = 'https://www.drivparts.com/content/loc-na/loc-us/fmmp-corporate/en_US/where-to-buy/jcr:content/main-par/where_to_buy_search.search';
-const CACHE_TTL = 86400; // 1 day
+const CACHE_TTL = 604800; // 7 days
 const STRIP_PARAMS = new Set(['no_cache', 'nocache']);
 
 const CORS_HEADERS = {

@@ -1,4 +1,4 @@
-import { fetchPlaceholders } from '../../../scripts/placeholders.js';
+import { fetchPlaceholders, getPlaceholdersPrefix } from '../../../scripts/placeholders.js';
 import { CATALOG_API_BASE } from '../../../scripts/catalog.js';
 
 const WHERE_TO_BUY_API = `${CATALOG_API_BASE}/wheretobuy`;
@@ -426,9 +426,7 @@ function buildFilterGroup(legend, name, options, selectedValue) {
 
 // Decorates the block: renders the search form, map, filters, and results UI, and wires up events.
 export default async function decorate(block) {
-  // This page isn't under a locale folder, so read the site-root placeholders sheet directly
-  // rather than deriving a (non-existent) path-scoped one via getPlaceholdersPrefix().
-  labels = { ...FALLBACK_LABELS, ...(await fetchPlaceholders()) };
+  labels = { ...FALLBACK_LABELS, ...(await fetchPlaceholders(getPlaceholdersPrefix())) };
 
   const [headingRow, descriptionRow] = [...block.children];
   const heading = authoredValue(headingRow);

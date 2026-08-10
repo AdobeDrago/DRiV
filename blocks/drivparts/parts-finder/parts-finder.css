@@ -31,8 +31,10 @@
   text-transform: capitalize;
 }
 
+/* Full tab row only fits at desktop widths — below that, .parts-finder-tab-dropdown
+   (kept in sync with the same tabs by decorate()) takes over. */
 .parts-finder .parts-finder-tabs {
-  display: flex;
+  display: none;
   flex-wrap: nowrap;
   gap: 0 12px;
   width: 100%;
@@ -41,6 +43,13 @@
   padding: 0;
   border: 0;
   overflow-x: auto;
+}
+
+/* Reuses .parts-finder-dropdown (the same component as the catalog fields below)
+   for the mobile/tablet tab switcher, so it needs only its header layout here —
+   toggle/menu/option chrome all come from the shared dropdown rules. */
+.parts-finder .parts-finder-tab-dropdown {
+  flex: 1 1 100%;
 }
 
 .parts-finder .parts-finder-tab {
@@ -183,6 +192,10 @@
 
 .parts-finder .parts-finder-dropdown-value[hidden] {
   display: none;
+}
+
+.parts-finder .parts-finder-tab-dropdown .parts-finder-dropdown-value {
+  text-transform: uppercase;
 }
 
 .parts-finder .parts-finder-dropdown-search {
@@ -412,12 +425,6 @@
 }
 
 @media (width >= 768px) {
-  .parts-finder .parts-finder-tabs {
-    flex-wrap: wrap;
-    width: auto;
-    margin-left: auto;
-  }
-
   .parts-finder .parts-finder-panel-vehicle {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -455,8 +462,16 @@
   }
 }
 
-@media (width >= 1025px) {
+@media (width >= 1024px) {
   .parts-finder .parts-finder-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    width: auto;
+    margin-left: auto;
     overflow-x: visible;
+  }
+
+  .parts-finder .parts-finder-tab-dropdown {
+    display: none;
   }
 }
