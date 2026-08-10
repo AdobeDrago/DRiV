@@ -1,12 +1,12 @@
 # DriveParts Cloudflare Workers
 
-Workers migrated from the DriveParts EDS repo. Wrangler `name` / `account_id` values are unchanged so existing `*.workers.dev` deployments keep working. Block URLs still point at `https://moogparts-catalog-api.code-and-theory-adobe.workers.dev`.
+Workers migrated from the DriveParts EDS repo. Wrangler `name` / `account_id` values are unchanged so existing `*.workers.dev` deployments keep working. Block URLs still point at `https://drivparts-catalog-api.code-and-theory-adobe.workers.dev`.
 
 ## Workers
 
 | Folder | Wrangler name | Role |
 |--------|---------------|------|
-| `catalog-api` | `moogparts-catalog-api` | Parts Finder / details / cross-sell / where-to-buy CORS + cache |
+| `catalog-api` | `drivparts-catalog-api` | Parts Finder / details / cross-sell / where-to-buy CORS + cache |
 | `drivparts` | `drivparts` | Front door: EDS pages + Hybris paths on one origin |
 
 Both deploy to account `21efb214803a94508b91d4a0df4b15c8`.
