@@ -1422,7 +1422,7 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Integrate the catalog API for search</div>
-              <div class="check-note">Browser calls go through <code class="code-inline">catalog.js</code> → <code class="code-inline">moogparts-catalog-api</code> Worker (<code class="code-inline">GET /drivparts/*</code> → <code class="code-inline">drivparts.com/driv/partfinder/*</code>), never directly to the catalog origin. Shared params come from <code class="code-inline">getCatalogParams()</code>: <code class="code-inline">brand=corporate</code> plus locale/country from the URL — <code class="code-inline">en-us</code> → <code class="code-inline">en_US</code>/<code class="code-inline">US</code>, <code class="code-inline">es-mx</code> → <code class="code-inline">es_MX</code>/<code class="code-inline">MX</code> (see <a href="#s1-progress" style="color:var(--brand-blue);">Journey 1 · Locales</a>).</div>
+              <div class="check-note">Browser calls go through <code class="code-inline">catalog.js</code> → <code class="code-inline">drivparts-catalog-api</code> Worker (<code class="code-inline">GET /drivparts/*</code> → <code class="code-inline">drivparts.com/driv/partfinder/*</code>), never directly to the catalog origin. Shared params come from <code class="code-inline">getCatalogParams()</code>: <code class="code-inline">brand=corporate</code> plus locale/country from the URL — <code class="code-inline">en-us</code> → <code class="code-inline">en_US</code>/<code class="code-inline">US</code>, <code class="code-inline">es-mx</code> → <code class="code-inline">es_MX</code>/<code class="code-inline">MX</code> (see <a href="#s1-progress" style="color:var(--brand-blue);">Journey 1 · Locales</a>).</div>
             </div>
           </li>
           <li class="check-item">
@@ -1548,7 +1548,7 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Integrate the Where to Buy API</div>
-              <div class="check-note">Browser calls go to <code class="code-inline">moogparts-catalog-api…/wheretobuy</code>, which proxies the production AEM servlet at <code class="code-inline">drivparts.com/…/where_to_buy_search.search</code> with CORS + 24h cache. Default <code class="code-inline">country</code> follows the active locale (<code class="code-inline">US</code> on <code class="code-inline">en-us</code>, <code class="code-inline">MX</code> on <code class="code-inline">es-mx</code>) via <code class="code-inline">whereToBuyUrl()</code> / <code class="code-inline">getLocaleConfig()</code>.</div>
+              <div class="check-note">Browser calls go to <code class="code-inline">drivparts-catalog-api…/wheretobuy</code>, which proxies the production AEM servlet at <code class="code-inline">drivparts.com/…/where_to_buy_search.search</code> with CORS + 24h cache. Default <code class="code-inline">country</code> follows the active locale (<code class="code-inline">US</code> on <code class="code-inline">en-us</code>, <code class="code-inline">MX</code> on <code class="code-inline">es-mx</code>) via <code class="code-inline">whereToBuyUrl()</code> / <code class="code-inline">getLocaleConfig()</code>.</div>
             </div>
           </li>
           <li class="check-item">
@@ -1758,7 +1758,7 @@ npm run lint:css   <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a5 5 0 00-4.546 7.055A3.5 3.5 0 004.5 15h7a3.5 3.5 0 00.966-6.868A5 5 0 008 1z"/></svg>
           </span>
           catalog-api
-          <code class="code-inline" style="font-weight:400;">moogparts-catalog-api</code>
+          <code class="code-inline" style="font-weight:400;">drivparts-catalog-api</code>
         </h2>
         <div class="section-rule"></div>
         <p>Parts Finder / Part Details / Where to Buy CORS + caching proxy. Not yet bound to a custom domain — deploys to <code class="code-inline">*.workers.dev</code>.</p>
@@ -1838,7 +1838,7 @@ npm run deploy:drivparts</div>
         <h3>Core engineering requirements</h3>
         <ul class="req-list">
           <li>EDS block-based model only (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>).</li>
-          <li>Catalog / cross-sell / FMMP via <code class="code-inline">moogparts-catalog-api</code>; contact submit via <code class="code-inline">moogparts-contact-proxy</code>.</li>
+          <li>Catalog / cross-sell / FMMP via <code class="code-inline">drivparts-catalog-api</code>; contact submit via <code class="code-inline">moogparts-contact-proxy</code>.</li>
           <li>Locale path prefixes via <code class="code-inline">getLocalePrefix()</code> (flat <code class="code-inline">/en-us</code> or nested <code class="code-inline">/na/en-us</code>, <code class="code-inline">/emea/en-eu</code>).</li>
         </ul>
 
@@ -1874,7 +1874,7 @@ npm run deploy:drivparts</div>
             </tr>
           </tbody>
         </table>
-        <p>Progress to date. Journey 1 — homepage composition and mega-nav chrome. Journey 2 — Parts L1–L3 content tree. Journey 3 — Find My Part US end to end through <code class="code-inline">moogparts-catalog-api</code> (cross-sell is part of this flow, not a separate journey). Journey 4 — Support hubs (NA <code class="code-inline">/technical</code>, EMEA <code class="code-inline">/support</code>). Contact and mailing-list remain authorable utilities (see Architecture).</p>
+        <p>Progress to date. Journey 1 — homepage composition and mega-nav chrome. Journey 2 — Parts L1–L3 content tree. Journey 3 — Find My Part US end to end through <code class="code-inline">drivparts-catalog-api</code> (cross-sell is part of this flow, not a separate journey). Journey 4 — Support hubs (NA <code class="code-inline">/technical</code>, EMEA <code class="code-inline">/support</code>). Contact and mailing-list remain authorable utilities (see Architecture).</p>
 
         <h3>Repository</h3>
         <table class="spec-table">
@@ -2031,7 +2031,7 @@ npm install</div>
         <table class="spec-table">
           <thead><tr><th>Worker</th><th>Role</th></tr></thead>
           <tbody>
-            <tr><td><code class="code-inline">moogparts-catalog-api</code></td><td><code class="code-inline">/catalog/*</code>, <code class="code-inline">/drivparts/*</code>, <code class="code-inline">/cross-sell</code>, <code class="code-inline">POST /fmmp/*</code> — CORS + 24h cache.</td></tr>
+            <tr><td><code class="code-inline">drivparts-catalog-api</code></td><td><code class="code-inline">/catalog/*</code>, <code class="code-inline">/drivparts/*</code>, <code class="code-inline">/cross-sell</code>, <code class="code-inline">POST /fmmp/*</code> — CORS + 24h cache.</td></tr>
             <tr><td><code class="code-inline">moogparts-contact-proxy</code></td><td><code class="code-inline">/submit</code> — form submit proxy with secret (contact utility).</td></tr>
           </tbody>
         </table>
@@ -2275,7 +2275,7 @@ npm install</div>
           <span class="status-badge sb-done">Complete</span>
         </h2>
         <div class="section-rule"></div>
-        <p>Journey 3 replaces the legacy AngularJS Find My Part SPA with EDS blocks backed by <code class="code-inline">moogparts-catalog-api</code>. Visitors search by vehicle (year → make → model cascades) or by part number, land on a results page, open part details, and may see related products. <strong>Cross-sell is a step in this flow</strong> (results/detail), not a standalone pilot journey.</p>
+        <p>Journey 3 replaces the legacy AngularJS Find My Part SPA with EDS blocks backed by <code class="code-inline">drivparts-catalog-api</code>. Visitors search by vehicle (year → make → model cascades) or by part number, land on a results page, open part details, and may see related products. <strong>Cross-sell is a step in this flow</strong> (results/detail), not a standalone pilot journey.</p>
         <p><strong>Live (production):</strong> <a href="https://www.moogparts.com/find-my-part.html" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://www.moogparts.com/find-my-part.html</a><br>
         <strong>Building (EDS):</strong> <a href="https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/find-my-part" target="_blank" rel="noopener" style="color:var(--brand-blue);">https://main--moogparts-prototype--codeandtheory.aem.live/na/en-us/find-my-part</a> → <code class="code-inline">find-my-part-results</code> / <code class="code-inline">find-my-part-num-results</code> → <code class="code-inline">part-details</code><br>
         <strong>DA:</strong> <code class="code-inline">na/en-us/find-my-part.html</code>, <code class="code-inline">find-my-part/find-my-part-results</code>, <code class="code-inline">find-my-part-num-results</code>, <code class="code-inline">part-details</code></p>
@@ -2284,7 +2284,7 @@ npm install</div>
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Catalog API via Worker</div>
-              <div class="check-note">Blocks call <code class="code-inline">moogparts-catalog-api…/catalog/*</code> (never the catalog origin directly). Shared params for US: <code class="code-inline">brand=moog</code>, <code class="code-inline">locale=en_US</code>, <code class="code-inline">country_code=US</code>. Worker adds CORS + ~24h edge cache.</div>
+              <div class="check-note">Blocks call <code class="code-inline">drivparts-catalog-api…/catalog/*</code> (never the catalog origin directly). Shared params for US: <code class="code-inline">brand=moog</code>, <code class="code-inline">locale=en_US</code>, <code class="code-inline">country_code=US</code>. Worker adds CORS + ~24h edge cache.</div>
             </div>
           </li>
           <li class="check-item">
