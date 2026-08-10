@@ -5,11 +5,6 @@
   background-color: var(--background-color, #fff);
 }
 
-/* Drops the default section top margin so the list sits flush under the "brands" hero banner. */
-main .section.hero-banner-container:has(.hero-banner.brands) + .section.cards-container {
-  margin-top: 0;
-}
-
 .cards > ul {
   list-style: none;
   display: block;
@@ -30,7 +25,7 @@ main .section.hero-banner-container:has(.hero-banner.brands) + .section.cards-co
   text-align: left;
 }
 
-/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >=1025px. */
 @media (width >= 768px) {
   .cards > ul > li {
     grid-template-columns: 280px 1fr;
@@ -60,6 +55,7 @@ main .section.hero-banner-container:has(.hero-banner.brands) + .section.cards-co
   color: var(--text-color);
   font-size: var(--body-font-size-xs, 14px);
   line-height: 1.5;
+  text-align: justify;
 }
 
 .cards .cards-card-cta {
@@ -78,7 +74,6 @@ main .section.hero-banner-container:has(.hero-banner.brands) + .section.cards-co
 
 .cards .cards-card-link:hover,
 .cards .cards-card-link:focus-visible {
-  color: var(--brand-color, #c41230);
   text-decoration: underline;
 }
 
@@ -87,6 +82,7 @@ main .section.hero-banner-container:has(.hero-banner.brands) + .section.cards-co
   display: inline-flex;
   align-items: center;
   gap: 14px;
+  padding: 14px 24px;
 }
 
 /* Three-dot cluster (two stacked + one at mid-right) — matches the source's icomoon glyph. */

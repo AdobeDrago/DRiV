@@ -1,18 +1,11 @@
-/**
- * Brand Detail block.
- *
- * Renders the shared DRiV brand page layout used across all
- * `/drivparts/brands/{slug}` pages. Authored as labeled rows:
- * Logo | Image | Heading | Body | Browse Parts? | Site Link? | Links?
- *
- * Source layout: https://www.drivparts.com/brands/*.html
- * (brand-navigation + header-hero + article).
- */
-
 import { sitePath } from '../../../scripts/drivparts-paths.js';
 
 const BECK_CATALOG_URL = 'http://www.beckcatalog.com/';
 const STOREFRONT_CATEGORY_BASE = '/fmstorefront/federalmogul/en/USD/brands/c';
+const BECK_ARNLEY_CATALOG_LABEL_RE = /beck\/?\s*arnley\s+catalog/i;
+const ABSOLUTE_URL_RE = /^https?:\/\//i;
+const BRAND_SLUG_FROM_PATH_RE = /\/brands\/([^/?#]+)/i;
+const HTML_SUFFIX_RE = /\.html$/i;
 
 const BRAND_NAME_BY_SLUG = {
   abex: 'Abex',
@@ -31,11 +24,7 @@ const BRAND_NAME_BY_SLUG = {
   walker: 'Walker',
 };
 
-/**
- * Reads labeled rows while preserving the value cell's HTML.
- * @param {Element} block
- * @returns {Record<string, Element>}
- */
+// Reads the block's labeled rows into a { label: valueCell } map.
 function readLabeledCells(block) {
   const cells = {};
   [...block.children].forEach((row) => {
@@ -48,15 +37,11 @@ function readLabeledCells(block) {
   return cells;
 }
 
-/**
- * Brand display name for catalog query params, derived from the page path.
- * @param {string} [pathname]
- * @returns {string}
- */
+// Derives the brand display name (for catalog query params) from the current page's URL slug.
 export function brandNameFromPath(pathname = window.location.pathname) {
-  const match = pathname.match(/\/brands\/([^/?#]+)/i);
+  const match = pathname.match(BRAND_SLUG_FROM_PATH_RE);
   if (!match) return '';
-  const slug = match[1].replace(/\.html$/i, '').toLowerCase();
+  const slug = match[1].replace(HTML_SUFFIX_RE, '').toLowerCase();
   if (BRAND_NAME_BY_SLUG[slug]) return BRAND_NAME_BY_SLUG[slug];
   return slug
     .split('-')
@@ -65,36 +50,22 @@ export function brandNameFromPath(pathname = window.location.pathname) {
     .join(' ');
 }
 
-/**
- * Path segment for a Browse Parts category label.
- * Production drops ampersands: "Gaskets & Sealing Systems" → "Gaskets Sealing Systems".
- * @param {string} label
- * @returns {string}
- */
+// Path segment for a Browse Parts category label (production drops ampersands).
 export function categoryPathSegment(label) {
   return encodeURIComponent(label.replace(/&/g, '').replace(/\s+/g, ' ').trim());
 }
 
-/**
- * Builds a legacy storefront (or Beck catalog) URL for a Browse Parts item.
- * @param {string} label
- * @param {string} brandName
- * @returns {string}
- */
+// Builds a legacy storefront (or Beck catalog) URL for a Browse Parts item.
 export function browsePartsHref(label, brandName) {
   const trimmed = label.trim();
-  if (/beck\/?\s*arnley\s+catalog/i.test(trimmed)) return BECK_CATALOG_URL;
+  if (BECK_ARNLEY_CATALOG_LABEL_RE.test(trimmed)) return BECK_CATALOG_URL;
   if (!brandName) return '#';
   const path = categoryPathSegment(trimmed);
   const query = encodeURIComponent(`:name-asc:brand:${brandName}`);
   return `${STOREFRONT_CATEGORY_BASE}/${path}?q=${query}&text=#`;
 }
 
-/**
- * Splits authored Browse Parts text into individual labels.
- * @param {string} text
- * @returns {string[]}
- */
+// Splits authored Browse Parts text (comma-separated) into individual labels.
 export function parseBrowsePartsLabels(text) {
   return text
     .split(',')
@@ -102,10 +73,7 @@ export function parseBrowsePartsLabels(text) {
     .filter(Boolean);
 }
 
-/**
- * Marks an anchor as an external destination when it leaves the current origin.
- * @param {HTMLAnchorElement} anchor
- */
+// Marks an anchor as an external destination when it leaves the current origin.
 function decorateExternalLink(anchor) {
   try {
     const url = new URL(anchor.href, window.location.href);
@@ -118,22 +86,13 @@ function decorateExternalLink(anchor) {
   }
 }
 
-/**
- * Moves a picture (or bare img) out of its authored cell.
- * @param {Element|undefined} cell
- * @returns {HTMLElement|null}
- */
+// Moves a picture (or bare img) out of its authored cell.
 function takePicture(cell) {
   if (!cell) return null;
   return cell.querySelector('picture') || cell.querySelector('img');
 }
 
-/**
- * Builds the logo + optional site-link sidebar brand chrome.
- * @param {Element|undefined} logoCell
- * @param {Element|undefined} siteCell
- * @returns {HTMLElement}
- */
+// Builds the sidebar's logo + optional site-link chrome.
 function buildSidebarBrand(logoCell, siteCell) {
   const sidebarBrand = document.createElement('div');
   sidebarBrand.className = 'brand-detail-brand';
@@ -171,12 +130,7 @@ function buildSidebarBrand(logoCell, siteCell) {
   return sidebarBrand;
 }
 
-/**
- * Builds the expandable Browse Parts list from authored labels.
- * @param {Element|undefined} browseCell
- * @param {string} brandName
- * @returns {HTMLElement|null}
- */
+// Builds the expandable Browse Parts list from authored labels.
 function buildBrowseParts(browseCell, brandName) {
   if (!browseCell) return null;
   const labels = parseBrowsePartsLabels(browseCell.textContent || '');
@@ -199,9 +153,7 @@ function buildBrowseParts(browseCell, brandName) {
     const link = document.createElement('a');
     link.href = browsePartsHref(label, brandName);
     link.textContent = label;
-    if (/^https?:\/\//i.test(link.href) || link.href.includes('beckcatalog.com')) {
-      decorateExternalLink(link);
-    }
+    if (ABSOLUTE_URL_RE.test(link.href)) decorateExternalLink(link);
     item.append(link);
     list.append(item);
   });
@@ -216,11 +168,7 @@ function buildBrowseParts(browseCell, brandName) {
   return root;
 }
 
-/**
- * Builds the hero image region.
- * @param {Element|undefined} imageCell
- * @returns {HTMLElement|null}
- */
+// Builds the hero image region.
 function buildHero(imageCell) {
   const picture = takePicture(imageCell);
   if (!picture) return null;
@@ -230,74 +178,82 @@ function buildHero(imageCell) {
   return hero;
 }
 
-/**
- * Builds the article body: heading, rich text, optional extra links, back CTA.
- * @param {Element|undefined} headingCell
- * @param {Element|undefined} bodyCell
- * @param {Element|undefined} linksCell
- * @returns {HTMLElement}
- */
+// Appends the heading (or a synthesized <h1> from plain text) to the article content.
+function appendHeading(content, headingCell) {
+  if (!headingCell) return;
+  const heading = headingCell.querySelector('h1, h2, h3, h4, h5, h6');
+  if (heading) {
+    content.append(heading);
+  } else if (headingCell.textContent.trim()) {
+    const h1 = document.createElement('h1');
+    h1.textContent = headingCell.textContent.trim();
+    content.append(h1);
+  }
+}
+
+// Appends the rich-text body's nodes, skipping empty whitespace-only text nodes.
+function appendBody(content, bodyCell) {
+  if (!bodyCell) return;
+  [...bodyCell.childNodes].forEach((node) => {
+    if (node.nodeType === Node.TEXT_NODE && !node.textContent.trim()) return;
+    content.append(node);
+  });
+}
+
+// Appends any optional extra links, decorating external ones.
+function appendExtraLinks(content, linksCell) {
+  if (!linksCell) return;
+  const extras = document.createElement('div');
+  extras.className = 'brand-detail-links';
+  [...linksCell.children].forEach((child) => extras.append(child));
+  if (!extras.children.length && linksCell.textContent.trim()) {
+    extras.append(...linksCell.childNodes);
+  }
+  extras.querySelectorAll('a[href]').forEach(decorateExternalLink);
+  if (extras.childNodes.length) content.append(extras);
+}
+
+// Builds the "Back to Brands" link, with short/full-text spans swapped in by CSS per breakpoint.
+function buildBackToBrandsLink() {
+  const utilities = document.createElement('div');
+  utilities.className = 'brand-detail-utilities';
+
+  const back = document.createElement('a');
+  back.className = 'brand-detail-back';
+  back.href = sitePath('/brands');
+  back.setAttribute('aria-label', 'Back to Brands');
+
+  const backShort = document.createElement('span');
+  backShort.className = 'brand-detail-back-short';
+  backShort.setAttribute('aria-hidden', 'true');
+  backShort.textContent = 'Back';
+
+  const backFull = document.createElement('span');
+  backFull.className = 'brand-detail-back-full';
+  backFull.setAttribute('aria-hidden', 'true');
+  backFull.textContent = 'Back to Brands';
+
+  back.append(backShort, backFull);
+  utilities.append(back);
+  return utilities;
+}
+
+// Builds the article body: heading, rich text, optional extra links, and the "Back" CTA.
 function buildArticle(headingCell, bodyCell, linksCell) {
   const article = document.createElement('div');
   article.className = 'brand-detail-article';
 
   const content = document.createElement('div');
   content.className = 'brand-detail-content';
+  appendHeading(content, headingCell);
+  appendBody(content, bodyCell);
+  appendExtraLinks(content, linksCell);
 
-  if (headingCell) {
-    const heading = headingCell.querySelector('h1, h2, h3, h4, h5, h6');
-    if (heading) content.append(heading);
-    else if (headingCell.textContent.trim()) {
-      const h1 = document.createElement('h1');
-      h1.textContent = headingCell.textContent.trim();
-      content.append(h1);
-    }
-  }
-
-  if (bodyCell) {
-    [...bodyCell.childNodes].forEach((node) => {
-      if (node.nodeType === Node.TEXT_NODE && !node.textContent.trim()) return;
-      content.append(node);
-    });
-  }
-
-  if (linksCell) {
-    const extras = document.createElement('div');
-    extras.className = 'brand-detail-links';
-    [...linksCell.children].forEach((child) => extras.append(child));
-    if (!extras.children.length && linksCell.textContent.trim()) {
-      extras.append(...linksCell.childNodes);
-    }
-    extras.querySelectorAll('a[href]').forEach(decorateExternalLink);
-    if (extras.childNodes.length) content.append(extras);
-  }
-
-  article.append(content);
-
-  const utilities = document.createElement('div');
-  utilities.className = 'brand-detail-utilities';
-  const back = document.createElement('a');
-  back.className = 'brand-detail-back';
-  back.href = sitePath('/brands');
-  back.setAttribute('aria-label', 'Back to Brands');
-  const backShort = document.createElement('span');
-  backShort.className = 'brand-detail-back-short';
-  backShort.setAttribute('aria-hidden', 'true');
-  backShort.textContent = 'Back';
-  const backFull = document.createElement('span');
-  backFull.className = 'brand-detail-back-full';
-  backFull.setAttribute('aria-hidden', 'true');
-  backFull.textContent = 'Back to Brands';
-  back.append(backShort, backFull);
-  utilities.append(back);
-  article.append(utilities);
-
+  article.append(content, buildBackToBrandsLink());
   return article;
 }
 
-/**
- * @param {Element} block
- */
+// Builds the brand-detail layout: sidebar (logo/site-link/browse-parts) + main (hero/article).
 export default function decorate(block) {
   const cells = readLabeledCells(block);
   const brandName = brandNameFromPath();

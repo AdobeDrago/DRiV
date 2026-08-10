@@ -1,7 +1,7 @@
 name = "moogparts-catalog-api"
 main = "index.js"
 compatibility_date = "2024-09-23"
-account_id = "525642d028ea297dfb5bf68a0d3df229"
+account_id = "21efb214803a94508b91d4a0df4b15c8"
 
 [observability]
 enabled = true

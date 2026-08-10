@@ -1,10 +1,5 @@
-/*
- * brand-detail
- * Source: https://www.drivparts.com/brands/*.html
- * Layout: 25% brand sidebar + 75% hero/article on desktop; stacked on mobile.
- */
+/* Block: drivparts/brand-detail — brand sidebar + hero/article, stacked on mobile, row on desktop. */
 
-/* Align with the standard site page container (header/footer / --page-max-width). */
 main .section.brand-detail-section,
 main .section.brand-detail-container {
   margin: 0;
@@ -23,7 +18,7 @@ main .section.brand-detail-container > .brand-detail-wrapper {
 .brand-detail {
   color: var(--text-color);
   font-family: var(--body-font-family);
-  font-size: 14px;
+  font-size: var(--body-font-size-xs, 14px);
   line-height: 1.5;
 }
 
@@ -32,8 +27,6 @@ main .section.brand-detail-container > .brand-detail-wrapper {
   flex-direction: column;
   width: 100%;
 }
-
-/* ---- Sidebar (logo, site link, browse parts) ---- */
 
 .brand-detail-sidebar {
   box-sizing: border-box;
@@ -74,7 +67,7 @@ main .section.brand-detail-container > .brand-detail-wrapper {
   margin-top: 25px;
   color: var(--text-color);
   font-family: var(--heading-font-family);
-  font-size: 14px;
+  font-size: var(--body-font-size-xs, 14px);
   font-weight: 700;
   line-height: 16px;
   text-decoration: none;
@@ -97,11 +90,8 @@ main .section.brand-detail-container > .brand-detail-wrapper {
 
 .brand-detail-site-link:hover,
 .brand-detail-site-link:focus-visible {
-  color: var(--link-hover-color);
   text-decoration: underline;
 }
-
-/* ---- Browse Parts accordion ---- */
 
 .brand-detail-browse {
   margin-top: 28px;
@@ -121,7 +111,7 @@ main .section.brand-detail-container > .brand-detail-wrapper {
   background: transparent;
   color: var(--brand-color);
   font-family: var(--heading-font-family);
-  font-size: 16px;
+  font-size: var(--body-font-size-s, 16px);
   font-weight: 500;
   line-height: 1.1;
   text-align: left;
@@ -146,7 +136,7 @@ main .section.brand-detail-container > .brand-detail-wrapper {
 .brand-detail-browse-list a:any-link {
   color: var(--text-color);
   font-family: var(--heading-font-family);
-  font-size: 16px;
+  font-size: var(--body-font-size-s, 16px);
   font-weight: 700;
   line-height: 28px;
   text-decoration: none;
@@ -154,11 +144,8 @@ main .section.brand-detail-container > .brand-detail-wrapper {
 
 .brand-detail-browse-list a:hover,
 .brand-detail-browse-list a:focus-visible {
-  color: var(--link-hover-color);
   text-decoration: underline;
 }
-
-/* ---- Main column (hero + article) ---- */
 
 .brand-detail-main {
   display: flex;
@@ -188,7 +175,7 @@ main .section.brand-detail-container > .brand-detail-wrapper {
 
 .brand-detail-article {
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: var(--background-color, #fff);
   padding: 28px 0 8px;
 }
 
@@ -197,8 +184,7 @@ main .section.brand-detail-container > .brand-detail-wrapper {
   padding: 0 20px;
 }
 
-.brand-detail-content h1,
-main .section .brand-detail-content h1 {
+.brand-detail-content h1 {
   margin: 15px 0 24px;
   color: var(--text-color);
   font-family: var(--heading-font-family);
@@ -207,8 +193,7 @@ main .section .brand-detail-content h1 {
   line-height: 1.1;
 }
 
-.brand-detail-content h2,
-main .section .brand-detail-content h2 {
+.brand-detail-content h2 {
   margin: 15px 0 8px;
   color: var(--text-color);
   font-family: var(--heading-font-family);
@@ -217,8 +202,7 @@ main .section .brand-detail-content h2 {
   line-height: 1.1;
 }
 
-.brand-detail-content h3,
-main .section .brand-detail-content h3 {
+.brand-detail-content h3 {
   margin: 0 0 16px;
   color: var(--text-color);
   font-family: var(--heading-font-family);
@@ -227,8 +211,7 @@ main .section .brand-detail-content h3 {
   line-height: 1.1;
 }
 
-.brand-detail-content h4,
-main .section .brand-detail-content h4 {
+.brand-detail-content h4 {
   margin: 15px 0 12px;
   color: var(--text-color);
   font-family: var(--heading-font-family);
@@ -242,7 +225,7 @@ main .section .brand-detail-content h4 {
   margin: 0 0 24px;
   color: var(--text-color);
   font-family: var(--body-font-family);
-  font-size: 14px;
+  font-size: var(--body-font-size-xs, 14px);
   line-height: 21px;
 }
 
@@ -282,7 +265,7 @@ main .section .brand-detail-content h4 {
   align-items: center;
   color: var(--brand-color);
   font-family: var(--heading-font-family);
-  font-size: 16px;
+  font-size: var(--body-font-size-s, 16px);
   font-weight: 700;
   line-height: 21px;
   text-decoration: none;
@@ -317,7 +300,7 @@ main .section .brand-detail-content h4 {
   display: inline;
 }
 
-/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px. */
+/* Breakpoints: mobile <768px, tablet 768-1024px, desktop >=1025px. */
 @media (width >= 768px) {
   .brand-detail-hero {
     height: 420px;
@@ -332,7 +315,7 @@ main .section .brand-detail-content h4 {
   }
 }
 
-@media (width >= 1024px) {
+@media (width >= 1025px) {
   .brand-detail-layout {
     flex-direction: row;
     align-items: stretch;
