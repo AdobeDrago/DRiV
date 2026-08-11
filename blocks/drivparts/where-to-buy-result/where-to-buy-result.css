@@ -200,9 +200,9 @@
 }
 
 .where-to-buy-result .where-to-buy-result-filters-header {
+  display: none;
   margin-bottom: 17px;
   padding-bottom: 30px;
-  border-bottom: 1px solid var(--link-color);
 }
 
 .where-to-buy-result .where-to-buy-result-filters-header h5,
@@ -216,7 +216,6 @@
 .where-to-buy-result .where-to-buy-result-filter-group {
   margin-bottom: 17px;
   padding-bottom: 17px;
-  border-bottom: 1px solid var(--link-color);
 }
 
 .where-to-buy-result .where-to-buy-result-filter-group h5 {
@@ -319,6 +318,9 @@
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 8px;
+  border-top: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;
+  padding: 10px 0;
 }
 
 .where-to-buy-result .where-to-buy-result-headline {
@@ -355,10 +357,6 @@
   padding: 16px 0;
   border-bottom: 1px solid #e7e7e7;
   transition: opacity 0.2s ease;
-}
-
-.where-to-buy-result .where-to-buy-result-row:first-child {
-  border-top: 1px solid #e7e7e7;
 }
 
 .where-to-buy-result .where-to-buy-result-list.has-selection .where-to-buy-result-row:not(.is-active) {
@@ -469,9 +467,24 @@
     flex: 0 0 220px;
   }
 
+  .where-to-buy-result .where-to-buy-result-filters-header {
+    display: block;
+  }
+
+  .where-to-buy-result .where-to-buy-result-filters-header,
+  .where-to-buy-result .where-to-buy-result-filter-group {
+    border-bottom: 1px solid var(--link-color);
+    padding-top: 8px;
+  }
+
   .where-to-buy-result .where-to-buy-result-main {
     flex: 1 1 auto;
     min-width: 0;
+  }
+
+  .where-to-buy-result .where-to-buy-result-results-header {
+    border-top: 0;
+    padding-top: 0;
   }
 
   .where-to-buy-result .where-to-buy-result-headline {
