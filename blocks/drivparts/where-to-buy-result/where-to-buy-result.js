@@ -391,37 +391,72 @@ function initMap(container) {
   return { map, infoWindow };
 }
 
-// Builds a radio-button filter group (e.g. Location or Distance) with a heading and options.
 function buildFilterGroup(legend, name, options, selectedValue) {
   const group = document.createElement('div');
   group.className = 'where-to-buy-result-filter-group';
 
+  const headingId = `wtb-${name}-legend`;
   const heading = document.createElement('h5');
+  heading.id = headingId;
   heading.textContent = legend;
-  group.append(heading);
 
-  options.forEach((opt) => {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'where-to-buy-result-filter-option';
-    const id = `wtb-${name}-${opt.value}`;
+  const select = document.createElement('select');
+  select.className = 'where-to-buy-result-filter-select';
+  select.setAttribute('aria-labelledby', headingId);
+  group.append(heading, select);
 
+  const inputs = options.map((opt) => {
+    const value = String(opt.value);
+
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = opt.label;
+    select.append(option);
+
+    const id = `wtb-${name}-${value}`;
     const input = document.createElement('input');
     input.type = 'radio';
     input.name = name;
     input.id = id;
-    input.value = String(opt.value);
-    input.checked = String(opt.value) === String(selectedValue);
+    input.value = value;
 
     const label = document.createElement('label');
     label.setAttribute('for', id);
     const box = document.createElement('span');
     label.append(box, opt.label);
 
+    const wrapper = document.createElement('div');
+    wrapper.className = 'where-to-buy-result-filter-option';
     wrapper.append(input, label);
     group.append(wrapper);
+
+    return input;
   });
 
-  return group;
+  let changeHandler = null;
+
+  const setValue = (next) => {
+    if (!inputs.some((input) => input.value === String(next))) return;
+    select.value = String(next);
+    inputs.forEach((input) => { input.checked = input.value === select.value; });
+  };
+
+  const commit = (next) => {
+    setValue(next);
+    if (changeHandler) changeHandler();
+  };
+
+  select.addEventListener('change', () => commit(select.value));
+  inputs.forEach((input) => input.addEventListener('change', () => commit(input.value)));
+
+  setValue(selectedValue);
+
+  return {
+    element: group,
+    get value() { return select.value; },
+    setValue,
+    onChange(fn) { changeHandler = fn; },
+  };
 }
 
 // Decorates the block: renders the search form, map, filters, and results UI, and wires up events.
@@ -504,22 +539,19 @@ export default async function decorate(block) {
   }
 
   const filters = block.querySelector('.where-to-buy-result-filters');
-  filters.append(
-    buildFilterGroup(t('wtbLocationLegend'), 'locType', locationTypes(), 'all'),
-    buildFilterGroup(
-      t('wtbDistanceLegend'),
-      'distance',
-      DISTANCES.map((d) => ({ value: d, label: `${d} ${t('wtbDistanceUnit')}` })),
-      DEFAULT_DISTANCE,
-    ),
+  const locTypeFilter = buildFilterGroup(t('wtbLocationLegend'), 'locType', locationTypes(), 'all');
+  const distanceFilter = buildFilterGroup(
+    t('wtbDistanceLegend'),
+    'distance',
+    DISTANCES.map((d) => ({ value: d, label: `${d} ${t('wtbDistanceUnit')}` })),
+    DEFAULT_DISTANCE,
   );
+  filters.append(locTypeFilter.element, distanceFilter.element);
 
   const form = block.querySelector('.where-to-buy-result-searchbar');
   const countrySelect = block.querySelector('#wtb-country');
   const postalInput = block.querySelector('#wtb-postal');
   const brandSelect = block.querySelector('#wtb-brand');
-  const locTypeInputs = [...block.querySelectorAll('input[name="locType"]')];
-  const distanceInputs = [...block.querySelectorAll('input[name="distance"]')];
   const filterToggle = block.querySelector('.where-to-buy-result-filter-toggle');
 
   const mapEl = block.querySelector('.where-to-buy-result-map');
@@ -642,9 +674,9 @@ export default async function decorate(block) {
     return {
       country: countrySelect.value,
       postal: postalInput.value.trim(),
-      locType: locTypeInputs.find((input) => input.checked)?.value || 'all',
+      locType: locTypeFilter.value,
       brand: brandSelect.value,
-      distance: distanceInputs.find((input) => input.checked)?.value || String(DEFAULT_DISTANCE),
+      distance: distanceFilter.value,
     };
   }
 
@@ -737,8 +769,8 @@ export default async function decorate(block) {
     runSearch();
   });
 
-  [...locTypeInputs, ...distanceInputs].forEach((input) => {
-    input.addEventListener('change', () => {
+  [locTypeFilter, distanceFilter].forEach((filter) => {
+    filter.onChange(() => {
       updateUrl(currentParams());
       if (postalInput.value.trim()) runSearch();
     });
@@ -781,14 +813,8 @@ export default async function decorate(block) {
     countrySelect.value = initialCountry;
   }
   populateBrandSelect(countrySelect.value, initialBrand);
-  if (initialLocType) {
-    const match = locTypeInputs.find((input) => input.value === initialLocType);
-    if (match) match.checked = true;
-  }
-  if (initialDistance) {
-    const match = distanceInputs.find((input) => input.value === initialDistance);
-    if (match) match.checked = true;
-  }
+  if (initialLocType) locTypeFilter.setValue(initialLocType);
+  if (initialDistance) distanceFilter.setValue(initialDistance);
 
   // Defer: this block can be a page's first section, so decorate() runs in the
   // eager phase. Running a search or loading Google Maps here would compete
